@@ -2,11 +2,10 @@ package org.happy.common.enums;
 
 /**
  * 数据源
- * 
+ *
  * @author happy
  */
-public enum DataSourceType
-{
+public enum DataSourceType {
     /**
      * 主库
      */

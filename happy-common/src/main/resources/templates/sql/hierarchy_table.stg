@@ -1,0 +1,36 @@
+group HierarchyTable;
+
+generate(viewName, cteName, tableName, pathIndexName, idCol, nameCol,
+ pidCol, sep, otherColumns, dropIfExists, supportsLTree) ::= <<
+<if(dropIfExists)>
+DROP MATERIALIZED VIEW IF EXISTS <viewName>;
+<endif>
+CREATE MATERIALIZED VIEW <viewName> AS
+WITH RECURSIVE <cteName> AS (
+    SELECT
+        <idCol>,
+        <nameCol>,
+        <pidCol><if(otherColumns)>, <otherColumns; separator=", "><endif>,
+        1 AS level,
+        <idCol>::text AS path
+    FROM <tableName>
+    WHERE <pidCol> IS NULL
+    UNION ALL
+    SELECT
+        d.<idCol>,
+        d.<nameCol>,
+        d.<pidCol><if(otherColumns)>, <otherColumns:{c | d.<c>}; separator=", "><endif>,
+        h.level + 1,
+        (h.path || '<sep>' || d.<idCol>)::text
+    FROM <tableName> d
+    JOIN <cteName> h ON d.<pidCol> = h.<idCol>
+)
+SELECT
+    <idCol> AS id,
+    <nameCol> AS name,
+    <pidCol> AS pid<if(otherColumns)>, <otherColumns; separator=", "><endif>,
+    level,
+    path::<if(supportsLTree)>ltree<else>text<endif> AS path
+FROM <cteName>;
+CREATE UNIQUE INDEX <pathIndexName> ON <viewName> USING GIST (<idCol>);
+>>

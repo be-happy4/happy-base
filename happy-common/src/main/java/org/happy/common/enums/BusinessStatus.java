@@ -2,12 +2,10 @@ package org.happy.common.enums;
 
 /**
  * 操作状态
- * 
- * @author happy
  *
+ * @author happy
  */
-public enum BusinessStatus
-{
+public enum BusinessStatus {
     /**
      * 成功
      */

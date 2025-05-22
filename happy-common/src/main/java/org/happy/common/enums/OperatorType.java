@@ -2,11 +2,10 @@ package org.happy.common.enums;
 
 /**
  * 操作人类别
- * 
+ *
  * @author happy
  */
-public enum OperatorType
-{
+public enum OperatorType {
     /**
      * 其它
      */
