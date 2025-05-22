@@ -1,7 +1,7 @@
 package org.happy.common.core.domain.tree.shaper;
 
 import lombok.NoArgsConstructor;
-import org.behappy.common.tree.HierarchicalOrderedTree;
+import org.happy.common.core.domain.tree.HierarchicalOrderedTree;
 
 import java.util.Comparator;
 import java.util.List;

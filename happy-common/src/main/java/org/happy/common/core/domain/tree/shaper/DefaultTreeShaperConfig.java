@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.behappy.common.tree.HierarchicalTree;
+import org.happy.common.core.domain.tree.HierarchicalTree;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;

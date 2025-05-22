@@ -1,6 +1,5 @@
 package org.happy.common.core.domain.code;
 
-import org.behappy.common.i18n.MessageService;
 
 /**
  * code interface that supports i18n
@@ -15,7 +14,7 @@ public interface I18nCode<K> extends ICode<K>, I18nItem {
      *
      * @return dict item
      */
-    default DictItem<K> toDictItem(MessageService messageService) {
-        return DictItem.of(getCode(), getTranslatedKey(messageService));
+    default DictItem<K> toDictItem() {
+        return DictItem.of(getCode(), getTranslatedKey());
     }
 }
