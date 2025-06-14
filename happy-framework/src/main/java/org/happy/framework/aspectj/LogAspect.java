@@ -98,7 +98,7 @@ public class LogAspect {
             if (loginUser != null) {
                 operLog.setOperName(loginUser.getUsername());
                 SysUser currentUser = loginUser.getUser();
-                if (StringUtils.isNotNull(currentUser) && StringUtils.isNotNull(currentUser.getDept())) {
+                if (null != currentUser && null != currentUser.getDept()) {
                     operLog.setDeptName(currentUser.getDept().getDeptName());
                 }
             }
@@ -148,7 +148,7 @@ public class LogAspect {
             setRequestValue(joinPoint, operLog, log.excludeParamNames());
         }
         // 是否需要保存response，参数和值
-        if (log.isSaveResponseData() && StringUtils.isNotNull(jsonResult)) {
+        if (log.isSaveResponseData() && null != jsonResult) {
             operLog.setJsonResult(StringUtils.substring(JSON.toJSONString(jsonResult), 0, 2000));
         }
     }
@@ -177,7 +177,7 @@ public class LogAspect {
         String params = "";
         if (paramsArray != null) {
             for (Object o : paramsArray) {
-                if (StringUtils.isNotNull(o) && !isFilterObject(o)) {
+                if (null != o && !isFilterObject(o)) {
                     try {
                         String jsonObj = JSON.toJSONString(o, excludePropertyPreFilter(excludeParamNames));
                         params += jsonObj + " ";

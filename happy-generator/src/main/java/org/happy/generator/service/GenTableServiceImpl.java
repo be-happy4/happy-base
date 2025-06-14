@@ -32,6 +32,7 @@ import java.io.StringWriter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -397,7 +398,7 @@ public class GenTableServiceImpl implements IGenTableService {
                 break;
             }
         }
-        if (StringUtils.isNull(table.getPkColumn())) {
+        if (null == table.getPkColumn()) {
             table.setPkColumn(table.getColumns().get(0));
         }
         if (GenConstants.TPL_SUB.equals(table.getTplCategory())) {
@@ -407,8 +408,8 @@ public class GenTableServiceImpl implements IGenTableService {
                     break;
                 }
             }
-            if (StringUtils.isNull(table.getSubTable().getPkColumn())) {
-                table.getSubTable().setPkColumn(table.getSubTable().getColumns().get(0));
+            if (null == table.getSubTable().getPkColumn()) {
+                table.getSubTable().setPkColumn(table.getSubTable().getColumns().getFirst());
             }
         }
     }
@@ -432,7 +433,7 @@ public class GenTableServiceImpl implements IGenTableService {
      */
     public void setTableFromOptions(GenTable genTable) {
         JSONObject paramsObj = JSON.parseObject(genTable.getOptions());
-        if (StringUtils.isNotNull(paramsObj)) {
+        if (null != paramsObj) {
             String treeCode = paramsObj.getString(GenConstants.TREE_CODE);
             String treeParentCode = paramsObj.getString(GenConstants.TREE_PARENT_CODE);
             String treeName = paramsObj.getString(GenConstants.TREE_NAME);
@@ -456,7 +457,7 @@ public class GenTableServiceImpl implements IGenTableService {
      */
     public static String getGenPath(GenTable table, String template) {
         String genPath = table.getGenPath();
-        if (StringUtils.equals(genPath, "/")) {
+        if (Objects.equals(genPath, "/")) {
             return System.getProperty("user.dir") + File.separator + "src" + File.separator + VelocityUtils.getFileName(template, table);
         }
         return genPath + File.separator + VelocityUtils.getFileName(template, table);

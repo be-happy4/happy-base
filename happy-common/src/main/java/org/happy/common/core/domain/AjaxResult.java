@@ -3,6 +3,7 @@ package org.happy.common.core.domain;
 import org.happy.common.constant.HttpStatus;
 import org.happy.common.utils.StringUtils;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
  * @author happy
  */
 public class AjaxResult extends HashMap<String, Object> {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -56,7 +58,7 @@ public class AjaxResult extends HashMap<String, Object> {
     public AjaxResult(int code, String msg, Object data) {
         super.put(CODE_TAG, code);
         super.put(MSG_TAG, msg);
-        if (StringUtils.isNotNull(data)) {
+        if (null != data) {
             super.put(DATA_TAG, data);
         }
     }

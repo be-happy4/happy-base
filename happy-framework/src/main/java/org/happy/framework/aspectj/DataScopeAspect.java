@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 数据过滤处理
@@ -62,19 +63,6 @@ public class DataScopeAspect {
         handleDataScope(point, controllerDataScope);
     }
 
-    protected void handleDataScope(final JoinPoint joinPoint, DataScope controllerDataScope) {
-        // 获取当前的用户
-        LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (StringUtils.isNotNull(loginUser)) {
-            SysUser currentUser = loginUser.getUser();
-            // 如果是超级管理员，则不过滤数据
-            if (StringUtils.isNotNull(currentUser) && !currentUser.isAdmin()) {
-                String permission = StringUtils.defaultIfEmpty(controllerDataScope.permission(), PermissionContextHolder.getContext());
-                dataScopeFilter(joinPoint, currentUser, controllerDataScope.deptAlias(), controllerDataScope.userAlias(), permission);
-            }
-        }
-    }
-
     /**
      * 数据范围过滤
      *
@@ -89,14 +77,14 @@ public class DataScopeAspect {
         List<String> conditions = new ArrayList<String>();
         List<String> scopeCustomIds = new ArrayList<String>();
         user.getRoles().forEach(role -> {
-            if (DATA_SCOPE_CUSTOM.equals(role.getDataScope()) && StringUtils.equals(role.getStatus(), UserConstants.ROLE_NORMAL) && StringUtils.containsAny(role.getPermissions(), Convert.toStrArray(permission))) {
+            if (DATA_SCOPE_CUSTOM.equals(role.getDataScope()) && Objects.equals(role.getStatus(), UserConstants.ROLE_NORMAL) && StringUtils.containsAny(role.getPermissions(), Convert.toStrArray(permission))) {
                 scopeCustomIds.add(Convert.toStr(role.getRoleId()));
             }
         });
 
         for (SysRole role : user.getRoles()) {
             String dataScope = role.getDataScope();
-            if (conditions.contains(dataScope) || StringUtils.equals(role.getStatus(), UserConstants.ROLE_DISABLE)) {
+            if (conditions.contains(dataScope) || Objects.equals(role.getStatus(), UserConstants.ROLE_DISABLE)) {
                 continue;
             }
             if (!StringUtils.containsAny(role.getPermissions(), Convert.toStrArray(permission))) {
@@ -123,7 +111,7 @@ public class DataScopeAspect {
                           WHERE dept_id = {}
                             or {}::text = ANY(string_to_array(ancestors,',')) )""", deptAlias, user.getDeptId(), user.getDeptId()));
             } else if (DATA_SCOPE_SELF.equals(dataScope)) {
-                if (StringUtils.isNotBlank(userAlias)) {
+                if (StringUtils.hasText(userAlias)) {
                     sqlString.append(StringUtils.format(" OR {}.user_id = {} ", userAlias, user.getUserId()));
                 } else {
                     // 数据权限为仅本人且没有userAlias别名不查询任何数据
@@ -138,10 +126,23 @@ public class DataScopeAspect {
             sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
         }
 
-        if (StringUtils.isNotBlank(sqlString.toString())) {
+        if (StringUtils.hasText(sqlString.toString())) {
             Object params = joinPoint.getArgs()[0];
-            if (StringUtils.isNotNull(params) && params instanceof BaseEntity baseEntity) {
+            if (null != params && params instanceof BaseEntity baseEntity) {
                 baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
+            }
+        }
+    }
+
+    protected void handleDataScope(final JoinPoint joinPoint, DataScope controllerDataScope) {
+        // 获取当前的用户
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        if (null != loginUser) {
+            SysUser currentUser = loginUser.getUser();
+            // 如果是超级管理员，则不过滤数据
+            if (null != currentUser && !currentUser.isAdmin()) {
+                String permission = StringUtils.ifEmpty(controllerDataScope.permission(), PermissionContextHolder.getContext());
+                dataScopeFilter(joinPoint, currentUser, controllerDataScope.deptAlias(), controllerDataScope.userAlias(), permission);
             }
         }
     }
@@ -151,7 +152,7 @@ public class DataScopeAspect {
      */
     private void clearDataScope(final JoinPoint joinPoint) {
         Object params = joinPoint.getArgs()[0];
-        if (StringUtils.isNotNull(params) && params instanceof BaseEntity baseEntity) {
+        if (null != params && params instanceof BaseEntity baseEntity) {
             baseEntity.getParams().put(DATA_SCOPE, "");
         }
     }

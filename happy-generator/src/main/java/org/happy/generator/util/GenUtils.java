@@ -197,7 +197,7 @@ public class GenUtils {
      * @return 截取后的列类型
      */
     public static String getDbType(String columnType) {
-        if (StringUtils.indexOf(columnType, "(") > 0) {
+        if (columnType.contains("(")) {
             return StringUtils.substringBefore(columnType, "(");
         } else {
             return columnType;
@@ -211,7 +211,7 @@ public class GenUtils {
      * @return 截取后的列类型
      */
     public static Integer getColumnLength(String columnType) {
-        if (StringUtils.indexOf(columnType, "(") > 0) {
+        if (columnType.contains("(")) {
             String length = StringUtils.substringBetween(columnType, "(", ")");
             return Integer.valueOf(length);
         } else {

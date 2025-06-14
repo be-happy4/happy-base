@@ -14,6 +14,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
 
+import static org.apache.commons.lang3.StringUtils.countMatches;
+
 /**
  * 图片处理工具类
  *

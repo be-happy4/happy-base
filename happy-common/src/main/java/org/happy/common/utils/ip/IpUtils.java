@@ -78,7 +78,7 @@ public class IpUtils {
      * @return 结果
      */
     private static boolean internalIp(byte[] addr) {
-        if (StringUtils.isNull(addr) || addr.length < 2) {
+        if (null == addr || addr.length < 2) {
             return true;
         }
         final byte b0 = addr[0];
@@ -243,14 +243,14 @@ public class IpUtils {
      * 是否为IP
      */
     public static boolean isIP(String ip) {
-        return StringUtils.isNotBlank(ip) && ip.matches(REGX_IP);
+        return StringUtils.hasText(ip) && ip.matches(REGX_IP);
     }
 
     /**
      * 是否为IP，或 *为间隔的通配符地址
      */
     public static boolean isIpWildCard(String ip) {
-        return StringUtils.isNotBlank(ip) && ip.matches(REGX_IP_WILDCARD);
+        return StringUtils.hasText(ip) && ip.matches(REGX_IP_WILDCARD);
     }
 
     /**
@@ -273,7 +273,7 @@ public class IpUtils {
      * 是否为特定格式如:“10.10.10.1-10.10.10.99”的ip段字符串
      */
     public static boolean isIPSegment(String ipSeg) {
-        return StringUtils.isNotBlank(ipSeg) && ipSeg.matches(REGX_IP_SEG);
+        return StringUtils.hasText(ipSeg) && ipSeg.matches(REGX_IP_SEG);
     }
 
     /**

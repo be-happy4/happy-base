@@ -1,6 +1,8 @@
 package org.happy.common.core.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 import org.happy.common.constant.UserConstants;
 import org.happy.common.core.domain.entity.SysDept;
 import org.happy.common.core.domain.entity.SysMenu;
@@ -8,15 +10,19 @@ import org.happy.common.utils.StringUtils;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.StringUtils.indexOfIgnoreCase;
 
 /**
  * Treeselect树结构实体类
  *
  * @author happy
  */
-public class TreeSelect implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Setter
+@Getter
+public class TreeSelect {
 
     /**
      * 节点ID
@@ -40,13 +46,12 @@ public class TreeSelect implements Serializable {
     private List<TreeSelect> children;
 
     public TreeSelect() {
-
     }
 
     public TreeSelect(SysDept dept) {
         this.id = dept.getDeptId();
         this.label = dept.getDeptName();
-        this.disabled = StringUtils.equals(UserConstants.DEPT_DISABLE, dept.getStatus());
+        this.disabled = Objects.equals(UserConstants.DEPT_DISABLE, dept.getStatus());
         this.children = dept.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
@@ -56,35 +61,4 @@ public class TreeSelect implements Serializable {
         this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public boolean isDisabled() {
-        return disabled;
-    }
-
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
-    }
-
-    public List<TreeSelect> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<TreeSelect> children) {
-        this.children = children;
-    }
 }

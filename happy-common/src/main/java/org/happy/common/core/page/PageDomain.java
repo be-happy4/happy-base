@@ -37,7 +37,7 @@ public class PageDomain {
         if (StringUtils.isEmpty(orderByColumn)) {
             return "";
         }
-        return StringUtils.toUnderScoreCase(orderByColumn) + " " + isAsc;
+        return StringUtils.camelCase2UnderScoreCase(orderByColumn) + " " + isAsc;
     }
 
     public Integer getPageNum() {
@@ -81,7 +81,7 @@ public class PageDomain {
     }
 
     public Boolean getReasonable() {
-        if (StringUtils.isNull(reasonable)) {
+        if (null == reasonable) {
             return Boolean.TRUE;
         }
         return reasonable;

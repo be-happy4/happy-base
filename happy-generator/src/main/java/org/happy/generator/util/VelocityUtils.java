@@ -12,7 +12,9 @@ import org.happy.generator.domain.GenTableColumn;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+
 
 /**
  * 模板处理工具类
@@ -173,7 +175,7 @@ public class VelocityUtils {
         if (template.contains("domain.java.vm")) {
             fileName = StringUtils.format("{}/domain/{}.java", javaPath, className);
         }
-        if (template.contains("sub-domain.java.vm") && StringUtils.equals(GenConstants.TPL_SUB, genTable.getTplCategory())) {
+        if (template.contains("sub-domain.java.vm") && Objects.equals(GenConstants.TPL_SUB, genTable.getTplCategory())) {
             fileName = StringUtils.format("{}/domain/{}.java", javaPath, genTable.getSubTable().getClassName());
         } else if (template.contains("mapper.java.vm")) {
             fileName = StringUtils.format("{}/mapper/{}Mapper.java", javaPath, className);
@@ -218,7 +220,7 @@ public class VelocityUtils {
         List<GenTableColumn> columns = genTable.getColumns();
         GenTable subGenTable = genTable.getSubTable();
         HashSet<String> importList = new HashSet<String>();
-        if (StringUtils.isNotNull(subGenTable)) {
+        if (null != subGenTable) {
             importList.add("java.util.List");
         }
         for (GenTableColumn column : columns) {
@@ -242,11 +244,11 @@ public class VelocityUtils {
         List<GenTableColumn> columns = genTable.getColumns();
         Set<String> dicts = new HashSet<String>();
         addDicts(dicts, columns);
-        if (StringUtils.isNotNull(genTable.getSubTable())) {
+        if (null != genTable.getSubTable()) {
             List<GenTableColumn> subColumns = genTable.getSubTable().getColumns();
             addDicts(dicts, subColumns);
         }
-        return StringUtils.join(dicts, ", ");
+        return String.join(", ", dicts);
     }
 
     /**

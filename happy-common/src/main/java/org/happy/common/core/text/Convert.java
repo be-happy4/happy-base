@@ -1,6 +1,7 @@
 package org.happy.common.core.text;
 
 import org.happy.common.utils.StringUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -860,5 +861,20 @@ public class Convert {
             s = p.replaceAll("(零.)*零$", "").replaceAll("^$", "零") + unit[0][i] + s;
         }
         return head + s.replaceAll("(零.)*零元", "元").replaceFirst("(零.)+", "").replaceAll("(零.)+", "零").replaceAll("^整$", "零元整");
+    }
+
+    public static boolean isNumber(@Nullable Object object) {
+        if (object == null) {
+            return false;
+        } else if (object instanceof Number) {
+            return true;
+        } else {
+            try {
+                Double.parseDouble(StringUtils.toString(object));
+                return true;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
     }
 }

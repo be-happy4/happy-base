@@ -11,11 +11,6 @@ import java.math.RoundingMode;
 public class Arith {
 
     /**
-     * 默认除法运算精度
-     */
-    private static final int DEF_DIV_SCALE = 10;
-
-    /**
      * 这个类不能实例化
      */
     private Arith() {
@@ -58,18 +53,6 @@ public class Arith {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
         return b1.multiply(b2).doubleValue();
-    }
-
-    /**
-     * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到
-     * 小数点以后10位，以后的数字四舍五入。
-     *
-     * @param v1 被除数
-     * @param v2 除数
-     * @return 两个参数的商
-     */
-    public static double div(double v1, double v2) {
-        return div(v1, v2, DEF_DIV_SCALE);
     }
 
     /**

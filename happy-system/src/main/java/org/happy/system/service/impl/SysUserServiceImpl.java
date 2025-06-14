@@ -161,9 +161,9 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public boolean checkUserNameUnique(SysUser user) {
-        Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
+        Long userId = null == user.getUserId() ? -1L : user.getUserId();
         SysUser info = userMapper.checkUserNameUnique(user.getUserName());
-        if (StringUtils.isNotNull(info) && info.getUserId().longValue() != userId.longValue()) {
+        if (null != info && info.getUserId().longValue() != userId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
@@ -177,9 +177,9 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public boolean checkPhoneUnique(SysUser user) {
-        Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
+        Long userId = null == user.getUserId() ? -1L : user.getUserId();
         SysUser info = userMapper.checkPhoneUnique(user.getPhonenumber());
-        if (StringUtils.isNotNull(info) && info.getUserId().longValue() != userId.longValue()) {
+        if (null != info && info.getUserId().longValue() != userId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
@@ -193,9 +193,9 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public boolean checkEmailUnique(SysUser user) {
-        Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
+        Long userId = null == user.getUserId() ? -1L : user.getUserId();
         SysUser info = userMapper.checkEmailUnique(user.getEmail());
-        if (StringUtils.isNotNull(info) && info.getUserId().longValue() != userId.longValue()) {
+        if (null != info && info.getUserId().longValue() != userId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
@@ -208,7 +208,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public void checkUserAllowed(SysUser user) {
-        if (StringUtils.isNotNull(user.getUserId()) && user.isAdmin()) {
+        if (null != user.getUserId() && user.isAdmin()) {
             throw new ServiceException("不允许操作超级管理员用户");
         }
     }
@@ -445,7 +445,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName) {
-        if (StringUtils.isNull(userList) || userList.size() == 0) {
+        if (null == userList || userList.size() == 0) {
             throw new ServiceException("导入用户数据不能为空！");
         }
         int successNum = 0;
@@ -456,7 +456,7 @@ public class SysUserServiceImpl implements ISysUserService {
             try {
                 // 验证是否存在这个用户
                 SysUser u = userMapper.selectUserByUserName(user.getUserName());
-                if (StringUtils.isNull(u)) {
+                if (null == u) {
                     BeanValidators.validateWithException(validator, user);
                     deptService.checkDeptDataScope(user.getDeptId());
                     String password = configService.selectConfigByKey("sys.user.initPassword");

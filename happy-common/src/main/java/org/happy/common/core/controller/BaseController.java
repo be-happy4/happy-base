@@ -28,7 +28,7 @@ import java.util.List;
  * @author happy
  */
 public class BaseController {
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+    protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
     /**
      * 将前台传递过来的日期格式的字符串，自动转化为Date类型

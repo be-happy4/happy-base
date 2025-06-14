@@ -82,7 +82,7 @@ public class SysRegisterService {
      * @return 结果
      */
     public void validateCaptcha(String username, String code, String uuid) {
-        String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + StringUtils.nvl(uuid, "");
+        String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + StringUtils.ifNull(uuid, "");
         String captcha = redisCache.getCacheObject(verifyKey);
         redisCache.deleteObject(verifyKey);
         if (captcha == null) {

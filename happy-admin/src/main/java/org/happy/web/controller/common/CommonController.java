@@ -107,10 +107,10 @@ public class CommonController {
                 originalFilenames.add(file.getOriginalFilename());
             }
             AjaxResult ajax = AjaxResult.success();
-            ajax.put("urls", StringUtils.join(urls, FILE_DELIMETER));
-            ajax.put("fileNames", StringUtils.join(fileNames, FILE_DELIMETER));
-            ajax.put("newFileNames", StringUtils.join(newFileNames, FILE_DELIMETER));
-            ajax.put("originalFilenames", StringUtils.join(originalFilenames, FILE_DELIMETER));
+            ajax.put("urls", String.join(FILE_DELIMETER, urls));
+            ajax.put("fileNames", String.join(FILE_DELIMETER, fileNames));
+            ajax.put("newFileNames", String.join(FILE_DELIMETER, newFileNames));
+            ajax.put("originalFilenames", String.join(FILE_DELIMETER, originalFilenames));
             return ajax;
         } catch (Exception e) {
             return AjaxResult.error(e.getMessage());

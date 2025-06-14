@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.happy.common.annotation.Excel;
 import org.happy.common.annotation.Excel.ColumnType;
 import org.happy.common.core.domain.BaseEntity;
+import org.happy.common.utils.TimeUtils;
 
 import java.util.Date;
 
@@ -113,8 +114,8 @@ public class SysOperLog extends BaseEntity {
     /**
      * 操作时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Excel(name = "操作时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = TimeUtils.PATTERN_DEFAULT)
+    @Excel(name = "操作时间", width = 30, dateFormat = TimeUtils.PATTERN_DEFAULT)
     private Date operTime;
 
     /**

@@ -15,15 +15,6 @@ public class HappyApplication {
         // System.setProperty("spring.devtools.restart.enabled", "false");
         SpringApplication.run(HappyApplication.class, args);
         System.out.println("""
-                (♥◠‿◠)ﾉﾞ  开心启动成功   ლ(´ڡ`ლ)ﾞ \s
-                 .-------.       ____     __       \s
-                 |  _ _   \\      \\   \\   /  /   \s
-                 | ( ' )  |       \\  _. /  '      \s
-                 |(_ o _) /        _( )_ .'        \s
-                 | (_,_).' __  ___(_ o _)'         \s
-                 |  |\\ \\  |  ||   |(_,_)'        \s
-                 |  | \\ `'   /|   `-'  /          \s
-                 |  |  \\    /  \\      /          \s
-                 ''-'   `'-'    `-..-'             \s""");
+                (♥◠‿◠)ﾉﾞ  开心，启动！   ლ(´ڡ`ლ)ﾞ""");
     }
 }

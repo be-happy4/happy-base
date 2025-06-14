@@ -83,6 +83,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -353,7 +354,7 @@ public class ExcelUtil<T> {
             Row heard = sheet.getRow(titleNum);
             for (int i = 0; i < heard.getPhysicalNumberOfCells(); i++) {
                 Cell cell = heard.getCell(i);
-                if (StringUtils.isNotNull(cell)) {
+                if (null != cell) {
                     String value = this.getCellValue(heard, i).toString();
                     cellMap.put(value, i);
                 } else {
@@ -400,9 +401,9 @@ public class ExcelUtil<T> {
                                 val = Convert.toStr(val);
                             }
                         }
-                    } else if ((Integer.TYPE == fieldType || Integer.class == fieldType) && StringUtils.isNumeric(Convert.toStr(val))) {
+                    } else if ((Integer.TYPE == fieldType || Integer.class == fieldType) && Convert.isNumber(Convert.toStr(val))) {
                         val = Convert.toInt(val);
-                    } else if ((Long.TYPE == fieldType || Long.class == fieldType) && StringUtils.isNumeric(Convert.toStr(val))) {
+                    } else if ((Long.TYPE == fieldType || Long.class == fieldType) && Convert.isNumber(Convert.toStr(val))) {
                         val = Convert.toLong(val);
                     } else if (Double.TYPE == fieldType || Double.class == fieldType) {
                         val = Convert.toDouble(val);
@@ -419,7 +420,7 @@ public class ExcelUtil<T> {
                     } else if (Boolean.TYPE == fieldType || Boolean.class == fieldType) {
                         val = Convert.toBool(val, false);
                     }
-                    if (StringUtils.isNotNull(fieldType)) {
+                    if (null != fieldType) {
                         String propertyName = field.getName();
                         if (StringUtils.isNotEmpty(attr.targetAttr())) {
                             propertyName = field.getName() + "." + attr.targetAttr();
@@ -882,13 +883,13 @@ public class ExcelUtil<T> {
             if (StringUtils.startsWithAny(cellValue, FORMULA_STR)) {
                 cellValue = RegExUtils.replaceFirst(cellValue, FORMULA_REGEX_STR, "\t$0");
             }
-            if (value instanceof Collection && StringUtils.equals("[]", cellValue)) {
+            if (value instanceof Collection && Objects.equals("[]", cellValue)) {
                 cellValue = StringUtils.EMPTY;
             }
-            cell.setCellValue(StringUtils.isNull(cellValue) ? attr.defaultValue() : cellValue + attr.suffix());
+            cell.setCellValue(null == cellValue ? attr.defaultValue() : cellValue + attr.suffix());
         } else if (ColumnType.NUMERIC == attr.cellType()) {
-            if (StringUtils.isNotNull(value)) {
-                cell.setCellValue(StringUtils.contains(Convert.toStr(value), ".") ? Convert.toDouble(value) : Convert.toInt(value));
+            if (null != value) {
+                cell.setCellValue(Convert.toStr(value).contains(".") ? Convert.toDouble(value) : Convert.toInt(value));
             }
         } else if (ColumnType.IMAGE == attr.cellType()) {
             ClientAnchor anchor = new XSSFClientAnchor(0, 0, 0, 0, (short) cell.getColumnIndex(), cell.getRow().getRowNum(), (short) (cell.getColumnIndex() + 1), cell.getRow().getRowNum() + 1);
@@ -982,12 +983,12 @@ public class ExcelUtil<T> {
                 String readConverterExp = attr.readConverterExp();
                 String separator = attr.separator();
                 String dictType = attr.dictType();
-                if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value)) {
+                if (StringUtils.isNotEmpty(dateFormat) && null != value) {
                     cell.getCellStyle().setDataFormat(this.wb.getCreationHelper().createDataFormat().getFormat(dateFormat));
                     cell.setCellValue(parseDateToStr(dateFormat, value));
-                } else if (StringUtils.isNotEmpty(readConverterExp) && StringUtils.isNotNull(value)) {
+                } else if (StringUtils.isNotEmpty(readConverterExp) && null != value) {
                     cell.setCellValue(convertByExp(Convert.toStr(value), readConverterExp, separator));
-                } else if (StringUtils.isNotEmpty(dictType) && StringUtils.isNotNull(value)) {
+                } else if (StringUtils.isNotEmpty(dictType) && null != value) {
                     if (!sysDictMap.containsKey(dictType + value)) {
                         String lable = convertDictByExp(Convert.toStr(value), dictType, separator);
                         sysDictMap.put(dictType + value, lable);
@@ -1103,7 +1104,7 @@ public class ExcelUtil<T> {
             if (StringUtils.containsAny(propertyValue, separator)) {
                 for (String value : propertyValue.split(separator)) {
                     if (itemArray[0].equals(value)) {
-                        propertyString.append(itemArray[1] + separator);
+                        propertyString.append(itemArray[1]).append(separator);
                         break;
                     }
                 }
@@ -1208,7 +1209,7 @@ public class ExcelUtil<T> {
      * 创建统计行
      */
     public void addStatisticsRow() {
-        if (statistics.size() > 0) {
+        if (!statistics.isEmpty()) {
             Row row = sheet.createRow(sheet.getLastRowNum() + 1);
             Set<Integer> keys = statistics.keySet();
             Cell cell = row.createCell(0);
@@ -1280,7 +1281,7 @@ public class ExcelUtil<T> {
      * @throws Exception
      */
     private Object getValue(Object o, String name) throws Exception {
-        if (StringUtils.isNotNull(o) && StringUtils.isNotEmpty(name)) {
+        if (null != o && StringUtils.isNotEmpty(name)) {
             Class<?> clazz = o.getClass();
             Field field = clazz.getDeclaredField(name);
             field.setAccessible(true);
@@ -1415,7 +1416,7 @@ public class ExcelUtil<T> {
         Object val = "";
         try {
             Cell cell = row.getCell(column);
-            if (StringUtils.isNotNull(cell)) {
+            if (null != cell) {
                 if (cell.getCellType() == CellType.NUMERIC || cell.getCellType() == CellType.FORMULA) {
                     val = cell.getNumericCellValue();
                     if (DateUtil.isCellDateFormatted(cell)) {
@@ -1515,34 +1516,27 @@ public class ExcelUtil<T> {
      * @return 格式化后的日期字符
      */
     public String parseDateToStr(String dateFormat, Object val) {
-        if (val == null) {
-            return "";
-        }
-        String str;
-        if (val instanceof Date) {
-            str = DateUtils.parseDateToStr(dateFormat, (Date) val);
-        } else if (val instanceof LocalDateTime) {
-            str = DateUtils.parseDateToStr(dateFormat, DateUtils.toDate((LocalDateTime) val));
-        } else if (val instanceof LocalDate) {
-            str = DateUtils.parseDateToStr(dateFormat, DateUtils.toDate((LocalDate) val));
-        } else {
-            str = val.toString();
-        }
-        return str;
+        return switch (val) {
+            case null -> "";
+            case Date date -> DateUtils.parseDateToStr(dateFormat, date);
+            case LocalDateTime localDateTime -> DateUtils.parseDateToStr(dateFormat, DateUtils.toDate(localDateTime));
+            case LocalDate localDate -> DateUtils.parseDateToStr(dateFormat, DateUtils.toDate(localDate));
+            default -> val.toString();
+        };
     }
 
     /**
      * 是否有对象的子列表
      */
     public boolean isSubList() {
-        return StringUtils.isNotNull(subFields) && subFields.size() > 0;
+        return null != subFields && !subFields.isEmpty();
     }
 
     /**
      * 是否有对象的子列表，集合不为空
      */
     public boolean isSubListValue(T vo) {
-        return StringUtils.isNotNull(subFields) && subFields.size() > 0 && StringUtils.isNotNull(getListCellValue(vo)) && getListCellValue(vo).size() > 0;
+        return null != subFields && !subFields.isEmpty() && null != getListCellValue(vo) && !getListCellValue(vo).isEmpty();
     }
 
     /**
@@ -1566,7 +1560,7 @@ public class ExcelUtil<T> {
      * @return 子列表方法
      */
     public Method getSubMethod(String name, Class<?> pojoClass) {
-        StringBuffer getMethodName = new StringBuffer("get");
+        StringBuilder getMethodName = new StringBuilder("get");
         getMethodName.append(name.substring(0, 1).toUpperCase());
         getMethodName.append(name.substring(1));
         Method method = null;

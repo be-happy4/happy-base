@@ -37,7 +37,7 @@ public class DataSourceAspect {
     public Object around(ProceedingJoinPoint point) throws Throwable {
         DataSource dataSource = getDataSource(point);
 
-        if (StringUtils.isNotNull(dataSource)) {
+        if (null != dataSource) {
             DynamicDataSourceContextHolder.setDataSourceType(dataSource.value().name());
         }
 

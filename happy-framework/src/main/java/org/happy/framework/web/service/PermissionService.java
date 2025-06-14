@@ -29,7 +29,7 @@ public class PermissionService {
             return false;
         }
         LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (StringUtils.isNull(loginUser) || CollectionUtils.isEmpty(loginUser.getPermissions())) {
+        if (null == loginUser || CollectionUtils.isEmpty(loginUser.getPermissions())) {
             return false;
         }
         PermissionContextHolder.setContext(permission);
@@ -57,7 +57,7 @@ public class PermissionService {
             return false;
         }
         LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (StringUtils.isNull(loginUser) || CollectionUtils.isEmpty(loginUser.getPermissions())) {
+        if (null == loginUser || CollectionUtils.isEmpty(loginUser.getPermissions())) {
             return false;
         }
         PermissionContextHolder.setContext(permissions);
@@ -81,7 +81,7 @@ public class PermissionService {
             return false;
         }
         LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (StringUtils.isNull(loginUser) || CollectionUtils.isEmpty(loginUser.getUser().getRoles())) {
+        if (null == loginUser || CollectionUtils.isEmpty(loginUser.getUser().getRoles())) {
             return false;
         }
         for (SysRole sysRole : loginUser.getUser().getRoles()) {
@@ -114,7 +114,7 @@ public class PermissionService {
             return false;
         }
         LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (StringUtils.isNull(loginUser) || CollectionUtils.isEmpty(loginUser.getUser().getRoles())) {
+        if (null == loginUser || CollectionUtils.isEmpty(loginUser.getUser().getRoles())) {
             return false;
         }
         for (String role : roles.split(Constants.ROLE_DELIMETER)) {

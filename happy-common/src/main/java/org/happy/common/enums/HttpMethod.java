@@ -6,8 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 请求方式
+ * Http method
  *
+ * @see org.springframework.http.HttpMethod
  * @author happy
  */
 public enum HttpMethod {

@@ -16,7 +16,7 @@ public class DesensitizedUtil {
         if (StringUtils.isBlank(password)) {
             return StringUtils.EMPTY;
         }
-        return StringUtils.repeat('*', password.length());
+        return "*".repeat(password.length());
     }
 
     /**

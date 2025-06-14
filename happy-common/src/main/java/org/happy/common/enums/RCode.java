@@ -14,6 +14,11 @@ public enum RCode implements I18nCode<String> {
      * Unauthorized
      */
     _1010,
+
+    /**
+     * Unknown error
+     */
+    _99,
     ;
     public static final String I18N_PREFIX = "response.code.";
 

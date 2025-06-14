@@ -3,6 +3,8 @@ package org.happy.common.core.domain.entity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.annotation.Excel;
@@ -10,6 +12,8 @@ import org.happy.common.annotation.Excel.ColumnType;
 import org.happy.common.annotation.Excel.Type;
 import org.happy.common.annotation.Excels;
 import org.happy.common.core.domain.BaseEntity;
+import org.happy.common.enums.UserStatus;
+import org.happy.common.utils.TimeUtils;
 import org.happy.common.xss.Xss;
 
 import java.util.Date;
@@ -20,9 +24,9 @@ import java.util.List;
  *
  * @author happy
  */
+@Getter
+@Setter
 public class SysUser extends BaseEntity {
-    private static final long serialVersionUID = 1L;
-
     /**
      * 用户ID
      */
@@ -78,8 +82,8 @@ public class SysUser extends BaseEntity {
     /**
      * 账号状态（0正常 1停用）
      */
-    @Excel(name = "账号状态", readConverterExp = "0=正常,1=停用")
-    private String status;
+    @Excel(name = "账号状态", readConverterExp = "0=正常,1=停用,2=删除")
+    private UserStatus status;
 
     /**
      * 删除标志（0代表存在 2代表删除）
@@ -95,7 +99,7 @@ public class SysUser extends BaseEntity {
     /**
      * 最后登录时间
      */
-    @Excel(name = "最后登录时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss", type = Type.EXPORT)
+    @Excel(name = "最后登录时间", width = 30, dateFormat = TimeUtils.PATTERN_DEFAULT, type = Type.EXPORT)
     private Date loginDate;
 
     /**
@@ -135,14 +139,6 @@ public class SysUser extends BaseEntity {
         this.userId = userId;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     public boolean isAdmin() {
         return isAdmin(this.userId);
     }
@@ -151,22 +147,10 @@ public class SysUser extends BaseEntity {
         return userId != null && 1L == userId;
     }
 
-    public Long getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(Long deptId) {
-        this.deptId = deptId;
-    }
-
     @Xss(message = "用户昵称不能包含脚本字符")
     @Size(min = 0, max = 30, message = "用户昵称长度不能超过30个字符")
     public String getNickName() {
         return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
     }
 
     @Xss(message = "用户账号不能包含脚本字符")
@@ -176,123 +160,15 @@ public class SysUser extends BaseEntity {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     @Email(message = "邮箱格式不正确")
     @Size(min = 0, max = 50, message = "邮箱长度不能超过50个字符")
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     @Size(min = 0, max = 11, message = "手机号码长度不能超过11个字符")
     public String getPhonenumber() {
         return phonenumber;
-    }
-
-    public void setPhonenumber(String phonenumber) {
-        this.phonenumber = phonenumber;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getDelFlag() {
-        return delFlag;
-    }
-
-    public void setDelFlag(String delFlag) {
-        this.delFlag = delFlag;
-    }
-
-    public String getLoginIp() {
-        return loginIp;
-    }
-
-    public void setLoginIp(String loginIp) {
-        this.loginIp = loginIp;
-    }
-
-    public Date getLoginDate() {
-        return loginDate;
-    }
-
-    public void setLoginDate(Date loginDate) {
-        this.loginDate = loginDate;
-    }
-
-    public SysDept getDept() {
-        return dept;
-    }
-
-    public void setDept(SysDept dept) {
-        this.dept = dept;
-    }
-
-    public List<SysRole> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<SysRole> roles) {
-        this.roles = roles;
-    }
-
-    public Long[] getRoleIds() {
-        return roleIds;
-    }
-
-    public void setRoleIds(Long[] roleIds) {
-        this.roleIds = roleIds;
-    }
-
-    public Long[] getPostIds() {
-        return postIds;
-    }
-
-    public void setPostIds(Long[] postIds) {
-        this.postIds = postIds;
-    }
-
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
     }
 
     @Override
@@ -308,7 +184,6 @@ public class SysUser extends BaseEntity {
                 .append("avatar", getAvatar())
                 .append("password", getPassword())
                 .append("status", getStatus())
-                .append("delFlag", getDelFlag())
                 .append("loginIp", getLoginIp())
                 .append("loginDate", getLoginDate())
                 .append("createBy", getCreateBy())

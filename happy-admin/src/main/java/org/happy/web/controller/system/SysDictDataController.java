@@ -72,7 +72,7 @@ public class SysDictDataController extends BaseController {
     @GetMapping(value = "/type/{dictType}")
     public AjaxResult dictType(@PathVariable String dictType) {
         List<SysDictData> data = dictTypeService.selectDictDataByType(dictType);
-        if (StringUtils.isNull(data)) {
+        if (null == data) {
             data = new ArrayList<SysDictData>();
         }
         return success(data);

@@ -65,7 +65,7 @@ public class HttpUtils {
         StringBuilder result = new StringBuilder();
         BufferedReader in = null;
         try {
-            String urlNameString = StringUtils.isNotBlank(param) ? url + "?" + param : url;
+            String urlNameString = StringUtils.hasText(param) ? url + "?" + param : url;
             log.info("sendGet - {}", urlNameString);
             URL realUrl = new URL(urlNameString);
             URLConnection connection = realUrl.openConnection();

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -160,9 +161,9 @@ public class SysDeptServiceImpl implements ISysDeptService {
      */
     @Override
     public boolean checkDeptNameUnique(SysDept dept) {
-        Long deptId = StringUtils.isNull(dept.getDeptId()) ? -1L : dept.getDeptId();
+        Long deptId = null == dept.getDeptId() ? -1L : dept.getDeptId();
         SysDept info = deptMapper.checkDeptNameUnique(dept.getDeptName(), dept.getParentId());
-        if (StringUtils.isNotNull(info) && info.getDeptId().longValue() != deptId.longValue()) {
+        if (null != info && info.getDeptId().longValue() != deptId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
@@ -175,7 +176,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      */
     @Override
     public void checkDeptDataScope(Long deptId) {
-        if (!SysUser.isAdmin(SecurityUtils.getUserId()) && StringUtils.isNotNull(deptId)) {
+        if (!SysUser.isAdmin(SecurityUtils.getUserId()) && null != deptId) {
             SysDept dept = new SysDept();
             dept.setDeptId(deptId);
             List<SysDept> depts = SpringUtils.getAopProxy(this).selectDeptList(dept);
@@ -212,7 +213,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     public int updateDept(SysDept dept) {
         SysDept newParentDept = deptMapper.selectDeptById(dept.getParentId());
         SysDept oldDept = deptMapper.selectDeptById(dept.getDeptId());
-        if (StringUtils.isNotNull(newParentDept) && StringUtils.isNotNull(oldDept)) {
+        if (null != newParentDept && null != oldDept) {
             String newAncestors = newParentDept.getAncestors() + "," + newParentDept.getDeptId();
             String oldAncestors = oldDept.getAncestors();
             dept.setAncestors(newAncestors);
@@ -220,7 +221,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         }
         int result = deptMapper.updateDept(dept);
         if (UserConstants.DEPT_NORMAL.equals(dept.getStatus()) && StringUtils.isNotEmpty(dept.getAncestors())
-            && !StringUtils.equals("0", dept.getAncestors())) {
+            && !Objects.equals("0", dept.getAncestors())) {
             // 如果该部门是启用状态，则启用该部门的所有上级部门
             updateParentDeptStatusNormal(dept);
         }
@@ -288,7 +289,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         Iterator<SysDept> it = list.iterator();
         while (it.hasNext()) {
             SysDept n = it.next();
-            if (StringUtils.isNotNull(n.getParentId()) && n.getParentId().longValue() == t.getDeptId().longValue()) {
+            if (null != n.getParentId() && n.getParentId().longValue() == t.getDeptId().longValue()) {
                 tlist.add(n);
             }
         }

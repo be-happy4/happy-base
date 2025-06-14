@@ -36,13 +36,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser user = userService.selectUserByUserName(username);
-        if (StringUtils.isNull(user)) {
+        if (null == user) {
             log.info("登录用户：{} 不存在.", username);
             throw new ServiceException(MessageUtils.message("user.not.exists"));
-        } else if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
+        } else if (UserStatus.DELETED.equals(user.getStatus())) {
             log.info("登录用户：{} 已被删除.", username);
             throw new ServiceException(MessageUtils.message("user.password.delete"));
-        } else if (UserStatus.DISABLE.getCode().equals(user.getStatus())) {
+        } else if (UserStatus.DISABLE.equals(user.getStatus())) {
             log.info("登录用户：{} 已被停用.", username);
             throw new ServiceException(MessageUtils.message("user.blocked"));
         }

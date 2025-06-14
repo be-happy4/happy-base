@@ -49,7 +49,7 @@ public class SysUserOnlineController extends BaseController {
                 userOnlineList.add(userOnlineService.selectOnlineByInfo(ipaddr, userName, user));
             } else if (StringUtils.isNotEmpty(ipaddr)) {
                 userOnlineList.add(userOnlineService.selectOnlineByIpaddr(ipaddr, user));
-            } else if (StringUtils.isNotEmpty(userName) && StringUtils.isNotNull(user.getUser())) {
+            } else if (StringUtils.isNotEmpty(userName) && null != user.getUser()) {
                 userOnlineList.add(userOnlineService.selectOnlineByUserName(userName, user));
             } else {
                 userOnlineList.add(userOnlineService.loginUserToUserOnline(user));

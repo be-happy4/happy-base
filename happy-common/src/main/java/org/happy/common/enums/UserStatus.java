@@ -1,26 +1,27 @@
 package org.happy.common.enums;
 
+import lombok.Getter;
+import org.happy.common.core.domain.code.I18nCode;
+
 /**
  * 用户状态
  *
  * @author happy
  */
-public enum UserStatus {
-    OK("0", "正常"), DISABLE("1", "停用"), DELETED("2", "删除");
+@Getter
+public enum UserStatus implements I18nCode<String> {
+    OK("正常"),
+    DISABLE("停用"),
+    DELETED("删除");
 
-    private final String code;
     private final String info;
 
-    UserStatus(String code, String info) {
-        this.code = code;
+    UserStatus(String info) {
         this.info = info;
     }
 
+    @Override
     public String getCode() {
-        return code;
-    }
-
-    public String getInfo() {
-        return info;
+        return name();
     }
 }

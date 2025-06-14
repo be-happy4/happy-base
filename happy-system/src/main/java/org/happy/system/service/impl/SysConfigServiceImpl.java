@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 参数配置 服务层实现
@@ -68,7 +69,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
         SysConfig config = new SysConfig();
         config.setConfigKey(configKey);
         SysConfig retConfig = configMapper.selectConfig(config);
-        if (StringUtils.isNotNull(retConfig)) {
+        if (null != retConfig) {
             redisCache.setCacheObject(getCacheKey(configKey), retConfig.getConfigValue());
             return retConfig.getConfigValue();
         }
@@ -124,7 +125,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @Override
     public int updateConfig(SysConfig config) {
         SysConfig temp = configMapper.selectConfigById(config.getConfigId());
-        if (!StringUtils.equals(temp.getConfigKey(), config.getConfigKey())) {
+        if (!Objects.equals(temp.getConfigKey(), config.getConfigKey())) {
             redisCache.deleteObject(getCacheKey(temp.getConfigKey()));
         }
 
@@ -144,7 +145,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     public void deleteConfigByIds(Long[] configIds) {
         for (Long configId : configIds) {
             SysConfig config = selectConfigById(configId);
-            if (StringUtils.equals(UserConstants.YES, config.getConfigType())) {
+            if (Objects.equals(UserConstants.YES, config.getConfigType())) {
                 throw new ServiceException(String.format("内置参数【%1$s】不能删除 ", config.getConfigKey()));
             }
             configMapper.deleteConfigById(configId);
@@ -189,9 +190,9 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public boolean checkConfigKeyUnique(SysConfig config) {
-        Long configId = StringUtils.isNull(config.getConfigId()) ? -1L : config.getConfigId();
+        Long configId = null == config.getConfigId() ? -1L : config.getConfigId();
         SysConfig info = configMapper.checkConfigKeyUnique(config.getConfigKey());
-        if (StringUtils.isNotNull(info) && info.getConfigId().longValue() != configId.longValue()) {
+        if (null != info && info.getConfigId().longValue() != configId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;

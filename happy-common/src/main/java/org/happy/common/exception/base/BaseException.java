@@ -1,14 +1,19 @@
 package org.happy.common.exception.base;
 
+import lombok.Getter;
 import org.happy.common.utils.MessageUtils;
 import org.happy.common.utils.StringUtils;
+
+import java.io.Serial;
 
 /**
  * 基础异常
  *
  * @author happy
  */
+@Getter
 public class BaseException extends RuntimeException {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -66,19 +71,4 @@ public class BaseException extends RuntimeException {
         return message;
     }
 
-    public String getModule() {
-        return module;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public Object[] getArgs() {
-        return args;
-    }
-
-    public String getDefaultMessage() {
-        return defaultMessage;
-    }
 }

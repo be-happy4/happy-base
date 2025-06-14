@@ -151,7 +151,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     {
         List<${subClassName}> ${subclassName}List = ${className}.get${subClassName}List();
         ${pkColumn.javaType} ${pkColumn.javaField} = ${className}.get${pkColumn.capJavaField}();
-        if (StringUtils.isNotNull(${subclassName}List))
+        if (null != ${subclassName}List)
         {
             List<${subClassName}> list = new ArrayList<${subClassName}>();
             for (${subClassName} ${subclassName} : ${subclassName}List)

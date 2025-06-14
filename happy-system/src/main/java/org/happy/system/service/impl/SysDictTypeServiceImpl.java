@@ -192,9 +192,9 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      */
     @Override
     public boolean checkDictTypeUnique(SysDictType dict) {
-        Long dictId = StringUtils.isNull(dict.getDictId()) ? -1L : dict.getDictId();
+        Long dictId = null == dict.getDictId() ? -1L : dict.getDictId();
         SysDictType dictType = dictTypeMapper.checkDictTypeUnique(dict.getDictType());
-        if (StringUtils.isNotNull(dictType) && dictType.getDictId().longValue() != dictId.longValue()) {
+        if (null != dictType && dictType.getDictId().longValue() != dictId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;

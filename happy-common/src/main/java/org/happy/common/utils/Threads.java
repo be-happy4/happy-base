@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @author happy
  */
 public class Threads {
-    private static final Logger logger = LoggerFactory.getLogger(Threads.class);
+    private static final Logger log = LoggerFactory.getLogger(Threads.class);
 
     /**
      * sleep等待,单位为毫秒
@@ -24,6 +24,7 @@ public class Threads {
         try {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -41,7 +42,7 @@ public class Threads {
                 if (!pool.awaitTermination(120, TimeUnit.SECONDS)) {
                     pool.shutdownNow();
                     if (!pool.awaitTermination(120, TimeUnit.SECONDS)) {
-                        logger.info("Pool did not terminate");
+                        log.info("Pool did not terminate");
                     }
                 }
             } catch (InterruptedException ie) {
@@ -69,7 +70,7 @@ public class Threads {
             }
         }
         if (t != null) {
-            logger.error(t.getMessage(), t);
+            log.error(t.getMessage(), t);
         }
     }
 }

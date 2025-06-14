@@ -1,23 +1,33 @@
 package org.happy.common.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.FastDateParser;
 
 import java.lang.management.ManagementFactory;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.TimeZone;
 
 /**
  * 时间工具类
  *
  * @author happy
  */
-public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class DateUtils {
     public static String YYYY = "yyyy";
 
     public static String YYYY_MM = "yyyy-MM";
@@ -51,48 +61,28 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         return dateTimeNow(YYYY_MM_DD);
     }
 
-    public static final String getTime() {
+    public static String getTime() {
         return dateTimeNow(YYYY_MM_DD_HH_MM_SS);
     }
 
-    public static final String dateTimeNow() {
+    public static String dateTimeNow() {
         return dateTimeNow(YYYYMMDDHHMMSS);
     }
 
-    public static final String dateTimeNow(final String format) {
+    public static String dateTimeNow(final String format) {
         return parseDateToStr(format, new Date());
     }
 
-    public static final String dateTime(final Date date) {
-        return parseDateToStr(YYYY_MM_DD, date);
-    }
-
-    public static final String parseDateToStr(final String format, final Date date) {
+    public static String parseDateToStr(final String format, final Date date) {
         return new SimpleDateFormat(format).format(date);
-    }
-
-    public static final Date dateTime(final String format, final String ts) {
-        try {
-            return new SimpleDateFormat(format).parse(ts);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
      * 日期路径 即年/月/日 如2018/08/08
      */
-    public static final String datePath() {
+    public static String datePath() {
         Date now = new Date();
         return DateFormatUtils.format(now, "yyyy/MM/dd");
-    }
-
-    /**
-     * 日期路径 即年/月/日 如20180808
-     */
-    public static final String dateTime() {
-        Date now = new Date();
-        return DateFormatUtils.format(now, "yyyyMMdd");
     }
 
     /**
@@ -115,13 +105,6 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     public static Date getServerStartDate() {
         long time = ManagementFactory.getRuntimeMXBean().getStartTime();
         return new Date(time);
-    }
-
-    /**
-     * 计算相差天数
-     */
-    public static int differentDaysByMillisecond(Date date1, Date date2) {
-        return Math.abs((int) ((date2.getTime() - date1.getTime()) / (1000 * 3600 * 24)));
     }
 
     /**
@@ -164,5 +147,88 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         LocalDateTime localDateTime = LocalDateTime.of(temporalAccessor, LocalTime.of(0, 0, 0));
         ZonedDateTime zdt = localDateTime.atZone(ZoneId.systemDefault());
         return Date.from(zdt.toInstant());
+    }
+
+    /**
+     * Parses a string representing a date by trying a variety of different parsers.
+     *
+     * <p>The parse will try each parse pattern in turn.
+     * A parse is only deemed successful if it parses the whole of the input string.
+     * If no parse patterns match, a ParseException is thrown.</p>
+     *
+     * @param dateStr  the date to parse, not null
+     * @param locale the locale to use when interpreting the pattern, can be null in which
+     * case the default system locale is used
+     * @param parsePatterns  the date format patterns to use, see SimpleDateFormat, not null
+     * @param lenient Specify whether or not date/time parsing is to be lenient.
+     * @return the parsed date
+     * @throws NullPointerException if the date string or pattern array is null
+     * @throws ParseException if none of the date patterns were suitable
+     * @see java.util.Calendar#isLenient()
+     */
+    private static Date parseDateWithLeniency(final String dateStr, final Locale locale, final String[] parsePatterns,
+                                              final boolean lenient) throws ParseException {
+        Objects.requireNonNull(dateStr, "str");
+        Objects.requireNonNull(parsePatterns, "parsePatterns");
+
+        final TimeZone tz = TimeZone.getDefault();
+        final Locale lcl = LocaleUtils.toLocale(locale);
+        final ParsePosition pos = new ParsePosition(0);
+        final Calendar calendar = Calendar.getInstance(tz, lcl);
+        calendar.setLenient(lenient);
+
+        for (final String parsePattern : parsePatterns) {
+            final FastDateParser fdp = new FastDateParser(parsePattern, tz, lcl) {};
+            calendar.clear();
+            try {
+                if (fdp.parse(dateStr, pos, calendar) && pos.getIndex() == dateStr.length()) {
+                    return calendar.getTime();
+                }
+            } catch (final IllegalArgumentException ignored) {
+                // leniency is preventing calendar from being set
+            }
+            pos.setIndex(0);
+        }
+        throw new ParseException("Unable to parse the date: " + dateStr, -1);
+    }
+
+    /**
+     * Parses a string representing a date by trying a variety of different parsers,
+     * using the default date format symbols for the given locale.
+     *
+     * <p>The parse will try each parse pattern in turn.
+     * A parse is only deemed successful if it parses the whole of the input string.
+     * If no parse patterns match, a ParseException is thrown.</p>
+     * The parser will be lenient toward the parsed date.
+     *
+     * @param str  the date to parse, not null
+     * @param locale the locale whose date format symbols should be used. If {@code null},
+     * the system locale is used (as per {@link #parseDate(String, String...)}).
+     * @param parsePatterns  the date format patterns to use, see SimpleDateFormat, not null
+     * @return the parsed date
+     * @throws NullPointerException if the date string or pattern array is null
+     * @throws ParseException if none of the date patterns were suitable (or there were none)
+     * @since 3.2
+     */
+    public static Date parseDate(final String str, final Locale locale, final String... parsePatterns) throws ParseException {
+        return parseDateWithLeniency(str, locale, parsePatterns, true);
+    }
+
+    /**
+     * Parses a string representing a date by trying a variety of different parsers.
+     *
+     * <p>The parse will try each parse pattern in turn.
+     * A parse is only deemed successful if it parses the whole of the input string.
+     * If no parse patterns match, a ParseException is thrown.</p>
+     * The parser will be lenient toward the parsed date.
+     *
+     * @param str  the date to parse, not null
+     * @param parsePatterns  the date format patterns to use, see SimpleDateFormat, not null
+     * @return the parsed date
+     * @throws NullPointerException if the date string or pattern array is null
+     * @throws ParseException if none of the date patterns were suitable (or there were none)
+     */
+    public static Date parseDate(final String str, final String... parsePatterns) throws ParseException {
+        return parseDate(str, null, parsePatterns);
     }
 }

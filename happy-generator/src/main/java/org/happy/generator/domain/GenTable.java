@@ -8,6 +8,7 @@ import org.happy.common.core.domain.BaseEntity;
 import org.happy.common.utils.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 业务表 gen_table
@@ -343,7 +344,7 @@ public class GenTable extends BaseEntity {
     }
 
     public static boolean isSub(String tplCategory) {
-        return tplCategory != null && StringUtils.equals(GenConstants.TPL_SUB, tplCategory);
+        return tplCategory != null && Objects.equals(GenConstants.TPL_SUB, tplCategory);
     }
 
     public boolean isTree() {
@@ -351,7 +352,7 @@ public class GenTable extends BaseEntity {
     }
 
     public static boolean isTree(String tplCategory) {
-        return tplCategory != null && StringUtils.equals(GenConstants.TPL_TREE, tplCategory);
+        return tplCategory != null && Objects.equals(GenConstants.TPL_TREE, tplCategory);
     }
 
     public boolean isCrud() {
@@ -359,7 +360,7 @@ public class GenTable extends BaseEntity {
     }
 
     public static boolean isCrud(String tplCategory) {
-        return tplCategory != null && StringUtils.equals(GenConstants.TPL_CRUD, tplCategory);
+        return tplCategory != null && Objects.equals(GenConstants.TPL_CRUD, tplCategory);
     }
 
     public boolean isSuperColumn(String javaField) {

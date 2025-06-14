@@ -9,6 +9,9 @@ import org.happy.common.utils.spring.SpringUtils;
 import java.util.Collection;
 import java.util.List;
 
+import static org.apache.commons.lang3.StringUtils.startsWithIgnoreCase;
+import static org.apache.commons.lang3.StringUtils.substringAfter;
+
 /**
  * 字典工具类
  *
@@ -38,7 +41,7 @@ public class DictUtils {
      */
     public static List<SysDictData> getDictCache(String key) {
         JSONArray arrayCache = SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKey(key));
-        if (StringUtils.isNotNull(arrayCache)) {
+        if (null != arrayCache) {
             return arrayCache.toList(SysDictData.class);
         }
         return null;
@@ -83,7 +86,7 @@ public class DictUtils {
     public static String getDictLabel(String dictType, String dictValue, String separator) {
         StringBuilder propertyString = new StringBuilder();
         List<SysDictData> datas = getDictCache(dictType);
-        if (StringUtils.isNull(datas)) {
+        if (null == datas) {
             return StringUtils.EMPTY;
         }
         if (StringUtils.containsAny(separator, dictValue)) {
@@ -116,7 +119,7 @@ public class DictUtils {
     public static String getDictValue(String dictType, String dictLabel, String separator) {
         StringBuilder propertyString = new StringBuilder();
         List<SysDictData> datas = getDictCache(dictType);
-        if (StringUtils.isNull(datas)) {
+        if (null == datas) {
             return StringUtils.EMPTY;
         }
         if (StringUtils.containsAny(separator, dictLabel)) {
@@ -147,7 +150,7 @@ public class DictUtils {
     public static String getDictValues(String dictType) {
         StringBuilder propertyString = new StringBuilder();
         List<SysDictData> datas = getDictCache(dictType);
-        if (StringUtils.isNull(datas)) {
+        if (null == datas) {
             return StringUtils.EMPTY;
         }
         for (SysDictData dict : datas) {
@@ -165,7 +168,7 @@ public class DictUtils {
     public static String getDictLabels(String dictType) {
         StringBuilder propertyString = new StringBuilder();
         List<SysDictData> datas = getDictCache(dictType);
-        if (StringUtils.isNull(datas)) {
+        if (null == datas) {
             return StringUtils.EMPTY;
         }
         for (SysDictData dict : datas) {

@@ -6,6 +6,8 @@ import org.happy.system.domain.SysUserOnline;
 import org.happy.system.service.ISysUserOnlineService;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 /**
  * 在线用户 服务层处理
  *
@@ -22,7 +24,7 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService {
      */
     @Override
     public SysUserOnline selectOnlineByIpaddr(String ipaddr, LoginUser user) {
-        if (StringUtils.equals(ipaddr, user.getIpaddr())) {
+        if (Objects.equals(ipaddr, user.getIpaddr())) {
             return loginUserToUserOnline(user);
         }
         return null;
@@ -37,7 +39,7 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService {
      */
     @Override
     public SysUserOnline selectOnlineByUserName(String userName, LoginUser user) {
-        if (StringUtils.equals(userName, user.getUsername())) {
+        if (Objects.equals(userName, user.getUsername())) {
             return loginUserToUserOnline(user);
         }
         return null;
@@ -53,7 +55,7 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService {
      */
     @Override
     public SysUserOnline selectOnlineByInfo(String ipaddr, String userName, LoginUser user) {
-        if (StringUtils.equals(ipaddr, user.getIpaddr()) && StringUtils.equals(userName, user.getUsername())) {
+        if (Objects.equals(ipaddr, user.getIpaddr()) && Objects.equals(userName, user.getUsername())) {
             return loginUserToUserOnline(user);
         }
         return null;
@@ -67,7 +69,7 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService {
      */
     @Override
     public SysUserOnline loginUserToUserOnline(LoginUser user) {
-        if (StringUtils.isNull(user) || StringUtils.isNull(user.getUser())) {
+        if (null == user || null == user.getUser()) {
             return null;
         }
         SysUserOnline sysUserOnline = new SysUserOnline();
@@ -78,7 +80,7 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService {
         sysUserOnline.setBrowser(user.getBrowser());
         sysUserOnline.setOs(user.getOs());
         sysUserOnline.setLoginTime(user.getLoginTime());
-        if (StringUtils.isNotNull(user.getUser().getDept())) {
+        if (null != user.getUser().getDept()) {
             sysUserOnline.setDeptName(user.getUser().getDept().getDeptName());
         }
         return sysUserOnline;

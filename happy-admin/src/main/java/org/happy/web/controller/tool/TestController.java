@@ -57,7 +57,7 @@ public class TestController extends BaseController {
     @Operation(summary = "新增用户")
     @PostMapping("/save")
     public R<String> save(UserEntity user) {
-        if (StringUtils.isNull(user) || StringUtils.isNull(user.getUserId())) {
+        if (null == user || null == user.getUserId()) {
             return R.fail("用户ID不能为空");
         }
         users.put(user.getUserId(), user);
@@ -68,7 +68,7 @@ public class TestController extends BaseController {
     @PutMapping("/update")
     public R<String> update(@RequestBody
                             UserEntity user) {
-        if (StringUtils.isNull(user) || StringUtils.isNull(user.getUserId())) {
+        if (null == user || null == user.getUserId()) {
             return R.fail("用户ID不能为空");
         }
         if (users.isEmpty() || !users.containsKey(user.getUserId())) {
