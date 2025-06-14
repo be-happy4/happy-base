@@ -2,8 +2,6 @@ package org.happy.common.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.happy.common.constant.Constants;
 import org.happy.common.core.text.StrFormatter;
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +23,7 @@ public class StringUtils {
     public static final String EMPTY = "";
     public static final char UNDERSCORE = '_';
     public static final char ASTERISK = '*';
+    public static final String[] EMPTY_ARRAY = {};
 
     public static <T> T ifNull(T value, T defaultValue) {
         return value != null ? value : defaultValue;
@@ -821,7 +820,7 @@ public class StringUtils {
         }
         final int len = str.length();
         if (len == 0) {
-            return ArrayUtils.EMPTY_STRING_ARRAY;
+            return EMPTY_ARRAY;
         }
         final List<String> list = new ArrayList<>();
         int i = 0;
@@ -845,7 +844,7 @@ public class StringUtils {
         if (match || preserveAllTokens && lastMatch) {
             list.add(str.substring(start, i));
         }
-        return list.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
+        return list.toArray(EMPTY_ARRAY);
     }
 
     /**
@@ -872,7 +871,7 @@ public class StringUtils {
         }
         final int len = str.length();
         if (len == 0) {
-            return org.apache.commons.lang3.ArrayUtils.EMPTY_STRING_ARRAY;
+            return EMPTY_ARRAY;
         }
         final List<String> list = new ArrayList<>();
         int sizePlus1 = 1;
@@ -945,7 +944,7 @@ public class StringUtils {
         if (match || preserveAllTokens && lastMatch) {
             list.add(str.substring(start, i));
         }
-        return list.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
+        return list.toArray(EMPTY_ARRAY);
     }
 
     /**
@@ -1750,7 +1749,7 @@ public class StringUtils {
      * @return the substring, {@code null} if no match
      */
     public static String substringBetween(final String str, final String open, final String close) {
-        if (!ObjectUtils.allNotNull(str, open, close)) {
+        if (str == null || open == null || close == null) {
             return null;
         }
         final int start = str.indexOf(open);
@@ -1823,9 +1822,9 @@ public class StringUtils {
      * {@code false} if {@code searchStrings} is null or contains no matches.
      * @since 3.5
      */
-    public static boolean equalsAny(final CharSequence string, final CharSequence... searchStrings) {
+    public static boolean equalsAny(String string, final String... searchStrings) {
         if (ArrayUtils.isNotEmpty(searchStrings)) {
-            for (final CharSequence next : searchStrings) {
+            for (var next : searchStrings) {
                 if (Objects.equals(string, next)) {
                     return true;
                 }
@@ -1839,6 +1838,7 @@ public class StringUtils {
             return null;
         return text.replace(searchString, replacement);
     }
+
     /**
      * Case-insensitive check if a CharSequence ends with a specified suffix.
      *
@@ -1854,17 +1854,18 @@ public class StringUtils {
      * StringUtils.endsWithIgnoreCase("ABCDEF", "cde") = false
      * </pre>
      *
-     * @see String#endsWith(String)
-     * @param str  the CharSequence to check, may be null
+     * @param str    the CharSequence to check, may be null
      * @param suffix the suffix to find, may be null
      * @return {@code true} if the CharSequence ends with the suffix, case-insensitive, or
-     *  both {@code null}
+     * both {@code null}
+     * @see String#endsWith(String)
      * @since 2.4
      * @since 3.0 Changed signature from endsWithIgnoreCase(String, String) to endsWithIgnoreCase(CharSequence, CharSequence)
      */
     public static boolean endsWithIgnoreCase(final CharSequence str, final CharSequence suffix) {
         return endsWith(str, suffix, true);
     }
+
     /**
      * Finds the first index within a CharSequence, handling {@code null}.
      * This method uses {@link String#indexOf(String, int)} if possible.
@@ -1882,10 +1883,10 @@ public class StringUtils {
      * StringUtils.indexOf("aabaabaa", "")   = 0
      * </pre>
      *
-     * @param seq  the CharSequence to check, may be null
-     * @param searchSeq  the CharSequence to find, may be null
+     * @param seq       the CharSequence to check, may be null
+     * @param searchSeq the CharSequence to find, may be null
      * @return the first index of the search CharSequence,
-     *  -1 if no match or {@code null} string input
+     * -1 if no match or {@code null} string input
      * @since 2.0
      * @since 3.0 Changed signature from indexOf(String, String) to indexOf(CharSequence, CharSequence)
      */

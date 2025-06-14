@@ -28,7 +28,7 @@
         <druid.version>1.2.23</druid.version>
         <fastjson.version>2.0.53</fastjson.version>
         <guava.version>33.4.8-jre</guava.version>
-        <jackson.version>2.18.0</jackson.version>
+        <jackson.version>2.19.0</jackson.version>
         <jakarta.validation.version>3.0.2</jakarta.validation.version>
         <jakarta.version>6.0.0</jakarta.version>
         <java.version>24</java.version>

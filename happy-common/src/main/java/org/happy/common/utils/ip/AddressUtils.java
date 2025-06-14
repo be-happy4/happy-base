@@ -1,7 +1,6 @@
 package org.happy.common.utils.ip;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.happy.common.config.HappyConfig;
 import org.happy.common.constant.Constants;
 import org.happy.common.utils.StringUtils;
@@ -23,6 +22,8 @@ public class AddressUtils {
     // 未知地址
     public static final String UNKNOWN = "XX XX";
 
+    static final ObjectMapper MAPPER = new ObjectMapper();
+
     public static String getRealAddressByIP(String ip) {
         // 内网不查询
         if (IpUtils.internalIp(ip)) {
@@ -35,9 +36,9 @@ public class AddressUtils {
                     log.error("获取地理位置异常 {}", ip);
                     return UNKNOWN;
                 }
-                JSONObject obj = JSON.parseObject(rspStr);
-                String region = obj.getString("pro");
-                String city = obj.getString("city");
+                var obj = MAPPER.readTree(rspStr);
+                String region = obj.get("pro").asText();
+                String city = obj.get("city").asText();
                 return String.format("%s %s", region, city);
             } catch (Exception e) {
                 log.error("获取地理位置异常 {}", ip);

@@ -1,5 +1,6 @@
 package org.happy.generator.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.happy.generator.domain.GenTable;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public interface IGenTableService {
      * @param id 业务ID
      * @return 业务信息
      */
-    GenTable selectGenTableById(Long id);
+    GenTable selectGenTableById(Long id) throws JsonProcessingException;
 
     /**
      * 修改业务
@@ -56,7 +57,7 @@ public interface IGenTableService {
      * @param genTable 业务信息
      * @return 结果
      */
-    void updateGenTable(GenTable genTable);
+    void updateGenTable(GenTable genTable) throws JsonProcessingException;
 
     /**
      * 删除业务信息
@@ -88,7 +89,7 @@ public interface IGenTableService {
      * @param tableId 表编号
      * @return 预览数据列表
      */
-    Map<String, String> previewCode(Long tableId);
+    Map<String, String> previewCode(Long tableId) throws JsonProcessingException;
 
     /**
      * 生成代码（下载方式）
@@ -96,7 +97,7 @@ public interface IGenTableService {
      * @param tableName 表名称
      * @return 数据
      */
-    byte[] downloadCode(String tableName);
+    byte[] downloadCode(String tableName) throws JsonProcessingException;
 
     /**
      * 生成代码（自定义路径）
@@ -104,7 +105,7 @@ public interface IGenTableService {
      * @param tableName 表名称
      * @return 数据
      */
-    void generatorCode(String tableName);
+    void generatorCode(String tableName) throws JsonProcessingException;
 
     /**
      * 同步数据库
@@ -119,12 +120,12 @@ public interface IGenTableService {
      * @param tableNames 表数组
      * @return 数据
      */
-    byte[] downloadCode(String[] tableNames);
+    byte[] downloadCode(String[] tableNames) throws JsonProcessingException;
 
     /**
      * 修改保存参数校验
      *
      * @param genTable 业务信息
      */
-    void validateEdit(GenTable genTable);
+    void validateEdit(GenTable genTable) throws JsonProcessingException;
 }

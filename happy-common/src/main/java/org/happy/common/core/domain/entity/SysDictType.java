@@ -3,6 +3,8 @@ package org.happy.common.core.domain.entity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.annotation.Excel;
@@ -14,8 +16,9 @@ import org.happy.common.core.domain.BaseEntity;
  *
  * @author happy
  */
+@Getter
+@Setter
 public class SysDictType extends BaseEntity {
-    private static final long serialVersionUID = 1L;
 
     /**
      * 字典主键
@@ -41,10 +44,6 @@ public class SysDictType extends BaseEntity {
     @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
     private String status;
 
-    public Long getDictId() {
-        return dictId;
-    }
-
     public void setDictId(Long dictId) {
         this.dictId = dictId;
     }
@@ -68,10 +67,6 @@ public class SysDictType extends BaseEntity {
 
     public void setDictType(String dictType) {
         this.dictType = dictType;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public void setStatus(String status) {

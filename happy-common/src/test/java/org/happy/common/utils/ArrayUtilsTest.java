@@ -38,14 +38,6 @@ public class ArrayUtilsTest {
     }
 
     @Test
-    public void testIsEmptyShort() {
-        short[] arr = null;
-        assertTrue(ArrayUtils.isEmpty(arr));
-        assertTrue(ArrayUtils.isEmpty(new short[]{}));
-        assertFalse(ArrayUtils.isEmpty(new short[]{(short) 0}));
-    }
-
-    @Test
     public void testContainsShort() {
         short[] arr = null;
         assertFalse(ArrayUtils.contains(arr, (short) 0));

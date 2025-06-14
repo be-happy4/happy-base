@@ -1,5 +1,6 @@
 package org.happy.common.core.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -27,9 +28,6 @@ import java.util.List;
 @Getter
 @Setter
 public class SysUser extends BaseEntity {
-    /**
-     * 用户ID
-     */
     @Excel(name = "用户序号", type = Type.EXPORT, cellType = ColumnType.NUMERIC, prompt = "用户编号")
     private Long userId;
 
@@ -139,6 +137,7 @@ public class SysUser extends BaseEntity {
         this.userId = userId;
     }
 
+    @JsonIgnore
     public boolean isAdmin() {
         return isAdmin(this.userId);
     }

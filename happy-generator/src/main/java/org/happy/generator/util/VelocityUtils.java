@@ -1,7 +1,8 @@
 package org.happy.generator.util;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.velocity.VelocityContext;
 import org.happy.common.constant.GenConstants;
 import org.happy.common.utils.DateUtils;
@@ -37,12 +38,14 @@ public class VelocityUtils {
      */
     private static final String DEFAULT_PARENT_MENU_ID = "3";
 
+    static final ObjectMapper MAPPER = new ObjectMapper();
+
     /**
      * 设置模板变量信息
      *
      * @return 模板列表
      */
-    public static VelocityContext prepareContext(GenTable genTable) {
+    public static VelocityContext prepareContext(GenTable genTable) throws JsonProcessingException {
         String moduleName = genTable.getModuleName();
         String businessName = genTable.getBusinessName();
         String packageName = genTable.getPackageName();
@@ -78,16 +81,16 @@ public class VelocityUtils {
         return velocityContext;
     }
 
-    public static void setMenuVelocityContext(VelocityContext context, GenTable genTable) {
+    public static void setMenuVelocityContext(VelocityContext context, GenTable genTable) throws JsonProcessingException {
         String options = genTable.getOptions();
-        JSONObject paramsObj = JSON.parseObject(options);
+        var paramsObj = MAPPER.readTree(options);
         String parentMenuId = getParentMenuId(paramsObj);
         context.put("parentMenuId", parentMenuId);
     }
 
-    public static void setTreeVelocityContext(VelocityContext context, GenTable genTable) {
+    public static void setTreeVelocityContext(VelocityContext context, GenTable genTable) throws JsonProcessingException {
         String options = genTable.getOptions();
-        JSONObject paramsObj = JSON.parseObject(options);
+        var paramsObj = MAPPER.readTree(options);
         String treeCode = getTreecode(paramsObj);
         String treeParentCode = getTreeParentCode(paramsObj);
         String treeName = getTreeName(paramsObj);
@@ -96,11 +99,11 @@ public class VelocityUtils {
         context.put("treeParentCode", treeParentCode);
         context.put("treeName", treeName);
         context.put("expandColumn", getExpandColumn(genTable));
-        if (paramsObj.containsKey(GenConstants.TREE_PARENT_CODE)) {
-            context.put("tree_parent_code", paramsObj.getString(GenConstants.TREE_PARENT_CODE));
+        if (paramsObj.has(GenConstants.TREE_PARENT_CODE)) {
+            context.put("tree_parent_code", paramsObj.get(GenConstants.TREE_PARENT_CODE).asText());
         }
-        if (paramsObj.containsKey(GenConstants.TREE_NAME)) {
-            context.put("tree_name", paramsObj.getString(GenConstants.TREE_NAME));
+        if (paramsObj.has(GenConstants.TREE_NAME)) {
+            context.put("tree_name", paramsObj.get(GenConstants.TREE_NAME).asText());
         }
     }
 
@@ -284,10 +287,10 @@ public class VelocityUtils {
      * @param paramsObj 生成其他选项
      * @return 上级菜单ID字段
      */
-    public static String getParentMenuId(JSONObject paramsObj) {
-        if (StringUtils.isNotEmpty(paramsObj) && paramsObj.containsKey(GenConstants.PARENT_MENU_ID)
-            && StringUtils.isNotEmpty(paramsObj.getString(GenConstants.PARENT_MENU_ID))) {
-            return paramsObj.getString(GenConstants.PARENT_MENU_ID);
+    public static String getParentMenuId(JsonNode paramsObj) {
+        if (!paramsObj.isEmpty() && paramsObj.has(GenConstants.PARENT_MENU_ID)
+            && StringUtils.isNotEmpty(paramsObj.get(GenConstants.PARENT_MENU_ID).asText())) {
+            return paramsObj.get(GenConstants.PARENT_MENU_ID).asText();
         }
         return DEFAULT_PARENT_MENU_ID;
     }
@@ -298,9 +301,9 @@ public class VelocityUtils {
      * @param paramsObj 生成其他选项
      * @return 树编码
      */
-    public static String getTreecode(JSONObject paramsObj) {
-        if (paramsObj.containsKey(GenConstants.TREE_CODE)) {
-            return StringUtils.toCamelCase(paramsObj.getString(GenConstants.TREE_CODE));
+    public static String getTreecode(JsonNode paramsObj) {
+        if (paramsObj.has(GenConstants.TREE_CODE)) {
+            return StringUtils.toCamelCase(paramsObj.get(GenConstants.TREE_CODE).asText());
         }
         return StringUtils.EMPTY;
     }
@@ -311,9 +314,9 @@ public class VelocityUtils {
      * @param paramsObj 生成其他选项
      * @return 树父编码
      */
-    public static String getTreeParentCode(JSONObject paramsObj) {
-        if (paramsObj.containsKey(GenConstants.TREE_PARENT_CODE)) {
-            return StringUtils.toCamelCase(paramsObj.getString(GenConstants.TREE_PARENT_CODE));
+    public static String getTreeParentCode(JsonNode paramsObj) {
+        if (paramsObj.has(GenConstants.TREE_PARENT_CODE)) {
+            return StringUtils.toCamelCase(paramsObj.get(GenConstants.TREE_PARENT_CODE).asText());
         }
         return StringUtils.EMPTY;
     }
@@ -324,9 +327,9 @@ public class VelocityUtils {
      * @param paramsObj 生成其他选项
      * @return 树名称
      */
-    public static String getTreeName(JSONObject paramsObj) {
-        if (paramsObj.containsKey(GenConstants.TREE_NAME)) {
-            return StringUtils.toCamelCase(paramsObj.getString(GenConstants.TREE_NAME));
+    public static String getTreeName(JsonNode paramsObj) {
+        if (paramsObj.has(GenConstants.TREE_NAME)) {
+            return StringUtils.toCamelCase(paramsObj.get(GenConstants.TREE_NAME).asText());
         }
         return StringUtils.EMPTY;
     }
@@ -337,10 +340,10 @@ public class VelocityUtils {
      * @param genTable 业务表对象
      * @return 展开按钮列序号
      */
-    public static int getExpandColumn(GenTable genTable) {
+    public static int getExpandColumn(GenTable genTable) throws JsonProcessingException {
         String options = genTable.getOptions();
-        JSONObject paramsObj = JSON.parseObject(options);
-        String treeName = paramsObj.getString(GenConstants.TREE_NAME);
+        var paramsObj = MAPPER.readTree(options);
+        String treeName = paramsObj.get(GenConstants.TREE_NAME).asText();
         int num = 0;
         for (GenTableColumn column : genTable.getColumns()) {
             if (column.isList()) {

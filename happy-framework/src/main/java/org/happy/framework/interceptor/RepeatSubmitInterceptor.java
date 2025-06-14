@@ -1,6 +1,7 @@
 package org.happy.framework.interceptor;
 
-import com.alibaba.fastjson2.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.happy.common.annotation.RepeatSubmit;
@@ -19,6 +20,8 @@ import java.lang.reflect.Method;
  */
 @Component
 public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
+    final ObjectMapper mapper = new ObjectMapper();
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (handler instanceof HandlerMethod handlerMethod) {
@@ -27,7 +30,7 @@ public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
             if (annotation != null) {
                 if (this.isRepeatSubmit(request, annotation)) {
                     AjaxResult ajaxResult = AjaxResult.error(annotation.message());
-                    ServletUtils.renderString(response, JSON.toJSONString(ajaxResult));
+                    ServletUtils.renderString(response, mapper.writeValueAsString(ajaxResult));
                     return false;
                 }
             }
@@ -45,5 +48,5 @@ public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
      * @return 结果
      * @throws Exception
      */
-    public abstract boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation);
+    public abstract boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) throws JsonProcessingException;
 }

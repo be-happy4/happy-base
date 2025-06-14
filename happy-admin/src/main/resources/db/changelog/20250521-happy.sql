@@ -55,6 +55,8 @@ insert into sys_dept overriding system value values(109,  102, '0,100,102',  '�
 -- 2、用户信息表
 -- ----------------------------
 drop table if exists sys_user;
+drop type if exists user_status;
+create type user_status as enum ('OK', 'DISABLE', 'DELETED');
 create table sys_user (
   user_id           int8            not null generated always as identity,
   dept_id           int8            default null,
@@ -66,7 +68,7 @@ create table sys_user (
   sex               char(1)         default '0',
   avatar            varchar(100)    default '',
   password          varchar(100)    default '',
-  status            char(1)         default '0',
+  status            user_status     default 'OK',
   del_flag          char(1)         default '0',
   login_ip          varchar(128)    default '',
   login_date        timestamp(0),
@@ -102,8 +104,8 @@ select setval(pg_get_serial_sequence('sys_user', 'user_id'), 106) from sys_user;
 -- ----------------------------
 -- 初始化-用户信息表数据
 -- ----------------------------
-insert into sys_user overriding system value values(1,  103, 'admin', '开心', '00', 'happy@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', now(), 'admin', now(), '', null, '管理员');
-insert into sys_user overriding system value values(2,  105, 'happy',    '开心', '00', 'happy@qq.com',  '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', now(), 'admin', now(), '', null, '测试员');
+insert into sys_user overriding system value values(1,  103, 'admin', '开心', '00', 'happy@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', 'OK', '0', '127.0.0.1', now(), 'admin', now(), '', null, '管理员');
+insert into sys_user overriding system value values(2,  105, 'happy',    '开心', '00', 'happy@qq.com',  '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', 'OK', '0', '127.0.0.1', now(), 'admin', now(), '', null, '测试员');
 
 
 -- ----------------------------

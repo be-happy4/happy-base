@@ -34,22 +34,19 @@ import java.util.function.Predicate;
 public class ArrayUtils {
     public static final char[] EMPTY_CHAR_ARRAY = new char[0];
 
-    public static boolean isEmpty(@Nullable Object[] arr)
-    {
+    public static boolean isEmpty(@Nullable Object[] arr) {
         return arr == null || arr.length == 0;
     }
 
-    public static boolean isEmpty(short @Nullable [] array)
-    {
-        return array == null || array.length == 0;
+    public static boolean isNotEmpty(@Nullable Object[] arr) {
+        return !isEmpty(arr);
     }
 
     public static boolean isArray(@Nullable Object value) {
         return value != null && value.getClass().isArray();
     }
 
-    public static boolean contains(short @Nullable [] array, short value)
-    {
+    public static boolean contains(short @Nullable [] array, short value) {
         if (array == null)
             return false;
         for (short item : array) {
@@ -59,8 +56,7 @@ public class ArrayUtils {
         return false;
     }
 
-    public static boolean contains(char @Nullable [] array, char value)
-    {
+    public static boolean contains(char @Nullable [] array, char value) {
         if (array == null)
             return false;
         for (char c : array) {
@@ -70,13 +66,11 @@ public class ArrayUtils {
         return false;
     }
 
-    public static boolean isEmpty(int @Nullable [] array)
-    {
+    public static boolean isEmpty(int @Nullable [] array) {
         return array == null || array.length == 0;
     }
 
-    public static boolean contains(int @Nullable [] array, int value)
-    {
+    public static boolean contains(int @Nullable [] array, int value) {
         if (array == null)
             return false;
         for (int v : array) {
@@ -86,13 +80,11 @@ public class ArrayUtils {
         return false;
     }
 
-    public static boolean isEmpty(long @Nullable [] array)
-    {
+    public static boolean isEmpty(long @Nullable [] array) {
         return array == null || array.length == 0;
     }
 
-    public static boolean contains(long @Nullable [] array, long value)
-    {
+    public static boolean contains(long @Nullable [] array, long value) {
         if (array == null)
             return false;
         for (long v : array) {
@@ -102,8 +94,7 @@ public class ArrayUtils {
         return false;
     }
 
-    public static <OBJECT_TYPE> boolean contains(OBJECT_TYPE[] array, OBJECT_TYPE value)
-    {
+    public static <OBJECT_TYPE> boolean contains(OBJECT_TYPE[] array, OBJECT_TYPE value) {
         if (isEmpty(array))
             return false;
         for (OBJECT_TYPE object_type : array) {
@@ -113,8 +104,7 @@ public class ArrayUtils {
         return false;
     }
 
-    public static boolean containsIgnoreCase(String[] array, String value)
-    {
+    public static boolean containsIgnoreCase(String[] array, String value) {
         if (isEmpty(array) || value == null)
             return false;
         for (String s : array) {
@@ -124,8 +114,7 @@ public class ArrayUtils {
         return false;
     }
 
-    public static <OBJECT_TYPE> boolean containsRef(@NotNull OBJECT_TYPE[] array, @Nullable OBJECT_TYPE value)
-    {
+    public static <OBJECT_TYPE> boolean containsRef(@NotNull OBJECT_TYPE[] array, @Nullable OBJECT_TYPE value) {
         final int length = array.length;
         for (OBJECT_TYPE object_type : array) {
             if (value == object_type)
@@ -158,16 +147,14 @@ public class ArrayUtils {
     }
 
     @NotNull
-    public static <T> T[] concatArrays(@NotNull T[] first, @NotNull T[] second)
-    {
+    public static <T> T[] concatArrays(@NotNull T[] first, @NotNull T[] second) {
         T[] result = Arrays.copyOf(first, first.length + second.length);
         System.arraycopy(second, 0, result, first.length, second.length);
         return result;
     }
 
     @NotNull
-    public static <T> List<T> safeArray(@Nullable T[] array)
-    {
+    public static <T> List<T> safeArray(@Nullable T[] array) {
         if (array == null) {
             return Collections.emptyList();
         } else {
@@ -176,7 +163,7 @@ public class ArrayUtils {
     }
 
     /**
-     * Returns index of the first found element satisfying a given predicate in the provided array 
+     * Returns index of the first found element satisfying a given predicate in the provided array
      */
     public static <T> int indexOf(@NotNull T[] array, @NotNull Predicate<T> condition) {
         for (int i = 0; i < array.length; i++) {

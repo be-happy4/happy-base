@@ -1,6 +1,8 @@
 package org.happy.common.utils;
 
-import com.alibaba.fastjson2.JSONArray;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.happy.common.constant.CacheConstants;
 import org.happy.common.core.domain.entity.SysDictData;
 import org.happy.common.core.redis.RedisCache;
@@ -8,9 +10,6 @@ import org.happy.common.utils.spring.SpringUtils;
 
 import java.util.Collection;
 import java.util.List;
-
-import static org.apache.commons.lang3.StringUtils.startsWithIgnoreCase;
-import static org.apache.commons.lang3.StringUtils.substringAfter;
 
 /**
  * 字典工具类
@@ -22,6 +21,7 @@ public class DictUtils {
      * 分隔符
      */
     public static final String SEPARATOR = ",";
+    static final ObjectMapper MAPPER = new ObjectMapper();
 
     /**
      * 设置字典缓存
@@ -40,9 +40,9 @@ public class DictUtils {
      * @return dictDatas 字典数据列表
      */
     public static List<SysDictData> getDictCache(String key) {
-        JSONArray arrayCache = SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKey(key));
+        ArrayNode arrayCache = SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKey(key));
         if (null != arrayCache) {
-            return arrayCache.toList(SysDictData.class);
+            return MAPPER.convertValue(arrayCache, new TypeReference<List<SysDictData>>() {});
         }
         return null;
     }

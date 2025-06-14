@@ -1,6 +1,8 @@
 package org.happy.framework.aspectj;
 
-import com.alibaba.fastjson2.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.ArrayUtils;
@@ -15,7 +17,6 @@ import org.happy.common.core.domain.model.LoginUser;
 import org.happy.common.core.text.Convert;
 import org.happy.common.enums.BusinessStatus;
 import org.happy.common.enums.HttpMethod;
-import org.happy.common.filter.PropertyPreExcludeFilter;
 import org.happy.common.utils.ExceptionUtil;
 import org.happy.common.utils.SecurityUtils;
 import org.happy.common.utils.ServletUtils;
@@ -53,6 +54,8 @@ public class LogAspect {
      * 计算操作消耗时间
      */
     private static final ThreadLocal<Long> TIME_THREADLOCAL = new NamedThreadLocal<Long>("Cost Time");
+
+    static final ObjectMapper MAPPER = new ObjectMapper();
 
     /**
      * 处理请求前执行
@@ -149,7 +152,8 @@ public class LogAspect {
         }
         // 是否需要保存response，参数和值
         if (log.isSaveResponseData() && null != jsonResult) {
-            operLog.setJsonResult(StringUtils.substring(JSON.toJSONString(jsonResult), 0, 2000));
+            operLog.setJsonResult(StringUtils.substring(
+                    MAPPER.writeValueAsString(jsonResult), 0, 2000));
         }
     }
 
@@ -166,7 +170,8 @@ public class LogAspect {
             String params = argsArrayToString(joinPoint.getArgs(), excludeParamNames);
             operLog.setOperParam(StringUtils.substring(params, 0, 2000));
         } else {
-            operLog.setOperParam(StringUtils.substring(JSON.toJSONString(paramsMap, excludePropertyPreFilter(excludeParamNames)), 0, 2000));
+            operLog.setOperParam(StringUtils.substring(MAPPER.writer(excludePropertyPreFilter(excludeParamNames))
+                    .writeValueAsString(paramsMap), 0, 2000));
         }
     }
 
@@ -174,26 +179,30 @@ public class LogAspect {
      * 参数拼装
      */
     private String argsArrayToString(Object[] paramsArray, String[] excludeParamNames) {
-        String params = "";
+        StringBuilder params = new StringBuilder();
         if (paramsArray != null) {
             for (Object o : paramsArray) {
                 if (null != o && !isFilterObject(o)) {
                     try {
-                        String jsonObj = JSON.toJSONString(o, excludePropertyPreFilter(excludeParamNames));
-                        params += jsonObj + " ";
+                        String jsonObj = MAPPER.writer(excludePropertyPreFilter(excludeParamNames))
+                                .writeValueAsString(o);
+                        params.append(jsonObj).append(" ");
                     } catch (Exception e) {
                     }
                 }
             }
         }
-        return params.trim();
+        return params.toString().trim();
     }
 
     /**
      * 忽略敏感属性
      */
-    public PropertyPreExcludeFilter excludePropertyPreFilter(String[] excludeParamNames) {
-        return new PropertyPreExcludeFilter().addExcludes(ArrayUtils.addAll(EXCLUDE_PROPERTIES, excludeParamNames));
+    public SimpleFilterProvider excludePropertyPreFilter(String[] excludeParamNames) {
+        return new SimpleFilterProvider().addFilter("filter",
+                SimpleBeanPropertyFilter.filterOutAllExcept(
+                        ArrayUtils.addAll(EXCLUDE_PROPERTIES, excludeParamNames)
+                ));
     }
 
     /**

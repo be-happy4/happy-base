@@ -1,6 +1,7 @@
 package org.happy.framework.interceptor.impl;
 
-import com.alibaba.fastjson2.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.happy.common.annotation.RepeatSubmit;
 import org.happy.common.constant.CacheConstants;
@@ -28,6 +29,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     public final String REPEAT_PARAMS = "repeatParams";
 
     public final String REPEAT_TIME = "repeatTime";
+    final ObjectMapper mapper = new ObjectMapper();
 
     // 令牌自定义标识
     @Value("${token.header}")
@@ -38,7 +40,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) {
+    public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) throws JsonProcessingException {
         String nowParams = "";
         if (request instanceof RepeatedlyRequestWrapper repeatedlyRequest) {
             nowParams = HttpHelper.getBodyString(repeatedlyRequest);
@@ -46,7 +48,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
 
         // body参数为空，获取Parameter的数据
         if (StringUtils.isEmpty(nowParams)) {
-            nowParams = JSON.toJSONString(request.getParameterMap());
+            nowParams = mapper.writeValueAsString(request.getParameterMap());
         }
         Map<String, Object> nowDataMap = new HashMap<String, Object>();
         nowDataMap.put(REPEAT_PARAMS, nowParams);

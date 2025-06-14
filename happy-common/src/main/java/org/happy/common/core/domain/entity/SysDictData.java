@@ -2,6 +2,8 @@ package org.happy.common.core.domain.entity;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.annotation.Excel;
@@ -14,9 +16,9 @@ import org.happy.common.core.domain.BaseEntity;
  *
  * @author happy
  */
+@Getter
+@Setter
 public class SysDictData extends BaseEntity {
-    private static final long serialVersionUID = 1L;
-
     /**
      * 字典编码
      */
@@ -69,16 +71,8 @@ public class SysDictData extends BaseEntity {
     @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
     private String status;
 
-    public Long getDictCode() {
-        return dictCode;
-    }
-
     public void setDictCode(Long dictCode) {
         this.dictCode = dictCode;
-    }
-
-    public Long getDictSort() {
-        return dictSort;
     }
 
     public void setDictSort(Long dictSort) {
@@ -124,10 +118,6 @@ public class SysDictData extends BaseEntity {
         this.cssClass = cssClass;
     }
 
-    public String getListClass() {
-        return listClass;
-    }
-
     public void setListClass(String listClass) {
         this.listClass = listClass;
     }
@@ -136,16 +126,8 @@ public class SysDictData extends BaseEntity {
         return UserConstants.YES.equals(this.isDefault);
     }
 
-    public String getIsDefault() {
-        return isDefault;
-    }
-
     public void setIsDefault(String isDefault) {
         this.isDefault = isDefault;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public void setStatus(String status) {
