@@ -62,6 +62,7 @@ public class SysRegisterService {
             msg = "保存用户'" + username + "'失败，注册账号已存在";
         } else {
             sysUser.setNickName(username);
+            sysUser.setPwdUpdateDate(DateUtils.getNowDate());
             sysUser.setPassword(SecurityUtils.encryptPassword(password));
             boolean regFlag = userService.registerUser(sysUser);
             if (!regFlag) {

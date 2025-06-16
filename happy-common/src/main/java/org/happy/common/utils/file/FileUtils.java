@@ -19,6 +19,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * 文件处理工具类
  *
@@ -87,6 +93,16 @@ public class FileUtils {
             IOUtils.close(fos);
         }
         return FileUploadUtils.getPathFileName(uploadDir, pathName);
+    }
+
+    /**
+     * 移除路径中的请求前缀片段
+     *
+     * @param filePath 文件路径
+     * @return 移除后的文件路径
+     */
+    public static String stripPrefix(String filePath) {
+        return StringUtils.substringAfter(filePath, Constants.RESOURCE_PREFIX);
     }
 
     /**

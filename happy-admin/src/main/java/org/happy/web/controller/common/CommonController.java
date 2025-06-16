@@ -6,6 +6,7 @@ import org.happy.common.config.HappyConfig;
 import org.happy.common.constant.Constants;
 import org.happy.common.core.domain.AjaxResult;
 import org.happy.common.utils.StringUtils;
+import org.happy.common.utils.FileUtils;
 import org.happy.common.utils.file.FileUploadUtils;
 import org.happy.common.utils.file.FileUtils;
 import org.happy.framework.config.ServerConfig;
@@ -130,7 +131,7 @@ public class CommonController {
             // 本地资源路径
             String localPath = HappyConfig.getProfile();
             // 数据库资源地址
-            String downloadPath = localPath + StringUtils.substringAfter(resource, Constants.RESOURCE_PREFIX);
+            String downloadPath = localPath + FileUtils.stripPrefix(resource);
             // 下载名称
             String downloadName = StringUtils.substringAfterLast(downloadPath, "/");
             response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);

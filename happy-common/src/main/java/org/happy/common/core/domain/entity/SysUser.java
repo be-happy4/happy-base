@@ -101,6 +101,11 @@ public class SysUser extends BaseEntity {
     private Date loginDate;
 
     /**
+     * 密码最后更新时间
+     */
+    private Date pwdUpdateDate;
+
+    /**
      * 部门对象
      */
     @Excels({
@@ -185,6 +190,7 @@ public class SysUser extends BaseEntity {
                 .append("status", getStatus())
                 .append("loginIp", getLoginIp())
                 .append("loginDate", getLoginDate())
+                .append("pwdUpdateDate", getPwdUpdateDate())
                 .append("createBy", getCreateBy())
                 .append("createTime", getCreateTime())
                 .append("updateBy", getUpdateBy())

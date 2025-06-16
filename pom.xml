@@ -6,7 +6,7 @@
 
     <groupId>org.happy</groupId>
     <artifactId>happy</artifactId>
-    <version>3.8.9</version>
+    <version>3.9.0</version>
 
     <name>happy</name>
     <url>http://www.happy.vip</url>
@@ -64,7 +64,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.version>1.0.0-SNAPSHOT</project.version>
         <redisson.version>3.20.0</redisson.version>
-        <happy.version>3.8.9</happy.version>
+        <happy.version>3.9.0</happy.version>
         <slf4j.version>2.0.16</slf4j.version>
         <spring-boot-starter-data-redis.version>3.0.1</spring-boot-starter-data-redis.version>
         <spring-boot.version>3.4.4</spring-boot.version>
