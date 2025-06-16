@@ -21,7 +21,7 @@ public class DictUtils {
      * 分隔符
      */
     public static final String SEPARATOR = ",";
-    static final ObjectMapper MAPPER = new ObjectMapper();
+    static final ObjectMapper MAPPER = JsonUtils.newPolymorphicMapper();
 
     /**
      * 设置字典缓存
@@ -40,11 +40,7 @@ public class DictUtils {
      * @return dictDatas 字典数据列表
      */
     public static List<SysDictData> getDictCache(String key) {
-        ArrayNode arrayCache = SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKey(key));
-        if (null != arrayCache) {
-            return MAPPER.convertValue(arrayCache, new TypeReference<List<SysDictData>>() {});
-        }
-        return null;
+        return SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKey(key));
     }
 
     /**

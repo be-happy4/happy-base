@@ -418,13 +418,13 @@ export default {
     },
     // 任务状态修改
     handleStatusChange(row) {
-      let text = row.status === "0" ? "启用" : "停用"
+      let text = row.status === "OK" ? "启用" : "停用"
       this.$modal.confirm('确认要"' + text + '""' + row.jobName + '"任务吗？').then(function() {
         return changeJobStatus(row.jobId, row.status)
       }).then(() => {
         this.$modal.msgSuccess(text + "成功")
       }).catch(function() {
-        row.status = row.status === "0" ? "1" : "0"
+        row.status = row.status === "OK" ? "DISABLED" : "OK"
       })
     },
     /* 立即执行一次 */

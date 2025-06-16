@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.core.domain.BaseEntity;
+import org.happy.common.enums.DataStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,9 +88,9 @@ public class SysMenu extends BaseEntity {
     private String visible;
 
     /**
-     * 菜单状态（0正常 1停用）
+     * 菜单状态
      */
-    private String status;
+    private DataStatus status;
 
     /**
      * 权限字符串

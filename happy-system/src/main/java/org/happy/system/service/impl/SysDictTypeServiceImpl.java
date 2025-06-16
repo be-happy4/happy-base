@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import org.happy.common.constant.UserConstants;
 import org.happy.common.core.domain.entity.SysDictData;
 import org.happy.common.core.domain.entity.SysDictType;
+import org.happy.common.enums.DataStatus;
 import org.happy.common.exception.ServiceException;
 import org.happy.common.utils.DictUtils;
 import org.happy.common.utils.StringUtils;
@@ -126,7 +127,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
     @Override
     public void loadingDictCache() {
         SysDictData dictData = new SysDictData();
-        dictData.setStatus("0");
+        dictData.setStatus(DataStatus.OK);
         Map<String, List<SysDictData>> dictDataMap = dictDataMapper.selectDictDataList(dictData).stream().collect(Collectors.groupingBy(SysDictData::getDictType));
         for (Map.Entry<String, List<SysDictData>> entry : dictDataMap.entrySet()) {
             DictUtils.setDictCache(entry.getKey(), entry.getValue().stream().sorted(Comparator.comparing(SysDictData::getDictSort)).collect(Collectors.toList()));

@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.happy.common.annotation.RepeatSubmit;
 import org.happy.common.core.domain.AjaxResult;
 import org.happy.common.utils.ServletUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -20,7 +21,8 @@ import java.lang.reflect.Method;
  */
 @Component
 public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
-    final ObjectMapper mapper = new ObjectMapper();
+    @Autowired
+    ObjectMapper mapper;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

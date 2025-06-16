@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.annotation.Excel;
 import org.happy.common.annotation.Excel.ColumnType;
 import org.happy.common.core.domain.BaseEntity;
+import org.happy.common.enums.DataStatus;
 
 import java.util.Set;
 
@@ -64,15 +65,15 @@ public class SysRole extends BaseEntity {
     private boolean deptCheckStrictly;
 
     /**
-     * 角色状态（0正常 1停用）
+     * 角色状态
      */
-    @Excel(name = "角色状态", readConverterExp = "0=正常,1=停用")
-    private String status;
+    @Excel(name = "角色状态")
+    private DataStatus status;
 
     /**
-     * 删除标志（0代表存在 2代表删除）
+     * 删除标志
      */
-    private String delFlag;
+    private Boolean delFlag;
 
     /**
      * 用户是否存在此角色标识 默认不存在

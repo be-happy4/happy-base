@@ -6,10 +6,13 @@ import org.happy.common.core.domain.entity.SysMenu;
 import org.happy.common.core.domain.entity.SysUser;
 import org.happy.common.core.domain.model.LoginBody;
 import org.happy.common.core.domain.model.LoginUser;
+import org.happy.common.core.text.Convert;
+import org.happy.common.utils.DateUtils;
 import org.happy.common.utils.SecurityUtils;
 import org.happy.framework.web.service.SysLoginService;
 import org.happy.framework.web.service.SysPermissionService;
 import org.happy.framework.web.service.TokenService;
+import org.happy.system.service.ISysConfigService;
 import org.happy.system.service.ISysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -97,25 +103,20 @@ public class SysLoginController {
     }
 
     // 检查初始密码是否提醒修改
-    public boolean initPasswordIsModify(Date pwdUpdateDate)
-    {
+    public boolean initPasswordIsModify(LocalDateTime pwdUpdateDate) {
         Integer initPasswordModify = Convert.toInt(configService.selectConfigByKey("sys.account.initPasswordModify"));
         return initPasswordModify != null && initPasswordModify == 1 && pwdUpdateDate == null;
     }
 
     // 检查密码是否过期
-    public boolean passwordIsExpiration(Date pwdUpdateDate)
-    {
+    public boolean passwordIsExpiration(LocalDateTime pwdUpdateDate) {
         Integer passwordValidateDays = Convert.toInt(configService.selectConfigByKey("sys.account.passwordValidateDays"));
-        if (passwordValidateDays != null && passwordValidateDays > 0)
-        {
-            if (StringUtils.isNull(pwdUpdateDate))
-            {
+        if (passwordValidateDays != null && passwordValidateDays > 0) {
+            if (null == pwdUpdateDate) {
                 // 如果从未修改过初始密码，直接提醒过期
                 return true;
             }
-            Date nowDate = DateUtils.getNowDate();
-            return DateUtils.differentDaysByMillisecond(nowDate, pwdUpdateDate) > passwordValidateDays;
+            return Duration.between(pwdUpdateDate, LocalDateTime.now()).toDays() > passwordValidateDays;
         }
         return false;
     }

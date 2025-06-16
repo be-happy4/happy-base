@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    <if test="dictName != null and dictName != ''">
 				AND dict_name like concat('%', #{dictName}, '%')
 			</if>
-			<if test="status != null and status != ''">
+			<if test="status != null">
 				AND status = #{status}
 			</if>
 			<if test="dictType != null and dictType != ''">

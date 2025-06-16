@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="dictLabel != null and dictLabel != ''">
 				AND dict_label like concat('%', #{dictLabel}, '%')
 			</if>
-			<if test="status != null and status != ''">
+			<if test="status != null">
 				AND status = #{status}
 			</if>
 		</where>
@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectDictDataByType" parameterType="String" resultMap="SysDictDataResult">
 		<include refid="selectDictDataVo"/>
-		where status = '0' and dict_type = #{dictType} order by dict_sort asc
+		where status = 'OK' and dict_type = #{dictType} order by dict_sort asc
 	</select>
 	
 	<select id="selectDictLabel" resultType="String">

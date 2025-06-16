@@ -13,11 +13,12 @@ import org.happy.common.annotation.Excel.ColumnType;
 import org.happy.common.annotation.Excel.Type;
 import org.happy.common.annotation.Excels;
 import org.happy.common.core.domain.BaseEntity;
-import org.happy.common.enums.UserStatus;
+import org.happy.common.enums.SexEnum;
+import org.happy.common.enums.DataStatus;
 import org.happy.common.utils.TimeUtils;
 import org.happy.common.xss.Xss;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -64,8 +65,8 @@ public class SysUser extends BaseEntity {
     /**
      * 用户性别
      */
-    @Excel(name = "用户性别", readConverterExp = "0=男,1=女,2=未知")
-    private String sex;
+    @Excel(name = "用户性别")
+    private SexEnum sex;
 
     /**
      * 用户头像
@@ -80,13 +81,13 @@ public class SysUser extends BaseEntity {
     /**
      * 账号状态（0正常 1停用）
      */
-    @Excel(name = "账号状态", readConverterExp = "0=正常,1=停用,2=删除")
-    private UserStatus status;
+    @Excel(name = "账号状态")
+    private DataStatus status;
 
     /**
-     * 删除标志（0代表存在 2代表删除）
+     * 删除标志
      */
-    private String delFlag;
+    private Boolean delFlag;
 
     /**
      * 最后登录IP
@@ -98,12 +99,12 @@ public class SysUser extends BaseEntity {
      * 最后登录时间
      */
     @Excel(name = "最后登录时间", width = 30, dateFormat = TimeUtils.PATTERN_DEFAULT, type = Type.EXPORT)
-    private Date loginDate;
+    private LocalDateTime loginDate;
 
     /**
      * 密码最后更新时间
      */
-    private Date pwdUpdateDate;
+    private LocalDateTime pwdUpdateDate;
 
     /**
      * 部门对象

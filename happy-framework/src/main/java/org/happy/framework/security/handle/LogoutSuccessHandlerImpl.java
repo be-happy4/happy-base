@@ -30,7 +30,8 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
     @Autowired
     private TokenService tokenService;
 
-    final ObjectMapper mapper = new ObjectMapper();
+    @Autowired
+    ObjectMapper mapper;
 
     /**
      * 退出处理

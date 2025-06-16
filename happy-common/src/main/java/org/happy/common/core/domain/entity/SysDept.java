@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.core.domain.BaseEntity;
+import org.happy.common.enums.DataStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,6 @@ import java.util.List;
 @Getter
 @Setter
 public class SysDept extends BaseEntity {
-    private static final long serialVersionUID = 1L;
 
     /**
      * 部门ID
@@ -64,14 +64,14 @@ public class SysDept extends BaseEntity {
     private String email;
 
     /**
-     * 部门状态:0正常,1停用
+     * 部门状态
      */
-    private String status;
+    private DataStatus status;
 
     /**
-     * 删除标志（0代表存在 2代表删除）
+     * 删除标志
      */
-    private String delFlag;
+    private Boolean delFlag;
 
     /**
      * 父部门名称

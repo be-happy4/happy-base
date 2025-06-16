@@ -4,11 +4,80 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f35b974c-7e48-4e18-9c98-de8ed8c2fea4" name="Changes" comment="Import vue3 repo" />
+    <list default="true" id="f35b974c-7e48-4e18-9c98-de8ed8c2fea4" name="Changes" comment="Import vue3 repo">
+      <change afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/enums/SexEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/utils/JsonUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/config/JacksonConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/config/mybatis/DataStatusTypeHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-admin/src/main/java/org/happy/web/controller/common/CommonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-admin/src/main/java/org/happy/web/controller/common/CommonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-admin/src/main/java/org/happy/web/controller/system/SysLoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-admin/src/main/java/org/happy/web/controller/system/SysLoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-admin/src/main/java/org/happy/web/controller/system/SysProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-admin/src/main/java/org/happy/web/controller/system/SysProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-admin/src/main/resources/db/changelog/20250521-happy.sql" beforeDir="false" afterPath="$PROJECT_DIR$/happy-admin/src/main/resources/db/changelog/20250521-happy.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-admin/src/main/resources/mybatis/mybatis-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/happy-admin/src/main/resources/mybatis/mybatis-config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/annotation/Excel.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/annotation/Excel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/entity/SysDept.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/entity/SysDept.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/entity/SysDictData.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/entity/SysDictData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/entity/SysDictType.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/entity/SysDictType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/entity/SysMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/entity/SysMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/entity/SysRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/entity/SysRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/entity/SysUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/entity/SysUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/model/LoginBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/core/domain/model/LoginBody.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/enums/UserStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/enums/DataStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/utils/DateUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/utils/DateUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/utils/DictUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/utils/DictUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/utils/file/FileUploadUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/utils/file/FileUploadUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/utils/file/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-common/src/main/java/org/happy/common/utils/file/FileUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/aspectj/LogAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/aspectj/LogAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/config/MyBatisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/config/MyBatisConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/config/RedisConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/interceptor/RepeatSubmitInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/interceptor/RepeatSubmitInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/interceptor/impl/SameUrlDataInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/interceptor/impl/SameUrlDataInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/security/handle/AuthenticationEntryPointImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/security/handle/AuthenticationEntryPointImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/security/handle/LogoutSuccessHandlerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/security/handle/LogoutSuccessHandlerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/web/service/SysLoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/web/service/SysLoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/web/service/SysRegisterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/web/service/SysRegisterService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/web/service/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/web/service/TokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/web/service/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-framework/src/main/java/org/happy/framework/web/service/UserDetailsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-generator/src/main/java/org/happy/generator/util/VelocityUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-generator/src/main/java/org/happy/generator/util/VelocityUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-system/src/main/java/org/happy/system/domain/SysLogininfor.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-system/src/main/java/org/happy/system/domain/SysLogininfor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-system/src/main/java/org/happy/system/domain/SysOperLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-system/src/main/java/org/happy/system/domain/SysOperLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-system/src/main/java/org/happy/system/domain/SysPost.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-system/src/main/java/org/happy/system/domain/SysPost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-system/src/main/java/org/happy/system/mapper/SysUserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-system/src/main/java/org/happy/system/mapper/SysUserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-system/src/main/java/org/happy/system/service/impl/SysDictTypeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/happy-system/src/main/java/org/happy/system/service/impl/SysDictTypeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysDeptMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysDeptMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysDictDataMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysDictDataMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysDictTypeMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysDictTypeMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysMenuMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysMenuMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysPostMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysPostMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysRoleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysRoleMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysUserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/happy-system/src/main/resources/mapper/system/SysUserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-ui/src/views/monitor/job/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/happy-ui/src/views/monitor/job/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-ui/src/views/system/role/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/happy-ui/src/views/system/role/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-ui/src/views/system/user/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/happy-ui/src/views/system/user/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/happy-ui/src/views/system/user/profile/userInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/happy-ui/src/views/system/user/profile/userInfo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ruoyi-ui/src/layout/components/Copyright/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/happy-ui/src/layout/components/Copyright/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/ry_20250522.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/ry_20250522.sql" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+      <option value="module" />
+      <option value="repository" />
+    </option>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -69,13 +138,14 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;Application.HappyApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.HappyApplication.executor&quot;: &quot;Debug&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;springboot3&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/songyd/IdeaProjects/happy/happy-base/ruoyi-admin/src/main/resources&quot;
+    &quot;last_opened_file_path&quot;: &quot;/Users/songyd/IdeaProjects/happy/happy-base&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -83,7 +153,11 @@
       <recent name="$PROJECT_DIR$/ruoyi-admin/src/main/resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/happy-ui/src/layout/components" />
       <recent name="$PROJECT_DIR$/ruoyi-admin/src/main/resources/db" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.happy.common.core.domain.code" />
     </key>
   </component>
   <component name="RunManager">
@@ -130,7 +204,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747898986430</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Import vue3 repo">
+      <option name="closed" value="true" />
+      <created>1747899408052</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1747899408052</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Import vue3 repo">
+      <option name="closed" value="true" />
+      <created>1750035014511</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1750035014511</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

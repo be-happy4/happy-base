@@ -7,9 +7,11 @@ import org.happy.common.core.domain.AjaxResult;
 import org.happy.common.core.domain.entity.SysUser;
 import org.happy.common.core.domain.model.LoginUser;
 import org.happy.common.enums.BusinessType;
+import org.happy.common.utils.DateUtils;
 import org.happy.common.utils.SecurityUtils;
 import org.happy.common.utils.StringUtils;
 import org.happy.common.utils.file.FileUploadUtils;
+import org.happy.common.utils.file.FileUtils;
 import org.happy.common.utils.file.MimeTypeUtils;
 import org.happy.framework.web.service.TokenService;
 import org.happy.system.service.ISysUserService;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -98,7 +101,7 @@ public class SysProfileController extends BaseController {
         newPassword = SecurityUtils.encryptPassword(newPassword);
         if (userService.resetUserPwd(userId, newPassword) > 0) {
             // 更新缓存用户密码&密码最后更新时间
-            loginUser.getUser().setPwdUpdateDate(DateUtils.getNowDate());
+            loginUser.getUser().setPwdUpdateDate(LocalDateTime.now());
             loginUser.getUser().setPassword(newPassword);
             tokenService.setLoginUser(loginUser);
             return success();
@@ -118,7 +121,7 @@ public class SysProfileController extends BaseController {
             if (userService.updateUserAvatar(loginUser.getUserId(), avatar)) {
                 String oldAvatar = loginUser.getUser().getAvatar();
                 if (StringUtils.isNotEmpty(oldAvatar)) {
-                    FileUtils.deleteFile(RuoYiConfig.getProfile() + FileUtils.stripPrefix(oldAvatar));
+                    FileUtils.deleteFile(HappyConfig.getProfile() + FileUtils.stripPrefix(oldAvatar));
                 }
                 AjaxResult ajax = AjaxResult.success();
                 ajax.put("imgUrl", avatar);

@@ -1,3 +1,7 @@
+
+drop type if exists data_status cascade;
+create type data_status as enum ('OK', 'DISABLE', 'DELETED');
+
 -- ----------------------------
 -- 1、部门表
 -- ----------------------------
@@ -11,8 +15,8 @@ create table sys_dept (
   leader            varchar(20)     default null,
   phone             varchar(11)     default null,
   email             varchar(50)     default null,
-  status            char(1)         default '0',
-  del_flag          char(1)         default '0',
+  status            data_status     default 'OK' not null,
+  del_flag          bool            generated always as (status = 'DELETED') stored not null,
   create_by         varchar(64)     default '',
   create_time 	    timestamp(0),
   update_by         varchar(64)     default '',
@@ -28,8 +32,8 @@ comment on column sys_dept.order_num is '显示顺序';
 comment on column sys_dept.leader is '负责人';
 comment on column sys_dept.phone is '联系电话';
 comment on column sys_dept.email is '邮箱';
-comment on column sys_dept.status is '部门状态（0正常 1停用）';
-comment on column sys_dept.del_flag is '删除标志（0代表存在 2代表删除）';
+comment on column sys_dept.status is '部门状态';
+comment on column sys_dept.del_flag is '删除标志';
 comment on column sys_dept.create_by is '创建者';
 comment on column sys_dept.create_time is '创建时间';
 comment on column sys_dept.update_by is '更新者';
@@ -39,24 +43,25 @@ select setval(pg_get_serial_sequence('sys_dept', 'dept_id'), 200) from sys_dept;
 -- ----------------------------
 -- 初始化-部门表数据
 -- ----------------------------
-insert into sys_dept overriding system value values(100,  0,   '0',          '开心科技',   0, '开心', '15888888888', 'happy@qq.com', '0', '0', 'admin', now(), '', null);
-insert into sys_dept overriding system value values(101,  100, '0,100',      '深圳总公司', 1, '开心', '15888888888', 'happy@qq.com', '0', '0', 'admin', now(), '', null);
-insert into sys_dept overriding system value values(102,  100, '0,100',      '长沙分公司', 2, '开心', '15888888888', 'happy@qq.com', '0', '0', 'admin', now(), '', null);
-insert into sys_dept overriding system value values(103,  101, '0,100,101',  '研发部门',   1, '开心', '15888888888', 'happy@qq.com', '0', '0', 'admin', now(), '', null);
-insert into sys_dept overriding system value values(104,  101, '0,100,101',  '市场部门',   2, '开心', '15888888888', 'happy@qq.com', '0', '0', 'admin', now(), '', null);
-insert into sys_dept overriding system value values(105,  101, '0,100,101',  '测试部门',   3, '开心', '15888888888', 'happy@qq.com', '0', '0', 'admin', now(), '', null);
-insert into sys_dept overriding system value values(106,  101, '0,100,101',  '财务部门',   4, '开心', '15888888888', 'happy@qq.com', '0', '0', 'admin', now(), '', null);
-insert into sys_dept overriding system value values(107,  101, '0,100,101',  '运维部门',   5, '开心', '15888888888', 'happy@qq.com', '0', '0', 'admin', now(), '', null);
-insert into sys_dept overriding system value values(108,  102, '0,100,102',  '市场部门',   1, '开心', '15888888888', 'happy@qq.com', '0', '0', 'admin', now(), '', null);
-insert into sys_dept overriding system value values(109,  102, '0,100,102',  '财务部门',   2, '开心', '15888888888', 'happy@qq.com', '0', '0', 'admin', now(), '', null);
+insert into sys_dept overriding system value values(100,  0,   '0',          '开心科技',   0, '开心', '15888888888', 'happy@qq.com', 'OK', DEFAULT, 'admin', now(), '', null);
+insert into sys_dept overriding system value values(101,  100, '0,100',      '深圳总公司', 1, '开心', '15888888888', 'happy@qq.com', 'OK', DEFAULT, 'admin', now(), '', null);
+insert into sys_dept overriding system value values(102,  100, '0,100',      '长沙分公司', 2, '开心', '15888888888', 'happy@qq.com', 'OK', DEFAULT, 'admin', now(), '', null);
+insert into sys_dept overriding system value values(103,  101, '0,100,101',  '研发部门',   1, '开心', '15888888888', 'happy@qq.com', 'OK', DEFAULT, 'admin', now(), '', null);
+insert into sys_dept overriding system value values(104,  101, '0,100,101',  '市场部门',   2, '开心', '15888888888', 'happy@qq.com', 'OK', DEFAULT, 'admin', now(), '', null);
+insert into sys_dept overriding system value values(105,  101, '0,100,101',  '测试部门',   3, '开心', '15888888888', 'happy@qq.com', 'OK', DEFAULT, 'admin', now(), '', null);
+insert into sys_dept overriding system value values(106,  101, '0,100,101',  '财务部门',   4, '开心', '15888888888', 'happy@qq.com', 'OK', DEFAULT, 'admin', now(), '', null);
+insert into sys_dept overriding system value values(107,  101, '0,100,101',  '运维部门',   5, '开心', '15888888888', 'happy@qq.com', 'OK', DEFAULT, 'admin', now(), '', null);
+insert into sys_dept overriding system value values(108,  102, '0,100,102',  '市场部门',   1, '开心', '15888888888', 'happy@qq.com', 'OK', DEFAULT, 'admin', now(), '', null);
+insert into sys_dept overriding system value values(109,  102, '0,100,102',  '财务部门',   2, '开心', '15888888888', 'happy@qq.com', 'OK', DEFAULT, 'admin', now(), '', null);
 
 
 -- ----------------------------
 -- 2、用户信息表
 -- ----------------------------
+drop type if exists user_sex cascade;
+create type user_sex as enum ('MALE', 'FEMALE', 'UNKNOWN');
+
 drop table if exists sys_user;
-drop type if exists user_status;
-create type user_status as enum ('OK', 'DISABLE', 'DELETED');
 create table sys_user (
   user_id           int8            not null generated always as identity,
   dept_id           int8            default null,
@@ -65,13 +70,14 @@ create table sys_user (
   user_type         varchar(2)      default '00',
   email             varchar(50)     default '',
   phonenumber       varchar(11)     default '',
-  sex               char(1)         default '0',
+  sex               user_sex        default 'UNKNOWN',
   avatar            varchar(100)    default '',
   password          varchar(100)    default '',
-  status            user_status     default 'OK',
-  del_flag          char(1)         default '0',
+  status            data_status     default 'OK',
+  del_flag          bool            generated always as (status = 'DELETED') stored not null,
   login_ip          varchar(128)    default '',
   login_date        timestamp(0),
+  pwd_update_date   timestamp(0),
   create_by         varchar(64)     default '',
   create_time       timestamp(0),
   update_by         varchar(64)     default '',
@@ -87,13 +93,14 @@ comment on column sys_user.nick_name is '用户昵称';
 comment on column sys_user.user_type is '用户类型（00系统用户）';
 comment on column sys_user.email is '用户邮箱';
 comment on column sys_user.phonenumber is '手机号码';
-comment on column sys_user.sex is '用户性别（0男 1女 2未知）';
+comment on column sys_user.sex is '用户性别';
 comment on column sys_user.avatar is '头像地址';
 comment on column sys_user.password is '密码';
-comment on column sys_user.status is '账号状态（0正常 1停用）';
-comment on column sys_user.del_flag is '删除标志（0代表存在 2代表删除）';
+comment on column sys_user.status is '账号状态';
+comment on column sys_user.del_flag is '删除标志';
 comment on column sys_user.login_ip is '最后登录IP';
 comment on column sys_user.login_date is '最后登录时间';
+comment on column sys_user.pwd_update_date is '密码最后更新时间';
 comment on column sys_user.create_by is '创建者';
 comment on column sys_user.create_time is '创建时间';
 comment on column sys_user.update_by is '更新者';
@@ -104,8 +111,8 @@ select setval(pg_get_serial_sequence('sys_user', 'user_id'), 106) from sys_user;
 -- ----------------------------
 -- 初始化-用户信息表数据
 -- ----------------------------
-insert into sys_user overriding system value values(1,  103, 'admin', '开心', '00', 'happy@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', 'OK', '0', '127.0.0.1', now(), 'admin', now(), '', null, '管理员');
-insert into sys_user overriding system value values(2,  105, 'happy',    '开心', '00', 'happy@qq.com',  '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', 'OK', '0', '127.0.0.1', now(), 'admin', now(), '', null, '测试员');
+insert into sys_user overriding system value values(1,  103, 'admin', '开心', '00', 'happy@163.com', '15888888888', 'MALE', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', 'OK', DEFAULT, '127.0.0.1', now(), now(), 'admin', now(), '', null, '管理员');
+insert into sys_user overriding system value values(2,  105, 'happy',    '开心', '00', 'happy@qq.com',  '15666666666', 'MALE', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', 'OK', DEFAULT, '127.0.0.1', now(), now(), 'admin', now(), '', null, '测试员');
 
 
 -- ----------------------------
@@ -118,7 +125,7 @@ create table sys_post
   post_code     varchar(64)     not null,
   post_name     varchar(50)     not null,
   post_sort     int             not null,
-  status        char(1)         not null,
+  status        data_status     default 'OK' not null,
   create_by     varchar(64)     default '',
   create_time   timestamp(0),
   update_by     varchar(64)     default '',
@@ -131,7 +138,7 @@ comment on column sys_post.post_id is '岗位ID';
 comment on column sys_post.post_code is '岗位编码';
 comment on column sys_post.post_name is '岗位名称';
 comment on column sys_post.post_sort is '显示顺序';
-comment on column sys_post.status is '状态（0正常 1停用）';
+comment on column sys_post.status is '状态';
 comment on column sys_post.create_by is '创建者';
 comment on column sys_post.create_time is '创建时间';
 comment on column sys_post.update_by is '更新者';
@@ -142,10 +149,10 @@ select setval(pg_get_serial_sequence('sys_post', 'post_id'), 5) from sys_post;
 -- ----------------------------
 -- 初始化-岗位信息表数据
 -- ----------------------------
-insert into sys_post overriding system value values(1, 'ceo',  '董事长',    1, '0', 'admin', now(), '', null, '');
-insert into sys_post overriding system value values(2, 'se',   '项目经理',  2, '0', 'admin', now(), '', null, '');
-insert into sys_post overriding system value values(3, 'hr',   '人力资源',  3, '0', 'admin', now(), '', null, '');
-insert into sys_post overriding system value values(4, 'user', '普通员工',  4, '0', 'admin', now(), '', null, '');
+insert into sys_post overriding system value values(1, 'ceo',  '董事长',    1, 'OK', 'admin', now(), '', null, '');
+insert into sys_post overriding system value values(2, 'se',   '项目经理',  2, 'OK', 'admin', now(), '', null, '');
+insert into sys_post overriding system value values(3, 'hr',   '人力资源',  3, 'OK', 'admin', now(), '', null, '');
+insert into sys_post overriding system value values(4, 'user', '普通员工',  4, 'OK', 'admin', now(), '', null, '');
 
 
 -- ----------------------------
@@ -160,8 +167,8 @@ create table sys_role (
   data_scope           char(1)         default '1',
   menu_check_strictly  int2      default 1,
   dept_check_strictly  int2      default 1,
-  status               char(1)         not null,
-  del_flag             char(1)         default '0',
+  status               data_status     default 'OK' not null,
+  del_flag             bool            generated always as (status = 'DELETED') stored not null,
   create_by            varchar(64)     default '',
   create_time          timestamp(0),
   update_by            varchar(64)     default '',
@@ -177,8 +184,8 @@ comment on column sys_role.role_sort is '显示顺序';
 comment on column sys_role.data_scope is '数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）';
 comment on column sys_role.menu_check_strictly is '菜单树选择项是否关联显示';
 comment on column sys_role.dept_check_strictly is '部门树选择项是否关联显示';
-comment on column sys_role.status is '角色状态（0正常 1停用）';
-comment on column sys_role.del_flag is '删除标志（0代表存在 2代表删除）';
+comment on column sys_role.status is '角色状态';
+comment on column sys_role.del_flag is '删除标志';
 comment on column sys_role.create_by is '创建者';
 comment on column sys_role.create_time is '创建时间';
 comment on column sys_role.update_by is '更新者';
@@ -188,8 +195,8 @@ comment on column sys_role.remark is '备注';
 -- ----------------------------
 -- 初始化-角色信息表数据
 -- ----------------------------
-insert into sys_role values(default, '超级管理员',  'admin',  1, 1, 1, 1, '0', '0', 'admin', now(), '', null, '超级管理员');
-insert into sys_role values(default, '普通角色',    'common', 2, 2, 1, 1, '0', '0', 'admin', now(), '', null, '普通角色');
+insert into sys_role values(default, '超级管理员',  'admin',  1, 1, 1, 1, 'OK', DEFAULT, 'admin', now(), '', null, '超级管理员');
+insert into sys_role values(default, '普通角色',    'common', 2, 2, 1, 1, 'OK', DEFAULT, 'admin', now(), '', null, '普通角色');
 
 
 -- ----------------------------
@@ -209,7 +216,7 @@ create table sys_menu (
   is_cache          int             default 0,
   menu_type         char(1)         default '',
   visible           char(1)         default 0,
-  status            char(1)         default 0,
+  status            data_status     default 'OK' not null,
   perms             varchar(100)    default null,
   icon              varchar(100)    default '#',
   create_by         varchar(64)     default '',
@@ -232,7 +239,7 @@ comment on column sys_menu.is_frame is '是否为外链（0是 1否）';
 comment on column sys_menu.is_cache is '是否缓存（0缓存 1不缓存）';
 comment on column sys_menu.menu_type is '菜单类型（M目录 C菜单 F按钮）';
 comment on column sys_menu.visible is '菜单状态（0显示 1隐藏）';
-comment on column sys_menu.status is '菜单状态（0正常 1停用）';
+comment on column sys_menu.status is '菜单状态';
 comment on column sys_menu.perms is '权限标识';
 comment on column sys_menu.icon is '菜单图标';
 comment on column sys_menu.create_by is '创建者';
@@ -246,106 +253,106 @@ select setval(pg_get_serial_sequence('sys_menu', 'menu_id'), 2000) from sys_menu
 -- 初始化-菜单信息表数据
 -- ----------------------------
 -- 一级菜单
-insert into sys_menu overriding system value values('1', '系统管理', '0', '1', 'system',           null, '', '', 1, 0, 'M', '0', '0', '', 'system',   'admin', now(), '', null, '系统管理目录');
-insert into sys_menu overriding system value values('2', '系统监控', '0', '2', 'monitor',          null, '', '', 1, 0, 'M', '0', '0', '', 'monitor',  'admin', now(), '', null, '系统监控目录');
-insert into sys_menu overriding system value values('3', '系统工具', '0', '3', 'tool',             null, '', '', 1, 0, 'M', '0', '0', '', 'tool',     'admin', now(), '', null, '系统工具目录');
-insert into sys_menu overriding system value values('4', '开心官网', '0', '4', 'http://happy.vip', null, '', '', 0, 0, 'M', '0', '0', '', 'guide',    'admin', now(), '', null, '开心官网地址');
+insert into sys_menu overriding system value values('1', '系统管理', '0', '1', 'system',           null, '', '', 1, 0, 'M', '0', 'OK', '', 'system',   'admin', now(), '', null, '系统管理目录');
+insert into sys_menu overriding system value values('2', '系统监控', '0', '2', 'monitor',          null, '', '', 1, 0, 'M', '0', 'OK', '', 'monitor',  'admin', now(), '', null, '系统监控目录');
+insert into sys_menu overriding system value values('3', '系统工具', '0', '3', 'tool',             null, '', '', 1, 0, 'M', '0', 'OK', '', 'tool',     'admin', now(), '', null, '系统工具目录');
+insert into sys_menu overriding system value values('4', '开心官网', '0', '4', 'http://happy.vip', null, '', '', 0, 0, 'M', '0', 'OK', '', 'guide',    'admin', now(), '', null, '开心官网地址');
 -- 二级菜单
-insert into sys_menu overriding system value values('100',  '用户管理', '1',   '1', 'user',       'system/user/index',        '', '', 1, 0, 'C', '0', '0', 'system:user:list',        'user',          'admin', now(), '', null, '用户管理菜单');
-insert into sys_menu overriding system value values('101',  '角色管理', '1',   '2', 'role',       'system/role/index',        '', '', 1, 0, 'C', '0', '0', 'system:role:list',        'peoples',       'admin', now(), '', null, '角色管理菜单');
-insert into sys_menu overriding system value values('102',  '菜单管理', '1',   '3', 'menu',       'system/menu/index',        '', '', 1, 0, 'C', '0', '0', 'system:menu:list',        'tree-table',    'admin', now(), '', null, '菜单管理菜单');
-insert into sys_menu overriding system value values('103',  '部门管理', '1',   '4', 'dept',       'system/dept/index',        '', '', 1, 0, 'C', '0', '0', 'system:dept:list',        'tree',          'admin', now(), '', null, '部门管理菜单');
-insert into sys_menu overriding system value values('104',  '岗位管理', '1',   '5', 'post',       'system/post/index',        '', '', 1, 0, 'C', '0', '0', 'system:post:list',        'post',          'admin', now(), '', null, '岗位管理菜单');
-insert into sys_menu overriding system value values('105',  '字典管理', '1',   '6', 'dict',       'system/dict/index',        '', '', 1, 0, 'C', '0', '0', 'system:dict:list',        'dict',          'admin', now(), '', null, '字典管理菜单');
-insert into sys_menu overriding system value values('106',  '参数设置', '1',   '7', 'config',     'system/config/index',      '', '', 1, 0, 'C', '0', '0', 'system:config:list',      'edit',          'admin', now(), '', null, '参数设置菜单');
-insert into sys_menu overriding system value values('107',  '通知公告', '1',   '8', 'notice',     'system/notice/index',      '', '', 1, 0, 'C', '0', '0', 'system:notice:list',      'message',       'admin', now(), '', null, '通知公告菜单');
-insert into sys_menu overriding system value values('108',  '日志管理', '1',   '9', 'log',        '',                         '', '', 1, 0, 'M', '0', '0', '',                        'log',           'admin', now(), '', null, '日志管理菜单');
-insert into sys_menu overriding system value values('109',  '在线用户', '2',   '1', 'online',     'monitor/online/index',     '', '', 1, 0, 'C', '0', '0', 'monitor:online:list',     'online',        'admin', now(), '', null, '在线用户菜单');
-insert into sys_menu overriding system value values('110',  '定时任务', '2',   '2', 'job',        'monitor/job/index',        '', '', 1, 0, 'C', '0', '0', 'monitor:job:list',        'job',           'admin', now(), '', null, '定时任务菜单');
-insert into sys_menu overriding system value values('111',  '数据监控', '2',   '3', 'druid',      'monitor/druid/index',      '', '', 1, 0, 'C', '0', '0', 'monitor:druid:list',      'druid',         'admin', now(), '', null, '数据监控菜单');
-insert into sys_menu overriding system value values('112',  '服务监控', '2',   '4', 'server',     'monitor/server/index',     '', '', 1, 0, 'C', '0', '0', 'monitor:server:list',     'server',        'admin', now(), '', null, '服务监控菜单');
-insert into sys_menu overriding system value values('113',  '缓存监控', '2',   '5', 'cache',      'monitor/cache/index',      '', '', 1, 0, 'C', '0', '0', 'monitor:cache:list',      'redis',         'admin', now(), '', null, '缓存监控菜单');
-insert into sys_menu overriding system value values('114',  '缓存列表', '2',   '6', 'cacheList',  'monitor/cache/list',       '', '', 1, 0, 'C', '0', '0', 'monitor:cache:list',      'redis-list',    'admin', now(), '', null, '缓存列表菜单');
-insert into sys_menu overriding system value values('115',  '表单构建', '3',   '1', 'build',      'tool/build/index',         '', '', 1, 0, 'C', '0', '0', 'tool:build:list',         'build',         'admin', now(), '', null, '表单构建菜单');
-insert into sys_menu overriding system value values('116',  '代码生成', '3',   '2', 'gen',        'tool/gen/index',           '', '', 1, 0, 'C', '0', '0', 'tool:gen:list',           'code',          'admin', now(), '', null, '代码生成菜单');
-insert into sys_menu overriding system value values('117',  '系统接口', '3',   '3', 'swagger',    'tool/swagger/index',       '', '', 1, 0, 'C', '0', '0', 'tool:swagger:list',       'swagger',       'admin', now(), '', null, '系统接口菜单');
+insert into sys_menu overriding system value values('100',  '用户管理', '1',   '1', 'user',       'system/user/index',        '', '', 1, 0, 'C', '0', 'OK', 'system:user:list',        'user',          'admin', now(), '', null, '用户管理菜单');
+insert into sys_menu overriding system value values('101',  '角色管理', '1',   '2', 'role',       'system/role/index',        '', '', 1, 0, 'C', '0', 'OK', 'system:role:list',        'peoples',       'admin', now(), '', null, '角色管理菜单');
+insert into sys_menu overriding system value values('102',  '菜单管理', '1',   '3', 'menu',       'system/menu/index',        '', '', 1, 0, 'C', '0', 'OK', 'system:menu:list',        'tree-table',    'admin', now(), '', null, '菜单管理菜单');
+insert into sys_menu overriding system value values('103',  '部门管理', '1',   '4', 'dept',       'system/dept/index',        '', '', 1, 0, 'C', '0', 'OK', 'system:dept:list',        'tree',          'admin', now(), '', null, '部门管理菜单');
+insert into sys_menu overriding system value values('104',  '岗位管理', '1',   '5', 'post',       'system/post/index',        '', '', 1, 0, 'C', '0', 'OK', 'system:post:list',        'post',          'admin', now(), '', null, '岗位管理菜单');
+insert into sys_menu overriding system value values('105',  '字典管理', '1',   '6', 'dict',       'system/dict/index',        '', '', 1, 0, 'C', '0', 'OK', 'system:dict:list',        'dict',          'admin', now(), '', null, '字典管理菜单');
+insert into sys_menu overriding system value values('106',  '参数设置', '1',   '7', 'config',     'system/config/index',      '', '', 1, 0, 'C', '0', 'OK', 'system:config:list',      'edit',          'admin', now(), '', null, '参数设置菜单');
+insert into sys_menu overriding system value values('107',  '通知公告', '1',   '8', 'notice',     'system/notice/index',      '', '', 1, 0, 'C', '0', 'OK', 'system:notice:list',      'message',       'admin', now(), '', null, '通知公告菜单');
+insert into sys_menu overriding system value values('108',  '日志管理', '1',   '9', 'log',        '',                         '', '', 1, 0, 'M', '0', 'OK', '',                        'log',           'admin', now(), '', null, '日志管理菜单');
+insert into sys_menu overriding system value values('109',  '在线用户', '2',   '1', 'online',     'monitor/online/index',     '', '', 1, 0, 'C', '0', 'OK', 'monitor:online:list',     'online',        'admin', now(), '', null, '在线用户菜单');
+insert into sys_menu overriding system value values('110',  '定时任务', '2',   '2', 'job',        'monitor/job/index',        '', '', 1, 0, 'C', '0', 'OK', 'monitor:job:list',        'job',           'admin', now(), '', null, '定时任务菜单');
+insert into sys_menu overriding system value values('111',  '数据监控', '2',   '3', 'druid',      'monitor/druid/index',      '', '', 1, 0, 'C', '0', 'OK', 'monitor:druid:list',      'druid',         'admin', now(), '', null, '数据监控菜单');
+insert into sys_menu overriding system value values('112',  '服务监控', '2',   '4', 'server',     'monitor/server/index',     '', '', 1, 0, 'C', '0', 'OK', 'monitor:server:list',     'server',        'admin', now(), '', null, '服务监控菜单');
+insert into sys_menu overriding system value values('113',  '缓存监控', '2',   '5', 'cache',      'monitor/cache/index',      '', '', 1, 0, 'C', '0', 'OK', 'monitor:cache:list',      'redis',         'admin', now(), '', null, '缓存监控菜单');
+insert into sys_menu overriding system value values('114',  '缓存列表', '2',   '6', 'cacheList',  'monitor/cache/list',       '', '', 1, 0, 'C', '0', 'OK', 'monitor:cache:list',      'redis-list',    'admin', now(), '', null, '缓存列表菜单');
+insert into sys_menu overriding system value values('115',  '表单构建', '3',   '1', 'build',      'tool/build/index',         '', '', 1, 0, 'C', '0', 'OK', 'tool:build:list',         'build',         'admin', now(), '', null, '表单构建菜单');
+insert into sys_menu overriding system value values('116',  '代码生成', '3',   '2', 'gen',        'tool/gen/index',           '', '', 1, 0, 'C', '0', 'OK', 'tool:gen:list',           'code',          'admin', now(), '', null, '代码生成菜单');
+insert into sys_menu overriding system value values('117',  '系统接口', '3',   '3', 'swagger',    'tool/swagger/index',       '', '', 1, 0, 'C', '0', 'OK', 'tool:swagger:list',       'swagger',       'admin', now(), '', null, '系统接口菜单');
 -- 三级菜单
-insert into sys_menu overriding system value values('500',  '操作日志', '108', '1', 'operlog',    'monitor/operlog/index',    '', '', 1, 0, 'C', '0', '0', 'monitor:operlog:list',    'form',          'admin', now(), '', null, '操作日志菜单');
-insert into sys_menu overriding system value values('501',  '登录日志', '108', '2', 'logininfor', 'monitor/logininfor/index', '', '', 1, 0, 'C', '0', '0', 'monitor:logininfor:list', 'logininfor',    'admin', now(), '', null, '登录日志菜单');
+insert into sys_menu overriding system value values('500',  '操作日志', '108', '1', 'operlog',    'monitor/operlog/index',    '', '', 1, 0, 'C', '0', 'OK', 'monitor:operlog:list',    'form',          'admin', now(), '', null, '操作日志菜单');
+insert into sys_menu overriding system value values('501',  '登录日志', '108', '2', 'logininfor', 'monitor/logininfor/index', '', '', 1, 0, 'C', '0', 'OK', 'monitor:logininfor:list', 'logininfor',    'admin', now(), '', null, '登录日志菜单');
 -- 用户管理按钮
-insert into sys_menu overriding system value values('1000', '用户查询', '100', '1',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:user:query',          '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1001', '用户新增', '100', '2',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:user:add',            '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1002', '用户修改', '100', '3',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:user:edit',           '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1003', '用户删除', '100', '4',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:user:remove',         '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1004', '用户导出', '100', '5',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:user:export',         '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1005', '用户导入', '100', '6',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:user:import',         '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1006', '重置密码', '100', '7',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:user:resetPwd',       '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1000', '用户查询', '100', '1',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:user:query',          '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1001', '用户新增', '100', '2',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:user:add',            '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1002', '用户修改', '100', '3',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:user:edit',           '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1003', '用户删除', '100', '4',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:user:remove',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1004', '用户导出', '100', '5',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:user:export',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1005', '用户导入', '100', '6',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:user:import',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1006', '重置密码', '100', '7',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:user:resetPwd',       '#', 'admin', now(), '', null, '');
 -- 角色管理按钮
-insert into sys_menu overriding system value values('1007', '角色查询', '101', '1',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:role:query',          '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1008', '角色新增', '101', '2',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:role:add',            '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1009', '角色修改', '101', '3',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:role:edit',           '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1010', '角色删除', '101', '4',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:role:remove',         '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1011', '角色导出', '101', '5',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:role:export',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1007', '角色查询', '101', '1',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:role:query',          '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1008', '角色新增', '101', '2',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:role:add',            '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1009', '角色修改', '101', '3',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:role:edit',           '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1010', '角色删除', '101', '4',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:role:remove',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1011', '角色导出', '101', '5',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:role:export',         '#', 'admin', now(), '', null, '');
 -- 菜单管理按钮
-insert into sys_menu overriding system value values('1012', '菜单查询', '102', '1',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:menu:query',          '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1013', '菜单新增', '102', '2',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:menu:add',            '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1014', '菜单修改', '102', '3',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:menu:edit',           '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1015', '菜单删除', '102', '4',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:menu:remove',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1012', '菜单查询', '102', '1',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:menu:query',          '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1013', '菜单新增', '102', '2',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:menu:add',            '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1014', '菜单修改', '102', '3',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:menu:edit',           '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1015', '菜单删除', '102', '4',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:menu:remove',         '#', 'admin', now(), '', null, '');
 -- 部门管理按钮
-insert into sys_menu overriding system value values('1016', '部门查询', '103', '1',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:dept:query',          '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1017', '部门新增', '103', '2',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:dept:add',            '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1018', '部门修改', '103', '3',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:dept:edit',           '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1019', '部门删除', '103', '4',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:dept:remove',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1016', '部门查询', '103', '1',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:dept:query',          '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1017', '部门新增', '103', '2',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:dept:add',            '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1018', '部门修改', '103', '3',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:dept:edit',           '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1019', '部门删除', '103', '4',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:dept:remove',         '#', 'admin', now(), '', null, '');
 -- 岗位管理按钮
-insert into sys_menu overriding system value values('1020', '岗位查询', '104', '1',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:post:query',          '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1021', '岗位新增', '104', '2',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:post:add',            '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1022', '岗位修改', '104', '3',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:post:edit',           '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1023', '岗位删除', '104', '4',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:post:remove',         '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1024', '岗位导出', '104', '5',  '', '', '', '', 1, 0, 'F', '0', '0', 'system:post:export',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1020', '岗位查询', '104', '1',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:post:query',          '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1021', '岗位新增', '104', '2',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:post:add',            '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1022', '岗位修改', '104', '3',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:post:edit',           '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1023', '岗位删除', '104', '4',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:post:remove',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1024', '岗位导出', '104', '5',  '', '', '', '', 1, 0, 'F', '0', 'OK', 'system:post:export',         '#', 'admin', now(), '', null, '');
 -- 字典管理按钮
-insert into sys_menu overriding system value values('1025', '字典查询', '105', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:dict:query',          '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1026', '字典新增', '105', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:dict:add',            '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1027', '字典修改', '105', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:dict:edit',           '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1028', '字典删除', '105', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:dict:remove',         '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1029', '字典导出', '105', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:dict:export',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1025', '字典查询', '105', '1', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:dict:query',          '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1026', '字典新增', '105', '2', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:dict:add',            '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1027', '字典修改', '105', '3', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:dict:edit',           '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1028', '字典删除', '105', '4', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:dict:remove',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1029', '字典导出', '105', '5', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:dict:export',         '#', 'admin', now(), '', null, '');
 -- 参数设置按钮
-insert into sys_menu overriding system value values('1030', '参数查询', '106', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:config:query',        '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1031', '参数新增', '106', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:config:add',          '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1032', '参数修改', '106', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:config:edit',         '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1033', '参数删除', '106', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:config:remove',       '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1034', '参数导出', '106', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:config:export',       '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1030', '参数查询', '106', '1', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:config:query',        '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1031', '参数新增', '106', '2', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:config:add',          '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1032', '参数修改', '106', '3', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:config:edit',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1033', '参数删除', '106', '4', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:config:remove',       '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1034', '参数导出', '106', '5', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:config:export',       '#', 'admin', now(), '', null, '');
 -- 通知公告按钮
-insert into sys_menu overriding system value values('1035', '公告查询', '107', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:notice:query',        '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1036', '公告新增', '107', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:notice:add',          '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1037', '公告修改', '107', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:notice:edit',         '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1038', '公告删除', '107', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'system:notice:remove',       '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1035', '公告查询', '107', '1', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:notice:query',        '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1036', '公告新增', '107', '2', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:notice:add',          '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1037', '公告修改', '107', '3', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:notice:edit',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1038', '公告删除', '107', '4', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'system:notice:remove',       '#', 'admin', now(), '', null, '');
 -- 操作日志按钮
-insert into sys_menu overriding system value values('1039', '操作查询', '500', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:operlog:query',      '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1040', '操作删除', '500', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:operlog:remove',     '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1041', '日志导出', '500', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:operlog:export',     '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1039', '操作查询', '500', '1', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:operlog:query',      '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1040', '操作删除', '500', '2', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:operlog:remove',     '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1041', '日志导出', '500', '3', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:operlog:export',     '#', 'admin', now(), '', null, '');
 -- 登录日志按钮
-insert into sys_menu overriding system value values('1042', '登录查询', '501', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:logininfor:query',   '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1043', '登录删除', '501', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:logininfor:remove',  '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1044', '日志导出', '501', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:logininfor:export',  '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1045', '账户解锁', '501', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:logininfor:unlock',  '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1042', '登录查询', '501', '1', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:logininfor:query',   '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1043', '登录删除', '501', '2', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:logininfor:remove',  '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1044', '日志导出', '501', '3', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:logininfor:export',  '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1045', '账户解锁', '501', '4', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:logininfor:unlock',  '#', 'admin', now(), '', null, '');
 -- 在线用户按钮
-insert into sys_menu overriding system value values('1046', '在线查询', '109', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:online:query',       '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1047', '批量强退', '109', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:online:batchLogout', '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1048', '单条强退', '109', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:online:forceLogout', '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1046', '在线查询', '109', '1', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:online:query',       '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1047', '批量强退', '109', '2', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:online:batchLogout', '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1048', '单条强退', '109', '3', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:online:forceLogout', '#', 'admin', now(), '', null, '');
 -- 定时任务按钮
-insert into sys_menu overriding system value values('1049', '任务查询', '110', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:job:query',          '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1050', '任务新增', '110', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:job:add',            '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1051', '任务修改', '110', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:job:edit',           '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1052', '任务删除', '110', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:job:remove',         '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1053', '状态修改', '110', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:job:changeStatus',   '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1054', '任务导出', '110', '6', '#', '', '', '', 1, 0, 'F', '0', '0', 'monitor:job:export',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1049', '任务查询', '110', '1', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:job:query',          '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1050', '任务新增', '110', '2', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:job:add',            '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1051', '任务修改', '110', '3', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:job:edit',           '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1052', '任务删除', '110', '4', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:job:remove',         '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1053', '状态修改', '110', '5', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:job:changeStatus',   '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1054', '任务导出', '110', '6', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'monitor:job:export',         '#', 'admin', now(), '', null, '');
 -- 代码生成按钮
-insert into sys_menu overriding system value values('1055', '生成查询', '116', '1', '#', '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:query',             '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1056', '生成修改', '116', '2', '#', '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:edit',              '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1057', '生成删除', '116', '3', '#', '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:remove',            '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1058', '导入代码', '116', '4', '#', '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:import',            '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1059', '预览代码', '116', '5', '#', '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:preview',           '#', 'admin', now(), '', null, '');
-insert into sys_menu overriding system value values('1060', '生成代码', '116', '6', '#', '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code',              '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1055', '生成查询', '116', '1', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'tool:gen:query',             '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1056', '生成修改', '116', '2', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'tool:gen:edit',              '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1057', '生成删除', '116', '3', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'tool:gen:remove',            '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1058', '导入代码', '116', '4', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'tool:gen:import',            '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1059', '预览代码', '116', '5', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'tool:gen:preview',           '#', 'admin', now(), '', null, '');
+insert into sys_menu overriding system value values('1060', '生成代码', '116', '6', '#', '', '', '', 1, 0, 'F', '0', 'OK', 'tool:gen:code',              '#', 'admin', now(), '', null, '');
 
 
 -- ----------------------------
@@ -568,7 +575,7 @@ create table sys_dict_type
   dict_id          bigint      generated always as identity,
   dict_name        varchar(100)    default '',
   dict_type        varchar(100)    default '',
-  status           char(1)         default '0',
+  status           data_status     default 'OK',
   create_by        varchar(64)     default '',
   create_time      timestamp(0),
   update_by        varchar(64)     default '',
@@ -581,23 +588,23 @@ comment on table sys_dict_type is '字典类型表';
 comment on column sys_dict_type.dict_id is '字典主键';
 comment on column sys_dict_type.dict_name is '字典名称';
 comment on column sys_dict_type.dict_type is '字典类型';
-comment on column sys_dict_type.status is '状态（0正常 1停用）';
+comment on column sys_dict_type.status is '状态';
 comment on column sys_dict_type.create_by is '创建者';
 comment on column sys_dict_type.create_time is '创建时间';
 comment on column sys_dict_type.update_by is '更新者';
 comment on column sys_dict_type.update_time is '更新时间';
 comment on column sys_dict_type.remark is '备注';
 
-insert into sys_dict_type overriding system value values(1,  '用户性别', 'sys_user_sex',        '0', 'admin', now(), '', null, '用户性别列表');
-insert into sys_dict_type overriding system value values(2,  '菜单状态', 'sys_show_hide',       '0', 'admin', now(), '', null, '菜单状态列表');
-insert into sys_dict_type overriding system value values(3,  '系统开关', 'sys_normal_disable',  '0', 'admin', now(), '', null, '系统开关列表');
-insert into sys_dict_type overriding system value values(4,  '任务状态', 'sys_job_status',      '0', 'admin', now(), '', null, '任务状态列表');
-insert into sys_dict_type overriding system value values(5,  '任务分组', 'sys_job_group',       '0', 'admin', now(), '', null, '任务分组列表');
-insert into sys_dict_type overriding system value values(6,  '系统是否', 'sys_yes_no',          '0', 'admin', now(), '', null, '系统是否列表');
-insert into sys_dict_type overriding system value values(7,  '通知类型', 'sys_notice_type',     '0', 'admin', now(), '', null, '通知类型列表');
-insert into sys_dict_type overriding system value values(8,  '通知状态', 'sys_notice_status',   '0', 'admin', now(), '', null, '通知状态列表');
-insert into sys_dict_type overriding system value values(9,  '操作类型', 'sys_oper_type',       '0', 'admin', now(), '', null, '操作类型列表');
-insert into sys_dict_type overriding system value values(10, '系统状态', 'sys_common_status',   '0', 'admin', now(), '', null, '登录状态列表');
+insert into sys_dict_type overriding system value values(1,  '用户性别', 'sys_user_sex',        'OK', 'admin', now(), '', null, '用户性别列表');
+insert into sys_dict_type overriding system value values(2,  '菜单状态', 'sys_show_hide',       'OK', 'admin', now(), '', null, '菜单状态列表');
+insert into sys_dict_type overriding system value values(3,  '系统开关', 'sys_normal_disable',  'OK', 'admin', now(), '', null, '系统开关列表');
+insert into sys_dict_type overriding system value values(4,  '任务状态', 'sys_job_status',      'OK', 'admin', now(), '', null, '任务状态列表');
+insert into sys_dict_type overriding system value values(5,  '任务分组', 'sys_job_group',       'OK', 'admin', now(), '', null, '任务分组列表');
+insert into sys_dict_type overriding system value values(6,  '系统是否', 'sys_yes_no',          'OK', 'admin', now(), '', null, '系统是否列表');
+insert into sys_dict_type overriding system value values(7,  '通知类型', 'sys_notice_type',     'OK', 'admin', now(), '', null, '通知类型列表');
+insert into sys_dict_type overriding system value values(8,  '通知状态', 'sys_notice_status',   'OK', 'admin', now(), '', null, '通知状态列表');
+insert into sys_dict_type overriding system value values(9,  '操作类型', 'sys_oper_type',       'OK', 'admin', now(), '', null, '操作类型列表');
+insert into sys_dict_type overriding system value values(10, '系统状态', 'sys_common_status',   'OK', 'admin', now(), '', null, '登录状态列表');
 
 select setval(pg_get_serial_sequence('sys_dict_type', 'dict_id'), 100) from sys_dict_type;
 
@@ -615,7 +622,7 @@ create table sys_dict_data
   css_class        varchar(100)    default null,
   list_class       varchar(100)    default null,
   is_default       char(1)         default 'N',
-  status           char(1)         default '0',
+  status           data_status     default 'OK',
   create_by        varchar(64)     default '',
   create_time      timestamp(0),
   update_by        varchar(64)     default '',
@@ -632,7 +639,7 @@ comment on column sys_dict_data.dict_type is '字典类型';
 comment on column sys_dict_data.css_class is '样式属性（其他样式扩展）';
 comment on column sys_dict_data.list_class is '表格回显样式';
 comment on column sys_dict_data.is_default is '是否默认（Y是 N否）';
-comment on column sys_dict_data.status is '状态（0正常 1停用）';
+comment on column sys_dict_data.status is '状态';
 comment on column sys_dict_data.create_by is '创建者';
 comment on column sys_dict_data.create_time is '创建时间';
 comment on column sys_dict_data.update_by is '更新者';
@@ -640,35 +647,35 @@ comment on column sys_dict_data.update_time is '更新时间';
 comment on column sys_dict_data.remark is '备注';
 select setval(pg_get_serial_sequence('sys_dict_data', 'dict_code'), 100) from sys_dict_data;
 
-insert into sys_dict_data overriding system value values(1,  1,  '男',       '0',       'sys_user_sex',        '',   '',        'Y', '0', 'admin', now(), '', null, '性别男');
-insert into sys_dict_data overriding system value values(2,  2,  '女',       '1',       'sys_user_sex',        '',   '',        'N', '0', 'admin', now(), '', null, '性别女');
-insert into sys_dict_data overriding system value values(3,  3,  '未知',     '2',       'sys_user_sex',        '',   '',        'N', '0', 'admin', now(), '', null, '性别未知');
-insert into sys_dict_data overriding system value values(4,  1,  '显示',     '0',       'sys_show_hide',       '',   'primary', 'Y', '0', 'admin', now(), '', null, '显示菜单');
-insert into sys_dict_data overriding system value values(5,  2,  '隐藏',     '1',       'sys_show_hide',       '',   'danger',  'N', '0', 'admin', now(), '', null, '隐藏菜单');
-insert into sys_dict_data overriding system value values(6,  1,  '正常',     '0',       'sys_normal_disable',  '',   'primary', 'Y', '0', 'admin', now(), '', null, '正常状态');
-insert into sys_dict_data overriding system value values(7,  2,  '停用',     '1',       'sys_normal_disable',  '',   'danger',  'N', '0', 'admin', now(), '', null, '停用状态');
-insert into sys_dict_data overriding system value values(8,  1,  '正常',     '0',       'sys_job_status',      '',   'primary', 'Y', '0', 'admin', now(), '', null, '正常状态');
-insert into sys_dict_data overriding system value values(9,  2,  '暂停',     '1',       'sys_job_status',      '',   'danger',  'N', '0', 'admin', now(), '', null, '停用状态');
-insert into sys_dict_data overriding system value values(10, 1,  '默认',     'DEFAULT', 'sys_job_group',       '',   '',        'Y', '0', 'admin', now(), '', null, '默认分组');
-insert into sys_dict_data overriding system value values(11, 2,  '系统',     'SYSTEM',  'sys_job_group',       '',   '',        'N', '0', 'admin', now(), '', null, '系统分组');
-insert into sys_dict_data overriding system value values(12, 1,  '是',       'Y',       'sys_yes_no',          '',   'primary', 'Y', '0', 'admin', now(), '', null, '系统默认是');
-insert into sys_dict_data overriding system value values(13, 2,  '否',       'N',       'sys_yes_no',          '',   'danger',  'N', '0', 'admin', now(), '', null, '系统默认否');
-insert into sys_dict_data overriding system value values(14, 1,  '通知',     '1',       'sys_notice_type',     '',   'warning', 'Y', '0', 'admin', now(), '', null, '通知');
-insert into sys_dict_data overriding system value values(15, 2,  '公告',     '2',       'sys_notice_type',     '',   'success', 'N', '0', 'admin', now(), '', null, '公告');
-insert into sys_dict_data overriding system value values(16, 1,  '正常',     '0',       'sys_notice_status',   '',   'primary', 'Y', '0', 'admin', now(), '', null, '正常状态');
-insert into sys_dict_data overriding system value values(17, 2,  '关闭',     '1',       'sys_notice_status',   '',   'danger',  'N', '0', 'admin', now(), '', null, '关闭状态');
-insert into sys_dict_data overriding system value values(18, 99, '其他',     '0',       'sys_oper_type',       '',   'info',    'N', '0', 'admin', now(), '', null, '其他操作');
-insert into sys_dict_data overriding system value values(19, 1,  '新增',     '1',       'sys_oper_type',       '',   'info',    'N', '0', 'admin', now(), '', null, '新增操作');
-insert into sys_dict_data overriding system value values(20, 2,  '修改',     '2',       'sys_oper_type',       '',   'info',    'N', '0', 'admin', now(), '', null, '修改操作');
-insert into sys_dict_data overriding system value values(21, 3,  '删除',     '3',       'sys_oper_type',       '',   'danger',  'N', '0', 'admin', now(), '', null, '删除操作');
-insert into sys_dict_data overriding system value values(22, 4,  '授权',     '4',       'sys_oper_type',       '',   'primary', 'N', '0', 'admin', now(), '', null, '授权操作');
-insert into sys_dict_data overriding system value values(23, 5,  '导出',     '5',       'sys_oper_type',       '',   'warning', 'N', '0', 'admin', now(), '', null, '导出操作');
-insert into sys_dict_data overriding system value values(24, 6,  '导入',     '6',       'sys_oper_type',       '',   'warning', 'N', '0', 'admin', now(), '', null, '导入操作');
-insert into sys_dict_data overriding system value values(25, 7,  '强退',     '7',       'sys_oper_type',       '',   'danger',  'N', '0', 'admin', now(), '', null, '强退操作');
-insert into sys_dict_data overriding system value values(26, 8,  '生成代码', '8',       'sys_oper_type',       '',   'warning', 'N', '0', 'admin', now(), '', null, '生成操作');
-insert into sys_dict_data overriding system value values(27, 9,  '清空数据', '9',       'sys_oper_type',       '',   'danger',  'N', '0', 'admin', now(), '', null, '清空操作');
-insert into sys_dict_data overriding system value values(28, 1,  '成功',     '0',       'sys_common_status',   '',   'primary', 'N', '0', 'admin', now(), '', null, '正常状态');
-insert into sys_dict_data overriding system value values(29, 2,  '失败',     '1',       'sys_common_status',   '',   'danger',  'N', '0', 'admin', now(), '', null, '停用状态');
+insert into sys_dict_data overriding system value values(1,  1,  '男',       'MALE',    'sys_user_sex',        '',   '',        'Y', 'OK', 'admin', now(), '', null, '性别男');
+insert into sys_dict_data overriding system value values(2,  2,  '女',       'FEMALE',  'sys_user_sex',        '',   '',        'N', 'OK', 'admin', now(), '', null, '性别女');
+insert into sys_dict_data overriding system value values(3,  3,  '未知',     'UNKNOWN', 'sys_user_sex',        '',   '',        'N', 'OK', 'admin', now(), '', null, '性别未知');
+insert into sys_dict_data overriding system value values(4,  1,  '显示',     '0',       'sys_show_hide',       '',   'primary', 'Y', 'OK', 'admin', now(), '', null, '显示菜单');
+insert into sys_dict_data overriding system value values(5,  2,  '隐藏',     '1',       'sys_show_hide',       '',   'danger',  'N', 'OK', 'admin', now(), '', null, '隐藏菜单');
+insert into sys_dict_data overriding system value values(6,  1,  '正常',     'OK',      'sys_normal_disable',  '',   'primary', 'Y', 'OK', 'admin', now(), '', null, '正常状态');
+insert into sys_dict_data overriding system value values(7,  2,  '停用',     'DISABLED','sys_normal_disable',  '',   'danger',  'N', 'OK', 'admin', now(), '', null, '停用状态');
+insert into sys_dict_data overriding system value values(8,  1,  '正常',     '0',       'sys_job_status',      '',   'primary', 'Y', 'OK', 'admin', now(), '', null, '正常状态');
+insert into sys_dict_data overriding system value values(9,  2,  '暂停',     '1',       'sys_job_status',      '',   'danger',  'N', 'OK', 'admin', now(), '', null, '停用状态');
+insert into sys_dict_data overriding system value values(10, 1,  '默认',     'DEFAULT', 'sys_job_group',       '',   '',        'Y', 'OK', 'admin', now(), '', null, '默认分组');
+insert into sys_dict_data overriding system value values(11, 2,  '系统',     'SYSTEM',  'sys_job_group',       '',   '',        'N', 'OK', 'admin', now(), '', null, '系统分组');
+insert into sys_dict_data overriding system value values(12, 1,  '是',       'Y',       'sys_yes_no',          '',   'primary', 'Y', 'OK', 'admin', now(), '', null, '系统默认是');
+insert into sys_dict_data overriding system value values(13, 2,  '否',       'N',       'sys_yes_no',          '',   'danger',  'N', 'OK', 'admin', now(), '', null, '系统默认否');
+insert into sys_dict_data overriding system value values(14, 1,  '通知',     '1',       'sys_notice_type',     '',   'warning', 'Y', 'OK', 'admin', now(), '', null, '通知');
+insert into sys_dict_data overriding system value values(15, 2,  '公告',     '2',       'sys_notice_type',     '',   'success', 'N', 'OK', 'admin', now(), '', null, '公告');
+insert into sys_dict_data overriding system value values(16, 1,  '正常',     '0',       'sys_notice_status',   '',   'primary', 'Y', 'OK', 'admin', now(), '', null, '正常状态');
+insert into sys_dict_data overriding system value values(17, 2,  '关闭',     '1',       'sys_notice_status',   '',   'danger',  'N', 'OK', 'admin', now(), '', null, '关闭状态');
+insert into sys_dict_data overriding system value values(18, 99, '其他',     '0',       'sys_oper_type',       '',   'info',    'N', 'OK', 'admin', now(), '', null, '其他操作');
+insert into sys_dict_data overriding system value values(19, 1,  '新增',     '1',       'sys_oper_type',       '',   'info',    'N', 'OK', 'admin', now(), '', null, '新增操作');
+insert into sys_dict_data overriding system value values(20, 2,  '修改',     '2',       'sys_oper_type',       '',   'info',    'N', 'OK', 'admin', now(), '', null, '修改操作');
+insert into sys_dict_data overriding system value values(21, 3,  '删除',     '3',       'sys_oper_type',       '',   'danger',  'N', 'OK', 'admin', now(), '', null, '删除操作');
+insert into sys_dict_data overriding system value values(22, 4,  '授权',     '4',       'sys_oper_type',       '',   'primary', 'N', 'OK', 'admin', now(), '', null, '授权操作');
+insert into sys_dict_data overriding system value values(23, 5,  '导出',     '5',       'sys_oper_type',       '',   'warning', 'N', 'OK', 'admin', now(), '', null, '导出操作');
+insert into sys_dict_data overriding system value values(24, 6,  '导入',     '6',       'sys_oper_type',       '',   'warning', 'N', 'OK', 'admin', now(), '', null, '导入操作');
+insert into sys_dict_data overriding system value values(25, 7,  '强退',     '7',       'sys_oper_type',       '',   'danger',  'N', 'OK', 'admin', now(), '', null, '强退操作');
+insert into sys_dict_data overriding system value values(26, 8,  '生成代码', '8',       'sys_oper_type',       '',   'warning', 'N', 'OK', 'admin', now(), '', null, '生成操作');
+insert into sys_dict_data overriding system value values(27, 9,  '清空数据', '9',       'sys_oper_type',       '',   'danger',  'N', 'OK', 'admin', now(), '', null, '清空操作');
+insert into sys_dict_data overriding system value values(28, 1,  '成功',     '0',       'sys_common_status',   '',   'primary', 'N', 'OK', 'admin', now(), '', null, '正常状态');
+insert into sys_dict_data overriding system value values(29, 2,  '失败',     '1',       'sys_common_status',   '',   'danger',  'N', 'OK', 'admin', now(), '', null, '停用状态');
 
 
 -- ----------------------------
@@ -707,6 +714,8 @@ insert into sys_config overriding system value values(3, '主框架页-侧边栏
 insert into sys_config overriding system value values(4, '账号自助-验证码开关',           'sys.account.captchaEnabled',    'true',          'Y', 'admin', now(), '', null, '是否开启验证码功能（true开启，false关闭）');
 insert into sys_config overriding system value values(5, '账号自助-是否开启用户注册功能', 'sys.account.registerUser',      'false',         'Y', 'admin', now(), '', null, '是否开启注册用户功能（true开启，false关闭）');
 insert into sys_config overriding system value values(6, '用户登录-黑名单列表',           'sys.login.blackIPList',         '',              'Y', 'admin', now(), '', null, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
+insert into sys_config overriding system value values(7, '用户管理-初始密码修改策略',     'sys.account.initPasswordModify',   '1',             'Y', 'admin', now(), '', null, '0：初始密码修改策略关闭，没有任何提示，1：提醒用户，如果未修改初始密码，则在登录时就会提醒修改密码对话框');
+insert into sys_config overriding system value values(8, '用户管理-账号密码更新周期',     'sys.account.passwordValidateDays', '0',             'Y', 'admin', now(), '', null, '密码更新周期（填写数字，数据初始化值为0不限制，若修改必须为大于0小于365的正整数），如果超过这个周期登录系统时，则在登录时就会提醒修改密码对话框');
 
 
 -- ----------------------------

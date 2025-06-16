@@ -16,5 +16,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         <!-- 使用驼峰命名法转换字段 -->
 		<!-- <setting name="mapUnderscoreToCamelCase" value="true"/> -->
 	</settings>
-	
+
+    <typeHandlers>
+        <typeHandler handler="org.happy.framework.config.mybatis.DataStatusTypeHandler"
+                     javaType="org.happy.common.enums.DataStatus" jdbcType="OTHER" />
+    </typeHandlers>
 </configuration>

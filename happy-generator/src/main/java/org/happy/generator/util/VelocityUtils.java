@@ -7,6 +7,7 @@ import org.apache.velocity.VelocityContext;
 import org.happy.common.constant.GenConstants;
 import org.happy.common.utils.DateUtils;
 import org.happy.common.utils.StringUtils;
+import org.happy.common.utils.spring.SpringUtils;
 import org.happy.generator.domain.GenTable;
 import org.happy.generator.domain.GenTableColumn;
 
@@ -38,7 +39,7 @@ public class VelocityUtils {
      */
     private static final String DEFAULT_PARENT_MENU_ID = "3";
 
-    static final ObjectMapper MAPPER = new ObjectMapper();
+    static final ObjectMapper MAPPER = SpringUtils.getBean(ObjectMapper.class);
 
     /**
      * 设置模板变量信息

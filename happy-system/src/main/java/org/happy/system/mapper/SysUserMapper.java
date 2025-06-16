@@ -74,7 +74,7 @@ public interface SysUserMapper {
      * @param avatar   头像地址
      * @return 结果
      */
-    int updateUserAvatar(@Param("userId") String userId, @Param("avatar") String avatar);
+    int updateUserAvatar(@Param("userId") Long userId, @Param("avatar") String avatar);
 
     /**
      * 重置用户密码
@@ -83,7 +83,7 @@ public interface SysUserMapper {
      * @param password 密码
      * @return 结果
      */
-    int resetUserPwd(@Param("userId") String userId, @Param("password") String password);
+    int resetUserPwd(@Param("userId") Long userId, @Param("password") String password);
 
     /**
      * 通过用户ID删除用户

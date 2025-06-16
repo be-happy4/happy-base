@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.happy.common.constant.CacheConstants;
 import org.happy.common.constant.Constants;
 import org.happy.common.core.domain.model.LoginUser;
@@ -30,9 +31,8 @@ import java.util.concurrent.TimeUnit;
  * @author happy
  */
 @Component
+@Slf4j
 public class TokenService {
-    private static final Logger log = LoggerFactory.getLogger(TokenService.class);
-
     // 令牌自定义标识
     @Value("${token.header}")
     private String header;
@@ -49,7 +49,7 @@ public class TokenService {
 
     protected static final long MILLIS_MINUTE = 60 * MILLIS_SECOND;
 
-    private static final Long MILLIS_MINUTE_TWENTY = 20 * 60 * 1000L;
+    private static final Long MILLIS_MINUTE_TWENTY = 1440 * 60 * 1000L;
 
     @Autowired
     private RedisCache redisCache;
@@ -161,10 +161,9 @@ public class TokenService {
      * @return 令牌
      */
     private String createToken(Map<String, Object> claims) {
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, secret).compact();
-        return token;
     }
 
     /**

@@ -42,7 +42,7 @@
 			<if test="visible != null and visible != ''">
 				AND visible = #{visible}
 			</if>
-			<if test="status != null and status != ''">
+			<if test="status != null">
 				AND status = #{status}
 			</if>
 		</where>
@@ -51,7 +51,7 @@
 	
 	<select id="selectMenuTreeAll" resultMap="SysMenuResult">
 		select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.query, m.route_name, m.visible, m.status, coalesce(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
-		from sys_menu m where m.menu_type in ('M', 'C') and m.status = '0'
+		from sys_menu m where m.menu_type in ('M', 'C') and m.status = 'OK'
 		order by m.parent_id, m.order_num
 	</select>
 	
@@ -68,7 +68,7 @@
 		<if test="visible != null and visible != ''">
             AND m.visible = #{visible}
 		</if>
-		<if test="status != null and status != ''">
+		<if test="status != null">
             AND m.status = #{status}
 		</if>
 		order by m.parent_id, m.order_num
@@ -81,7 +81,7 @@
 			 left join sys_user_role ur on rm.role_id = ur.role_id
 			 left join sys_role ro on ur.role_id = ro.role_id
 			 left join sys_user u on ur.user_id = u.user_id
-		where u.user_id = #{userId} and m.menu_type in ('M', 'C') and m.status = '0'  AND ro.status = '0'
+		where u.user_id = #{userId} and m.menu_type in ('M', 'C') and m.status = 'OK'  AND ro.status = 'OK'
 		order by m.parent_id, m.order_num
 	</select>
 	
@@ -109,14 +109,14 @@
 			 left join sys_role_menu rm on m.menu_id = rm.menu_id
 			 left join sys_user_role ur on rm.role_id = ur.role_id
 			 left join sys_role r on r.role_id = ur.role_id
-		where m.status = '0' and r.status = '0' and ur.user_id = #{userId}
+		where m.status = 'OK' and r.status = 'OK' and ur.user_id = #{userId}
 	</select>
 	
 	<select id="selectMenuPermsByRoleId" parameterType="Long" resultType="String">
 		select distinct m.perms
 		from sys_menu m
 			 left join sys_role_menu rm on m.menu_id = rm.menu_id
-		where m.status = '0' and rm.role_id = #{roleId}
+		where m.status = 'OK' and rm.role_id = #{roleId}
 	</select>
 	
 	<select id="selectMenuById" parameterType="Long" resultMap="SysMenuResult">

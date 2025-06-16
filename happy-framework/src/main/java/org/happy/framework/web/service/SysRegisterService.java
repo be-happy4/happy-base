@@ -8,6 +8,7 @@ import org.happy.common.core.domain.model.RegisterBody;
 import org.happy.common.core.redis.RedisCache;
 import org.happy.common.exception.user.CaptchaException;
 import org.happy.common.exception.user.CaptchaExpireException;
+import org.happy.common.utils.DateUtils;
 import org.happy.common.utils.MessageUtils;
 import org.happy.common.utils.SecurityUtils;
 import org.happy.common.utils.StringUtils;
@@ -17,6 +18,8 @@ import org.happy.system.service.ISysConfigService;
 import org.happy.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 /**
  * 注册校验方法
@@ -62,7 +65,7 @@ public class SysRegisterService {
             msg = "保存用户'" + username + "'失败，注册账号已存在";
         } else {
             sysUser.setNickName(username);
-            sysUser.setPwdUpdateDate(DateUtils.getNowDate());
+            sysUser.setPwdUpdateDate(LocalDateTime.now());
             sysUser.setPassword(SecurityUtils.encryptPassword(password));
             boolean regFlag = userService.registerUser(sysUser);
             if (!regFlag) {

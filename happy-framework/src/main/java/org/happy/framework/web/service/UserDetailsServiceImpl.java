@@ -2,10 +2,9 @@ package org.happy.framework.web.service;
 
 import org.happy.common.core.domain.entity.SysUser;
 import org.happy.common.core.domain.model.LoginUser;
-import org.happy.common.enums.UserStatus;
+import org.happy.common.enums.DataStatus;
 import org.happy.common.exception.ServiceException;
 import org.happy.common.utils.MessageUtils;
-import org.happy.common.utils.StringUtils;
 import org.happy.system.service.ISysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,10 +38,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (null == user) {
             log.info("登录用户：{} 不存在.", username);
             throw new ServiceException(MessageUtils.message("user.not.exists"));
-        } else if (UserStatus.DELETED.equals(user.getStatus())) {
+        } else if (DataStatus.DELETED.equals(user.getStatus())) {
             log.info("登录用户：{} 已被删除.", username);
             throw new ServiceException(MessageUtils.message("user.password.delete"));
-        } else if (UserStatus.DISABLE.equals(user.getStatus())) {
+        } else if (DataStatus.DISABLE.equals(user.getStatus())) {
             log.info("登录用户：{} 已被停用.", username);
             throw new ServiceException(MessageUtils.message("user.blocked"));
         }

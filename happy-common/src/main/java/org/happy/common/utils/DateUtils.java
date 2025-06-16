@@ -156,14 +156,14 @@ public class DateUtils {
      * A parse is only deemed successful if it parses the whole of the input string.
      * If no parse patterns match, a ParseException is thrown.</p>
      *
-     * @param dateStr  the date to parse, not null
-     * @param locale the locale to use when interpreting the pattern, can be null in which
-     * case the default system locale is used
-     * @param parsePatterns  the date format patterns to use, see SimpleDateFormat, not null
-     * @param lenient Specify whether or not date/time parsing is to be lenient.
+     * @param dateStr       the date to parse, not null
+     * @param locale        the locale to use when interpreting the pattern, can be null in which
+     *                      case the default system locale is used
+     * @param parsePatterns the date format patterns to use, see SimpleDateFormat, not null
+     * @param lenient       Specify whether or not date/time parsing is to be lenient.
      * @return the parsed date
      * @throws NullPointerException if the date string or pattern array is null
-     * @throws ParseException if none of the date patterns were suitable
+     * @throws ParseException       if none of the date patterns were suitable
      * @see java.util.Calendar#isLenient()
      */
     private static Date parseDateWithLeniency(final String dateStr, final Locale locale, final String[] parsePatterns,
@@ -201,13 +201,13 @@ public class DateUtils {
      * If no parse patterns match, a ParseException is thrown.</p>
      * The parser will be lenient toward the parsed date.
      *
-     * @param str  the date to parse, not null
-     * @param locale the locale whose date format symbols should be used. If {@code null},
-     * the system locale is used (as per {@link #parseDate(String, String...)}).
-     * @param parsePatterns  the date format patterns to use, see SimpleDateFormat, not null
+     * @param str           the date to parse, not null
+     * @param locale        the locale whose date format symbols should be used. If {@code null},
+     *                      the system locale is used (as per {@link #parseDate(String, String...)}).
+     * @param parsePatterns the date format patterns to use, see SimpleDateFormat, not null
      * @return the parsed date
      * @throws NullPointerException if the date string or pattern array is null
-     * @throws ParseException if none of the date patterns were suitable (or there were none)
+     * @throws ParseException       if none of the date patterns were suitable (or there were none)
      * @since 3.2
      */
     public static Date parseDate(final String str, final Locale locale, final String... parsePatterns) throws ParseException {
@@ -222,11 +222,11 @@ public class DateUtils {
      * If no parse patterns match, a ParseException is thrown.</p>
      * The parser will be lenient toward the parsed date.
      *
-     * @param str  the date to parse, not null
-     * @param parsePatterns  the date format patterns to use, see SimpleDateFormat, not null
+     * @param str           the date to parse, not null
+     * @param parsePatterns the date format patterns to use, see SimpleDateFormat, not null
      * @return the parsed date
      * @throws NullPointerException if the date string or pattern array is null
-     * @throws ParseException if none of the date patterns were suitable (or there were none)
+     * @throws ParseException       if none of the date patterns were suitable (or there were none)
      */
     public static Date parseDate(final String str, final String... parsePatterns) throws ParseException {
         return parseDate(str, null, parsePatterns);

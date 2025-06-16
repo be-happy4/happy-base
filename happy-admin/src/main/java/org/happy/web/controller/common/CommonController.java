@@ -6,7 +6,6 @@ import org.happy.common.config.HappyConfig;
 import org.happy.common.constant.Constants;
 import org.happy.common.core.domain.AjaxResult;
 import org.happy.common.utils.StringUtils;
-import org.happy.common.utils.FileUtils;
 import org.happy.common.utils.file.FileUploadUtils;
 import org.happy.common.utils.file.FileUtils;
 import org.happy.framework.config.ServerConfig;
