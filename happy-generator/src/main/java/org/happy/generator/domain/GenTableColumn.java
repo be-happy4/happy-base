@@ -4,9 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.happy.common.core.domain.BaseEntity;
+import org.happy.common.enums.QueryOperator;
+import org.happy.common.enums.gen.GenJavaType;
+import org.happy.common.enums.gen.HtmlType;
 import org.happy.common.utils.StringUtils;
-
-import java.util.Objects;
 
 
 /**
@@ -46,7 +47,7 @@ public class GenTableColumn extends BaseEntity {
     /**
      * JAVA类型
      */
-    private String javaType;
+    private GenJavaType javaType;
 
     /**
      * JAVA字段名
@@ -55,49 +56,49 @@ public class GenTableColumn extends BaseEntity {
     private String javaField;
 
     /**
-     * 是否主键（1是）
+     * 是否主键
      */
-    private String isPk;
+    private Boolean isPk;
 
     /**
-     * 是否自增（1是）
+     * 是否自增
      */
-    private String isIncrement;
+    private Boolean isIncrement;
 
     /**
-     * 是否必填（1是）
+     * 是否必填
      */
-    private String isRequired;
+    private Boolean isRequired;
 
     /**
-     * 是否为插入字段（1是）
+     * 是否为插入字
      */
-    private String isInsert;
+    private Boolean isInsert;
 
     /**
-     * 是否编辑字段（1是）
+     * 是否编辑字段
      */
-    private String isEdit;
+    private Boolean isEdit;
 
     /**
-     * 是否列表字段（1是）
+     * 是否列表字段
      */
-    private String isList;
+    private Boolean isList;
 
     /**
-     * 是否查询字段（1是）
+     * 是否查询字段
      */
-    private String isQuery;
+    private Boolean isQuery;
 
     /**
-     * 查询方式（EQ等于、NE不等于、GT大于、LT小于、LIKE模糊、BETWEEN范围）
+     * 查询方式
      */
-    private String queryType;
+    private QueryOperator queryType;
 
     /**
      * 显示类型（input文本框、textarea文本域、select下拉框、checkbox复选框、radio单选框、datetime日期控件、image图片上传控件、upload文件上传控件、editor富文本控件）
      */
-    private String htmlType;
+    private HtmlType htmlType;
 
     /**
      * 字典类型
@@ -114,59 +115,32 @@ public class GenTableColumn extends BaseEntity {
     }
 
     public boolean isPk() {
-        return isPk(this.isPk);
-    }
-
-    public boolean isPk(String isPk) {
-        return isPk != null && Objects.equals("1", isPk);
+        return this.isPk;
     }
 
     public boolean isIncrement() {
-        return isIncrement(this.isIncrement);
+        return this.isIncrement;
     }
 
-    public boolean isIncrement(String isIncrement) {
-        return isIncrement != null && Objects.equals("1", isIncrement);
-    }
 
     public boolean isRequired() {
-        return isRequired(this.isRequired);
-    }
-
-    public boolean isRequired(String isRequired) {
-        return isRequired != null && Objects.equals("1", isRequired);
+        return this.isRequired;
     }
 
     public boolean isInsert() {
-        return isInsert(this.isInsert);
-    }
-
-    public boolean isInsert(String isInsert) {
-        return isInsert != null && Objects.equals("1", isInsert);
+        return this.isInsert;
     }
 
     public boolean isEdit() {
-        return isInsert(this.isEdit);
-    }
-
-    public boolean isEdit(String isEdit) {
-        return isEdit != null && Objects.equals("1", isEdit);
+        return this.isEdit;
     }
 
     public boolean isList() {
-        return isList(this.isList);
-    }
-
-    public boolean isList(String isList) {
-        return isList != null && Objects.equals("1", isList);
+        return this.isList;
     }
 
     public boolean isQuery() {
-        return isQuery(this.isQuery);
-    }
-
-    public boolean isQuery(String isQuery) {
-        return isQuery != null && Objects.equals("1", isQuery);
+        return this.isQuery;
     }
 
     public boolean isSuperColumn() {
@@ -192,7 +166,7 @@ public class GenTableColumn extends BaseEntity {
 
     public String readConverterExp() {
         String remarks = StringUtils.substringBetween(this.columnComment, "（", "）");
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         if (StringUtils.isNotEmpty(remarks)) {
             for (String value : remarks.split(" ")) {
                 if (StringUtils.isNotEmpty(value)) {

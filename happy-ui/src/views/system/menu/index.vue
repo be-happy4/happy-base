@@ -185,8 +185,8 @@
                 是否外链
               </span>
               <el-radio-group v-model="form.isFrame">
-                <el-radio label="0">是</el-radio>
-                <el-radio label="1">否</el-radio>
+                <el-radio label="false">否</el-radio>
+                <el-radio label="true">是</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -247,22 +247,22 @@
                 是否缓存
               </span>
               <el-radio-group v-model="form.isCache">
-                <el-radio label="0">缓存</el-radio>
-                <el-radio label="1">不缓存</el-radio>
+                <el-radio label="false">缓存</el-radio>
+                <el-radio label="true">不缓存</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12" v-if="form.menuType != 'F'">
-            <el-form-item prop="visible">
+            <el-form-item prop="hidden">
               <span slot="label">
                 <el-tooltip content="选择隐藏则路由将不会出现在侧边栏，但仍然可以访问" placement="top">
                 <i class="el-icon-question"></i>
                 </el-tooltip>
                 显示状态
               </span>
-              <el-radio-group v-model="form.visible">
+              <el-radio-group v-model="form.hidden">
                 <el-radio
                   v-for="dict in dict.type.sys_show_hide"
                   :key="dict.value"
@@ -329,7 +329,7 @@ export default {
       // 查询参数
       queryParams: {
         menuName: undefined,
-        visible: undefined
+        hidden: undefined
       },
       // 表单参数
       form: {},
@@ -397,9 +397,9 @@ export default {
         icon: undefined,
         menuType: "M",
         orderNum: undefined,
-        isFrame: "1",
-        isCache: "0",
-        visible: "0",
+        isFrame: true,
+        isCache: false,
+        hidden: false,
         status: "OK"
       }
       this.resetForm("form")

@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.happy.common.annotation.Excel;
 import org.happy.common.annotation.Excel.ColumnType;
 import org.happy.common.core.domain.BaseEntity;
+import org.happy.common.enums.entity.AccessStatus;
 import org.happy.common.utils.TimeUtils;
 
 import java.util.Date;
@@ -32,10 +33,10 @@ public class SysLogininfor extends BaseEntity {
     private String userName;
 
     /**
-     * 登录状态 0成功 1失败
+     * 登录状态
      */
-    @Excel(name = "登录状态", readConverterExp = "0=成功,1=失败")
-    private String status;
+    @Excel(name = "登录状态")
+    private AccessStatus status;
 
     /**
      * 登录IP地址

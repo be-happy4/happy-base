@@ -2,7 +2,7 @@ package org.happy.framework.web.service;
 
 import org.happy.common.core.domain.entity.SysUser;
 import org.happy.common.core.domain.model.LoginUser;
-import org.happy.common.enums.DataStatus;
+import org.happy.common.enums.entity.DataStatus;
 import org.happy.common.exception.ServiceException;
 import org.happy.common.utils.MessageUtils;
 import org.happy.system.service.ISysUserService;

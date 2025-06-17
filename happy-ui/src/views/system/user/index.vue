@@ -65,7 +65,7 @@
               <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
               <el-table-column label="状态" align="center" key="status" v-if="columns[5].visible">
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.status" active-value="OK" inactive-value="DISABLED" @change="handleStatusChange(scope.row)"></el-switch>
+                  <el-switch v-model="scope.row.status" active-value="OK" inactive-value="DISABLE" @change="handleStatusChange(scope.row)"></el-switch>
                 </template>
               </el-table-column>
               <el-table-column label="创建时间" align="center" prop="createTime" v-if="columns[6].visible" width="160">
@@ -380,7 +380,7 @@ export default {
       }).then(() => {
         this.$modal.msgSuccess(text + "成功")
       }).catch(function() {
-        row.status = row.status === "OK" ? "DISABLED" : "OK"
+        row.status = row.status === "OK" ? "DISABLE" : "OK"
       })
     },
     // 取消按钮

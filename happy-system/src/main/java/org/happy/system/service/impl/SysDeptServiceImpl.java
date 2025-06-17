@@ -7,6 +7,7 @@ import org.happy.common.core.domain.entity.SysDept;
 import org.happy.common.core.domain.entity.SysRole;
 import org.happy.common.core.domain.entity.SysUser;
 import org.happy.common.core.text.Convert;
+import org.happy.common.enums.entity.DataStatus;
 import org.happy.common.exception.ServiceException;
 import org.happy.common.utils.SecurityUtils;
 import org.happy.common.utils.StringUtils;
@@ -196,7 +197,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     public int insertDept(SysDept dept) {
         SysDept info = deptMapper.selectDeptById(dept.getParentId());
         // 如果父节点不为正常状态,则不允许新增子节点
-        if (!UserConstants.DEPT_NORMAL.equals(info.getStatus())) {
+        if (!DataStatus.OK.equals(info.getStatus())) {
             throw new ServiceException("部门停用，不允许新增");
         }
         dept.setAncestors(info.getAncestors() + "," + dept.getParentId());
@@ -220,7 +221,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
             updateDeptChildren(dept.getDeptId(), newAncestors, oldAncestors);
         }
         int result = deptMapper.updateDept(dept);
-        if (UserConstants.DEPT_NORMAL.equals(dept.getStatus()) && StringUtils.isNotEmpty(dept.getAncestors())
+        if (DataStatus.OK.equals(dept.getStatus()) && StringUtils.isNotEmpty(dept.getAncestors())
             && !Objects.equals("0", dept.getAncestors())) {
             // 如果该部门是启用状态，则启用该部门的所有上级部门
             updateParentDeptStatusNormal(dept);

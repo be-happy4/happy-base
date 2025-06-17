@@ -10,6 +10,7 @@ import org.apache.velocity.app.Velocity;
 import org.happy.common.constant.Constants;
 import org.happy.common.constant.GenConstants;
 import org.happy.common.core.text.CharsetKit;
+import org.happy.common.enums.gen.TplCategory;
 import org.happy.common.exception.ServiceException;
 import org.happy.common.utils.StringUtils;
 import org.happy.generator.domain.GenTable;
@@ -291,7 +292,7 @@ public class GenTableServiceImpl implements IGenTableService {
                     column.setDictType(prevColumn.getDictType());
                     column.setQueryType(prevColumn.getQueryType());
                 }
-                if (StringUtils.isNotEmpty(prevColumn.getIsRequired()) && !column.isPk()
+                if (null != prevColumn.getIsRequired() && !column.isPk()
                     && (column.isInsert() || column.isEdit())
                     && ((column.isUsableColumn()) || (!column.isSuperColumn()))) {
                     // 如果是(新增/修改&非主键/非忽略及父属性)，继续保留必填/显示类型选项
@@ -369,7 +370,7 @@ public class GenTableServiceImpl implements IGenTableService {
      */
     @Override
     public void validateEdit(GenTable genTable) throws JsonProcessingException {
-        if (GenConstants.TPL_TREE.equals(genTable.getTplCategory())) {
+        if (TplCategory.TREE.equals(genTable.getTplCategory())) {
             String options = MAPPER.writeValueAsString(genTable.getParams());
             var paramsObj = MAPPER.readTree(options);
             if (StringUtils.isEmpty(paramsObj.get(GenConstants.TREE_CODE).asText())) {
@@ -379,7 +380,7 @@ public class GenTableServiceImpl implements IGenTableService {
             } else if (StringUtils.isEmpty(paramsObj.get(GenConstants.TREE_NAME).asText())) {
                 throw new ServiceException("树名称字段不能为空");
             }
-        } else if (GenConstants.TPL_SUB.equals(genTable.getTplCategory())) {
+        } else if (TplCategory.SUB.equals(genTable.getTplCategory())) {
             if (StringUtils.isEmpty(genTable.getSubTableName())) {
                 throw new ServiceException("关联子表的表名不能为空");
             } else if (StringUtils.isEmpty(genTable.getSubTableFkName())) {
@@ -403,7 +404,7 @@ public class GenTableServiceImpl implements IGenTableService {
         if (null == table.getPkColumn()) {
             table.setPkColumn(table.getColumns().get(0));
         }
-        if (GenConstants.TPL_SUB.equals(table.getTplCategory())) {
+        if (TplCategory.SUB.equals(table.getTplCategory())) {
             for (GenTableColumn column : table.getSubTable().getColumns()) {
                 if (column.isPk()) {
                     table.getSubTable().setPkColumn(column);

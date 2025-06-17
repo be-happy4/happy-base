@@ -10,6 +10,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.annotation.Excel;
 import org.happy.common.annotation.Excel.ColumnType;
 import org.happy.common.core.domain.BaseEntity;
+import org.happy.common.enums.entity.DataStatus;
 
 /**
  * 字典类型表 sys_dict_type
@@ -39,10 +40,10 @@ public class SysDictType extends BaseEntity {
     private String dictType;
 
     /**
-     * 状态（0正常 1停用）
+     * 状态
      */
-    @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
-    private String status;
+    @Excel(name = "状态")
+    private DataStatus status;
 
     @NotBlank(message = "字典名称不能为空")
     @Size(min = 0, max = 100, message = "字典类型名称长度不能超过100个字符")

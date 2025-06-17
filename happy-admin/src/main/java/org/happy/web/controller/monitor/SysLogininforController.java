@@ -5,7 +5,7 @@ import org.happy.common.annotation.Log;
 import org.happy.common.core.controller.BaseController;
 import org.happy.common.core.domain.AjaxResult;
 import org.happy.common.core.page.TableDataInfo;
-import org.happy.common.enums.BusinessType;
+import org.happy.common.enums.entity.BusinessType;
 import org.happy.common.utils.poi.ExcelUtil;
 import org.happy.framework.web.service.SysPasswordService;
 import org.happy.system.domain.SysLogininfor;

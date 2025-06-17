@@ -2,11 +2,11 @@ package org.happy.web.controller.system;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.happy.common.annotation.Log;
-import org.happy.common.constant.UserConstants;
 import org.happy.common.core.controller.BaseController;
 import org.happy.common.core.domain.AjaxResult;
 import org.happy.common.core.domain.entity.SysDept;
-import org.happy.common.enums.BusinessType;
+import org.happy.common.enums.entity.BusinessType;
+import org.happy.common.enums.entity.DataStatus;
 import org.happy.common.utils.StringUtils;
 import org.happy.system.service.ISysDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +86,7 @@ public class SysDeptController extends BaseController {
             return error("修改部门'" + dept.getDeptName() + "'失败，部门名称已存在");
         } else if (dept.getParentId().equals(deptId)) {
             return error("修改部门'" + dept.getDeptName() + "'失败，上级部门不能是自己");
-        } else if (Objects.equals(UserConstants.DEPT_DISABLE, dept.getStatus()) && deptService.selectNormalChildrenDeptById(deptId) > 0) {
+        } else if (Objects.equals(DataStatus.DISABLE, dept.getStatus()) && deptService.selectNormalChildrenDeptById(deptId) > 0) {
             return error("该部门包含未停用的子部门！");
         }
         dept.setUpdateBy(getUsername());

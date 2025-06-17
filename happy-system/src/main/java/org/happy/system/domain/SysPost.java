@@ -10,7 +10,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.annotation.Excel;
 import org.happy.common.annotation.Excel.ColumnType;
 import org.happy.common.core.domain.BaseEntity;
-import org.happy.common.enums.DataStatus;
+import org.happy.common.enums.entity.DataStatus;
 
 /**
  * 岗位表 sys_post

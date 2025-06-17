@@ -80,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="dictType != null and dictType != ''">dict_type = #{dictType},</if>
  			<if test="cssClass != null">css_class = #{cssClass},</if>
  			<if test="listClass != null">list_class = #{listClass},</if>
- 			<if test="isDefault != null and isDefault != ''">is_default = #{isDefault},</if>
+ 			<if test="isDefault != null">is_default = #{isDefault},</if>
  			<if test="status != null">status = #{status},</if>
  			<if test="remark != null">remark = #{remark},</if>
  			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
@@ -101,7 +101,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="dictType != null and dictType != ''">dict_type,</if>
  			<if test="cssClass != null and cssClass != ''">css_class,</if>
  			<if test="listClass != null and listClass != ''">list_class,</if>
- 			<if test="isDefault != null and isDefault != ''">is_default,</if>
+ 			<if test="isDefault != null">is_default,</if>
  			<if test="status != null">status,</if>
  			<if test="remark != null and remark != ''">remark,</if>
  			<if test="createBy != null and createBy != ''">create_by,</if>
@@ -113,7 +113,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="dictType != null and dictType != ''">#{dictType},</if>
  			<if test="cssClass != null and cssClass != ''">#{cssClass},</if>
  			<if test="listClass != null and listClass != ''">#{listClass},</if>
- 			<if test="isDefault != null and isDefault != ''">#{isDefault},</if>
+ 			<if test="isDefault != null">#{isDefault},</if>
  			<if test="status != null">#{status},</if>
  			<if test="remark != null and remark != ''">#{remark},</if>
  			<if test="createBy != null and createBy != ''">#{createBy},</if>

@@ -1,4 +1,4 @@
-package org.happy.common.enums;
+package org.happy.common.enums.entity;
 
 /**
  * 操作人类别

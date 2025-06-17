@@ -6,20 +6,6 @@ package org.happy.common.constant;
  * @author happy
  */
 public class GenConstants {
-    /**
-     * 单表（增删改查）
-     */
-    public static final String TPL_CRUD = "crud";
-
-    /**
-     * 树表（增删改查）
-     */
-    public static final String TPL_TREE = "tree";
-
-    /**
-     * 主子表（增删改查）
-     */
-    public static final String TPL_SUB = "sub";
 
     /**
      * 树编码字段
@@ -93,51 +79,6 @@ public class GenConstants {
      * Tree基类字段
      */
     public static final String[] TREE_ENTITY = {"parentName", "parentId", "orderNum", "ancestors", "children"};
-
-    /**
-     * 文本框
-     */
-    public static final String HTML_INPUT = "input";
-
-    /**
-     * 文本域
-     */
-    public static final String HTML_TEXTAREA = "textarea";
-
-    /**
-     * 下拉框
-     */
-    public static final String HTML_SELECT = "select";
-
-    /**
-     * 单选框
-     */
-    public static final String HTML_RADIO = "radio";
-
-    /**
-     * 复选框
-     */
-    public static final String HTML_CHECKBOX = "checkbox";
-
-    /**
-     * 日期控件
-     */
-    public static final String HTML_DATETIME = "datetime";
-
-    /**
-     * 图片上传控件
-     */
-    public static final String HTML_IMAGE_UPLOAD = "imageUpload";
-
-    /**
-     * 文件上传控件
-     */
-    public static final String HTML_FILE_UPLOAD = "fileUpload";
-
-    /**
-     * 富文本控件
-     */
-    public static final String HTML_EDITOR = "editor";
 
     /**
      * 字符串类型

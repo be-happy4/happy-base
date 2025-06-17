@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -48,8 +49,6 @@ public class TokenService {
     protected static final long MILLIS_SECOND = 1000;
 
     protected static final long MILLIS_MINUTE = 60 * MILLIS_SECOND;
-
-    private static final Long MILLIS_MINUTE_TWENTY = 1440 * 60 * 1000L;
 
     @Autowired
     private RedisCache redisCache;
@@ -122,7 +121,7 @@ public class TokenService {
     public void verifyToken(LoginUser loginUser) {
         long expireTime = loginUser.getExpireTime();
         long currentTime = System.currentTimeMillis();
-        if (expireTime - currentTime <= MILLIS_MINUTE_TWENTY) {
+        if (expireTime - currentTime <= Duration.ofDays(1).toMillis()) {
             refreshToken(loginUser);
         }
     }

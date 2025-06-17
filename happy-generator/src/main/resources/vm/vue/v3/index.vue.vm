@@ -11,7 +11,7 @@
 #else
 #set($comment=$column.columnComment)
 #end
-#if($column.htmlType == "input")
+#if($column.htmlType == "INPUT")
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-input
           v-model="queryParams.${column.javaField}"
@@ -20,7 +20,7 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-#elseif(($column.htmlType == "select" || $column.htmlType == "radio") && "" != $dictType)
+#elseif(($column.htmlType == "SELECT" || $column.htmlType == "RADIO") && "" != $dictType)
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-select v-model="queryParams.${column.javaField}" placeholder="请选择${comment}" clearable>
           <el-option
@@ -31,13 +31,13 @@
           />
         </el-select>
       </el-form-item>
-#elseif(($column.htmlType == "select" || $column.htmlType == "radio") && $dictType)
+#elseif(($column.htmlType == "SELECT" || $column.htmlType == "RADIO") && $dictType)
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-select v-model="queryParams.${column.javaField}" placeholder="请选择${comment}" clearable>
           <el-option label="请选择字典生成" value="" />
         </el-select>
       </el-form-item>
-#elseif($column.htmlType == "datetime" && $column.queryType != "BETWEEN")
+#elseif($column.htmlType == "DATETIME" && $column.queryType != "BETWEEN")
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-date-picker clearable
           v-model="queryParams.${column.javaField}"
@@ -46,7 +46,7 @@
           placeholder="请选择${comment}">
         </el-date-picker>
       </el-form-item>
-#elseif($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
+#elseif($column.htmlType == "DATETIME" && $column.queryType == "BETWEEN")
       <el-form-item label="${comment}" style="width: 308px">
         <el-date-picker
           v-model="daterange${AttrName}"
@@ -120,13 +120,13 @@
 #end
 #if($column.pk)
       <el-table-column label="${comment}" align="center" prop="${javaField}" />
-#elseif($column.list && $column.htmlType == "datetime")
+#elseif($column.list && $column.htmlType == "DATETIME")
       <el-table-column label="${comment}" align="center" prop="${javaField}" width="180">
         <template #default="scope">
           <span>{{ parseTime(scope.row.${javaField}, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-#elseif($column.list && $column.htmlType == "imageUpload")
+#elseif($column.list && $column.htmlType == "IMAGE_UPLOAD")
       <el-table-column label="${comment}" align="center" prop="${javaField}" width="100">
         <template #default="scope">
           <image-preview :src="scope.row.${javaField}" :width="50" :height="50"/>
@@ -135,7 +135,7 @@
 #elseif($column.list && "" != $column.dictType)
       <el-table-column label="${comment}" align="center" prop="${javaField}">
         <template #default="scope">
-#if($column.htmlType == "checkbox")
+#if($column.htmlType == "CHECKBOX")
           <dict-tag :options="${column.dictType}" :value="scope.row.${javaField} ? scope.row.${javaField}.split(',') : []"/>
 #else
           <dict-tag :options="${column.dictType}" :value="scope.row.${javaField}"/>
@@ -176,23 +176,23 @@
 #set($comment=$column.columnComment)
 #end
 #set($dictType=$column.dictType)
-#if($column.htmlType == "input")
+#if($column.htmlType == "INPUT")
         <el-form-item label="${comment}" prop="${field}">
           <el-input v-model="form.${field}" placeholder="请输入${comment}" />
         </el-form-item>
-#elseif($column.htmlType == "imageUpload")
+#elseif($column.htmlType == "IMAGE_UPLOAD")
         <el-form-item label="${comment}" prop="${field}">
           <image-upload v-model="form.${field}"/>
         </el-form-item>
-#elseif($column.htmlType == "fileUpload")
+#elseif($column.htmlType == "FILE_UPLOAD")
         <el-form-item label="${comment}" prop="${field}">
           <file-upload v-model="form.${field}"/>
         </el-form-item>
-#elseif($column.htmlType == "editor")
+#elseif($column.htmlType == "EDITOR")
         <el-form-item label="${comment}">
           <editor v-model="form.${field}" :min-height="192"/>
         </el-form-item>
-#elseif($column.htmlType == "select" && "" != $dictType)
+#elseif($column.htmlType == "SELECT" && "" != $dictType)
         <el-form-item label="${comment}" prop="${field}">
           <el-select v-model="form.${field}" placeholder="请选择${comment}">
             <el-option
@@ -207,13 +207,13 @@
             ></el-option>
           </el-select>
         </el-form-item>
-#elseif($column.htmlType == "select" && $dictType)
+#elseif($column.htmlType == "SELECT" && $dictType)
         <el-form-item label="${comment}" prop="${field}">
           <el-select v-model="form.${field}" placeholder="请选择${comment}">
             <el-option label="请选择字典生成" value="" />
           </el-select>
         </el-form-item>
-#elseif($column.htmlType == "checkbox" && "" != $dictType)
+#elseif($column.htmlType == "CHECKBOX" && "" != $dictType)
         <el-form-item label="${comment}" prop="${field}">
           <el-checkbox-group v-model="form.${field}">
             <el-checkbox
@@ -224,13 +224,13 @@
             </el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-#elseif($column.htmlType == "checkbox" && $dictType)
+#elseif($column.htmlType == "CHECKBOX" && $dictType)
         <el-form-item label="${comment}" prop="${field}">
           <el-checkbox-group v-model="form.${field}">
             <el-checkbox>请选择字典生成</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-#elseif($column.htmlType == "radio" && "" != $dictType)
+#elseif($column.htmlType == "RADIO" && "" != $dictType)
         <el-form-item label="${comment}" prop="${field}">
           <el-radio-group v-model="form.${field}">
             <el-radio
@@ -244,13 +244,13 @@
             >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
-#elseif($column.htmlType == "radio" && $dictType)
+#elseif($column.htmlType == "RADIO" && $dictType)
         <el-form-item label="${comment}" prop="${field}">
           <el-radio-group v-model="form.${field}">
             <el-radio label="1">请选择字典生成</el-radio>
           </el-radio-group>
         </el-form-item>
-#elseif($column.htmlType == "datetime")
+#elseif($column.htmlType == "DATETIME")
         <el-form-item label="${comment}" prop="${field}">
           <el-date-picker clearable
             v-model="form.${field}"
@@ -259,7 +259,7 @@
             placeholder="请选择${comment}">
           </el-date-picker>
         </el-form-item>
-#elseif($column.htmlType == "textarea")
+#elseif($column.htmlType == "TEXTAREA")
         <el-form-item label="${comment}" prop="${field}">
           <el-input v-model="form.${field}" type="textarea" placeholder="请输入内容" />
         </el-form-item>
@@ -289,13 +289,13 @@
 #set($comment=$column.columnComment)
 #end
 #if($column.pk || $javaField == ${subTableFkclassName})
-#elseif($column.list && $column.htmlType == "input")
+#elseif($column.list && $column.htmlType == "INPUT")
           <el-table-column label="$comment" prop="${javaField}" width="150">
             <template #default="scope">
               <el-input v-model="scope.row.$javaField" placeholder="请输入$comment" />
             </template>
           </el-table-column>
-#elseif($column.list && $column.htmlType == "datetime")
+#elseif($column.list && $column.htmlType == "DATETIME")
           <el-table-column label="$comment" prop="${javaField}" width="240">
             <template #default="scope">
               <el-date-picker clearable
@@ -306,7 +306,7 @@
               </el-date-picker>
             </template>
           </el-table-column>
-#elseif($column.list && ($column.htmlType == "select" || $column.htmlType == "radio") && "" != $column.dictType)
+#elseif($column.list && ($column.htmlType == "SELECT" || $column.htmlType == "RADIO") && "" != $column.dictType)
           <el-table-column label="$comment" prop="${javaField}" width="150">
             <template #default="scope">
               <el-select v-model="scope.row.$javaField" placeholder="请选择$comment">
@@ -319,7 +319,7 @@
               </el-select>
             </template>
           </el-table-column>
-#elseif($column.list && ($column.htmlType == "select" || $column.htmlType == "radio") && "" == $column.dictType)
+#elseif($column.list && ($column.htmlType == "SELECT" || $column.htmlType == "RADIO") && "" == $column.dictType)
           <el-table-column label="$comment" prop="${javaField}" width="150">
             <template #default="scope">
               <el-select v-model="scope.row.$javaField" placeholder="请选择$comment">
@@ -367,7 +367,7 @@ const multiple = ref(true)
 const total = ref(0)
 const title = ref("")
 #foreach ($column in $columns)
-#if($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
+#if($column.htmlType == "DATETIME" && $column.queryType == "BETWEEN")
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
 const daterange${AttrName} = ref([])
 #end
@@ -394,7 +394,7 @@ const data = reactive({
 #set($comment=$column.columnComment)
 #end
     $column.javaField: [
-      { required: true, message: "$comment不能为空", trigger: #if($column.htmlType == "select" || $column.htmlType == "radio")"change"#else"blur"#end }
+      { required: true, message: "$comment不能为空", trigger: #if($column.htmlType == "SELECT" || $column.htmlType == "RADIO")"change"#else"blur"#end }
     ]#if($foreach.count != $columns.size()),#end
 #end
 #end
@@ -407,13 +407,13 @@ const { queryParams, form, rules } = toRefs(data)
 function getList() {
   loading.value = true
 #foreach ($column in $columns)
-#if($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
+#if($column.htmlType == "DATETIME" && $column.queryType == "BETWEEN")
   queryParams.value.params = {}
 #break
 #end
 #end
 #foreach ($column in $columns)
-#if($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
+#if($column.htmlType == "DATETIME" && $column.queryType == "BETWEEN")
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
   if (null != daterange${AttrName} && '' != daterange${AttrName}) {
     queryParams.value.params["begin${AttrName}"] = daterange${AttrName}.value[0]
@@ -438,7 +438,7 @@ function cancel() {
 function reset() {
   form.value = {
 #foreach ($column in $columns)
-#if($column.htmlType == "checkbox")
+#if($column.htmlType == "CHECKBOX")
     $column.javaField: []#if($foreach.count != $columns.size()),#end
 #else
     $column.javaField: null#if($foreach.count != $columns.size()),#end
@@ -460,7 +460,7 @@ function handleQuery() {
 /** 重置按钮操作 */
 function resetQuery() {
 #foreach ($column in $columns)
-#if($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
+#if($column.htmlType == "DATETIME" && $column.queryType == "BETWEEN")
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
   daterange${AttrName}.value = []
 #end
@@ -490,7 +490,7 @@ function handleUpdate(row) {
   get${BusinessName}(_${pkColumn.javaField}).then(response => {
     form.value = response.data
 #foreach ($column in $columns)
-#if($column.htmlType == "checkbox")
+#if($column.htmlType == "CHECKBOX")
     form.value.$column.javaField = form.value.${column.javaField}.split(",")
 #end
 #end
@@ -507,7 +507,7 @@ function submitForm() {
   proxy.#[[$]]#refs["${businessName}Ref"].validate(valid => {
     if (valid) {
 #foreach ($column in $columns)
-#if($column.htmlType == "checkbox")
+#if($column.htmlType == "CHECKBOX")
       form.value.$column.javaField = form.value.${column.javaField}.join(",")
 #end
 #end

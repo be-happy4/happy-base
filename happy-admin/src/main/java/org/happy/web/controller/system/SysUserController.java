@@ -9,7 +9,7 @@ import org.happy.common.core.domain.entity.SysDept;
 import org.happy.common.core.domain.entity.SysRole;
 import org.happy.common.core.domain.entity.SysUser;
 import org.happy.common.core.page.TableDataInfo;
-import org.happy.common.enums.BusinessType;
+import org.happy.common.enums.entity.BusinessType;
 import org.happy.common.utils.SecurityUtils;
 import org.happy.common.utils.StringUtils;
 import org.happy.common.utils.poi.ExcelUtil;

@@ -6,6 +6,9 @@ import lombok.Setter;
 import org.happy.common.annotation.Excel;
 import org.happy.common.annotation.Excel.ColumnType;
 import org.happy.common.core.domain.BaseEntity;
+import org.happy.common.enums.entity.BusinessStatus;
+import org.happy.common.enums.entity.BusinessType;
+import org.happy.common.enums.entity.OperatorType;
 import org.happy.common.utils.TimeUtils;
 
 import java.util.Date;
@@ -32,10 +35,10 @@ public class SysOperLog extends BaseEntity {
     private String title;
 
     /**
-     * 业务类型（0其它 1新增 2修改 3删除）
+     * 业务类型
      */
-    @Excel(name = "业务类型", readConverterExp = "0=其它,1=新增,2=修改,3=删除,4=授权,5=导出,6=导入,7=强退,8=生成代码,9=清空数据")
-    private Integer businessType;
+    @Excel(name = "业务类型")
+    private BusinessType businessType;
 
     /**
      * 业务类型数组
@@ -55,10 +58,10 @@ public class SysOperLog extends BaseEntity {
     private String requestMethod;
 
     /**
-     * 操作类别（0其它 1后台用户 2手机端用户）
+     * 操作类别
      */
-    @Excel(name = "操作类别", readConverterExp = "0=其它,1=后台用户,2=手机端用户")
-    private Integer operatorType;
+    @Excel(name = "操作类别")
+    private OperatorType operatorType;
 
     /**
      * 操作人员
@@ -105,8 +108,8 @@ public class SysOperLog extends BaseEntity {
     /**
      * 操作状态
      */
-    @Excel(name = "状态", readConverterExp = "0=正常,1=异常")
-    private Integer status;
+    @Excel(name = "状态")
+    private BusinessStatus status;
 
     /**
      * 错误消息

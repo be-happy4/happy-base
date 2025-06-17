@@ -9,7 +9,7 @@ import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.core.domain.BaseEntity;
-import org.happy.common.enums.DataStatus;
+import org.happy.common.enums.entity.DataStatus;
 
 import java.util.ArrayList;
 import java.util.List;

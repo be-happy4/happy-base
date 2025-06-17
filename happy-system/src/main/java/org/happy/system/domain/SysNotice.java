@@ -2,9 +2,13 @@ package org.happy.system.domain;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.core.domain.BaseEntity;
+import org.happy.common.enums.entity.NoticeStatus;
+import org.happy.common.enums.entity.NoticeType;
 import org.happy.common.xss.Xss;
 
 /**
@@ -12,8 +16,9 @@ import org.happy.common.xss.Xss;
  *
  * @author happy
  */
+@Getter
+@Setter
 public class SysNotice extends BaseEntity {
-    private static final long serialVersionUID = 1L;
 
     /**
      * 公告ID
@@ -26,9 +31,9 @@ public class SysNotice extends BaseEntity {
     private String noticeTitle;
 
     /**
-     * 公告类型（1通知 2公告）
+     * 公告类型
      */
-    private String noticeType;
+    private NoticeType noticeType;
 
     /**
      * 公告内容
@@ -36,51 +41,15 @@ public class SysNotice extends BaseEntity {
     private String noticeContent;
 
     /**
-     * 公告状态（0正常 1关闭）
+     * 公告状态
      */
-    private String status;
-
-    public Long getNoticeId() {
-        return noticeId;
-    }
-
-    public void setNoticeId(Long noticeId) {
-        this.noticeId = noticeId;
-    }
-
-    public void setNoticeTitle(String noticeTitle) {
-        this.noticeTitle = noticeTitle;
-    }
+    private NoticeStatus status;
 
     @Xss(message = "公告标题不能包含脚本字符")
     @NotBlank(message = "公告标题不能为空")
     @Size(min = 0, max = 50, message = "公告标题不能超过50个字符")
     public String getNoticeTitle() {
         return noticeTitle;
-    }
-
-    public void setNoticeType(String noticeType) {
-        this.noticeType = noticeType;
-    }
-
-    public String getNoticeType() {
-        return noticeType;
-    }
-
-    public void setNoticeContent(String noticeContent) {
-        this.noticeContent = noticeContent;
-    }
-
-    public String getNoticeContent() {
-        return noticeContent;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     @Override

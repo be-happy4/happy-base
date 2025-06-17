@@ -3,12 +3,10 @@ package org.happy.common.core.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
-import org.happy.common.constant.UserConstants;
 import org.happy.common.core.domain.entity.SysDept;
 import org.happy.common.core.domain.entity.SysMenu;
-import org.happy.common.utils.StringUtils;
+import org.happy.common.enums.entity.DataStatus;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -51,7 +49,7 @@ public class TreeSelect {
     public TreeSelect(SysDept dept) {
         this.id = dept.getDeptId();
         this.label = dept.getDeptName();
-        this.disabled = Objects.equals(UserConstants.DEPT_DISABLE, dept.getStatus());
+        this.disabled = Objects.equals(DataStatus.DISABLE, dept.getStatus());
         this.children = dept.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 

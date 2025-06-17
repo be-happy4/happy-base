@@ -16,7 +16,7 @@ import org.happy.common.annotation.Log;
 import org.happy.common.core.domain.entity.SysUser;
 import org.happy.common.core.domain.model.LoginUser;
 import org.happy.common.core.text.Convert;
-import org.happy.common.enums.BusinessStatus;
+import org.happy.common.enums.entity.BusinessStatus;
 import org.happy.common.enums.HttpMethod;
 import org.happy.common.utils.ExceptionUtil;
 import org.happy.common.utils.SecurityUtils;
@@ -26,8 +26,6 @@ import org.happy.common.utils.ip.IpUtils;
 import org.happy.framework.manager.AsyncManager;
 import org.happy.framework.manager.factory.AsyncFactory;
 import org.happy.system.domain.SysOperLog;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
@@ -93,7 +91,7 @@ public class LogAspect {
 
             // *========数据库日志=========*//
             SysOperLog operLog = new SysOperLog();
-            operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
+            operLog.setStatus(BusinessStatus.NORMAL);
             // 请求的地址
             String ip = IpUtils.getIpAddr();
             operLog.setOperIp(ip);
@@ -107,7 +105,7 @@ public class LogAspect {
             }
 
             if (e != null) {
-                operLog.setStatus(BusinessStatus.FAIL.ordinal());
+                operLog.setStatus(BusinessStatus.ABNORMAL);
                 operLog.setErrorMsg(StringUtils.substring(Convert.toStr(e.getMessage(), ExceptionUtil.getExceptionMessage(e)), 0, 2000));
             }
             // 设置方法名称
@@ -140,11 +138,11 @@ public class LogAspect {
      */
     public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SysOperLog operLog, Object jsonResult) throws Exception {
         // 设置action动作
-        operLog.setBusinessType(log.businessType().ordinal());
+        operLog.setBusinessType(log.businessType());
         // 设置标题
         operLog.setTitle(log.title());
         // 设置操作人类别
-        operLog.setOperatorType(log.operatorType().ordinal());
+        operLog.setOperatorType(log.operatorType());
         // 是否需要保存request，参数和值
         if (log.isSaveRequestData()) {
             // 获取参数的信息，传入到数据库中。

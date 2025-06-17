@@ -11,7 +11,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.annotation.Excel;
 import org.happy.common.annotation.Excel.ColumnType;
 import org.happy.common.core.domain.BaseEntity;
-import org.happy.common.enums.DataStatus;
+import org.happy.common.enums.DataScopeType;
+import org.happy.common.enums.entity.DataStatus;
 
 import java.util.Set;
 
@@ -51,16 +52,16 @@ public class SysRole extends BaseEntity {
     /**
      * 数据范围（1：所有数据权限；2：自定义数据权限；3：本部门数据权限；4：本部门及以下数据权限；5：仅本人数据权限）
      */
-    @Excel(name = "数据范围", readConverterExp = "1=所有数据权限,2=自定义数据权限,3=本部门数据权限,4=本部门及以下数据权限,5=仅本人数据权限")
-    private String dataScope;
+    @Excel(name = "数据范围")
+    private DataScopeType dataScope;
 
     /**
-     * 菜单树选择项是否关联显示（ 0：父子不互相关联显示 1：父子互相关联显示）
+     * 菜单树选择项是否关联显示（ false：父子不互相关联显示 true：父子互相关联显示）
      */
     private boolean menuCheckStrictly;
 
     /**
-     * 部门树选择项是否关联显示（0：父子不互相关联显示 1：父子互相关联显示 ）
+     * 部门树选择项是否关联显示（false：父子不互相关联显示 true：父子互相关联显示 ）
      */
     private boolean deptCheckStrictly;
 

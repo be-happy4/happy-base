@@ -13,8 +13,8 @@ import org.happy.common.annotation.Excel.ColumnType;
 import org.happy.common.annotation.Excel.Type;
 import org.happy.common.annotation.Excels;
 import org.happy.common.core.domain.BaseEntity;
-import org.happy.common.enums.SexEnum;
-import org.happy.common.enums.DataStatus;
+import org.happy.common.enums.entity.SexEnum;
+import org.happy.common.enums.entity.DataStatus;
 import org.happy.common.utils.TimeUtils;
 import org.happy.common.xss.Xss;
 

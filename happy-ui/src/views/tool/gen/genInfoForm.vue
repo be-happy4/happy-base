@@ -5,7 +5,7 @@
         <el-form-item prop="tplCategory">
           <span slot="label">生成模板</span>
           <el-select v-model="info.tplCategory" @change="tplSelectChange">
-            <el-option label="单表（增删改查）" value="crud" />
+            <el-option label="单表（增删改查）" value="CRUD" />
             <el-option label="树表（增删改查）" value="tree" />
             <el-option label="主子表（增删改查）" value="sub" />
           </el-select>
@@ -15,8 +15,8 @@
         <el-form-item prop="tplWebType">
           <span slot="label">前端类型</span>
           <el-select v-model="info.tplWebType">
-            <el-option label="Vue2 Element UI 模版" value="element-ui" />
-            <el-option label="Vue3 Element Plus 模版" value="element-plus" />
+            <el-option label="Vue2 Element UI 模版" value="ELEMENT_UUI" />
+            <el-option label="Vue3 Element Plus 模版" value="ELEMENT_PLUS" />
           </el-select>
         </el-form-item>
       </el-col>
@@ -270,7 +270,7 @@ export default {
     },
     'info.tplWebType': function(val) {
       if (val === '') {
-        this.info.tplWebType = "element-ui"
+        this.info.tplWebType = "ELEMENT_UI"
       }
     }
   },

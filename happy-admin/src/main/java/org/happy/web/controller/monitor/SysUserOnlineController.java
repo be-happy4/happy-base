@@ -7,7 +7,7 @@ import org.happy.common.core.domain.AjaxResult;
 import org.happy.common.core.domain.model.LoginUser;
 import org.happy.common.core.page.TableDataInfo;
 import org.happy.common.core.redis.RedisCache;
-import org.happy.common.enums.BusinessType;
+import org.happy.common.enums.entity.BusinessType;
 import org.happy.common.utils.StringUtils;
 import org.happy.system.domain.SysUserOnline;
 import org.happy.system.service.ISysUserOnlineService;

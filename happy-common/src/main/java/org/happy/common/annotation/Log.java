@@ -1,7 +1,7 @@
 package org.happy.common.annotation;
 
-import org.happy.common.enums.BusinessType;
-import org.happy.common.enums.OperatorType;
+import org.happy.common.enums.entity.BusinessType;
+import org.happy.common.enums.entity.OperatorType;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

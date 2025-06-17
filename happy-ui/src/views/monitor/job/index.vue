@@ -214,17 +214,17 @@
           <el-col :span="12">
             <el-form-item label="执行策略" prop="misfirePolicy">
               <el-radio-group v-model="form.misfirePolicy" size="small">
-                <el-radio-button label="1">立即执行</el-radio-button>
-                <el-radio-button label="2">执行一次</el-radio-button>
-                <el-radio-button label="3">放弃执行</el-radio-button>
+                <el-radio-button label="IGNORE_MISFIRES">立即执行</el-radio-button>
+                <el-radio-button label="FIRE_AND_PROCEED">执行一次</el-radio-button>
+                <el-radio-button label="DO_NOTHING">放弃执行</el-radio-button>
               </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="是否并发" prop="concurrent">
               <el-radio-group v-model="form.concurrent" size="small">
-                <el-radio-button label="0">允许</el-radio-button>
-                <el-radio-button label="1">禁止</el-radio-button>
+                <el-radio-button label="false">禁止</el-radio-button>
+                <el-radio-button label="true">允许</el-radio-button>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -275,10 +275,10 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="执行策略：">
-              <div v-if="form.misfirePolicy == 0">默认策略</div>
-              <div v-else-if="form.misfirePolicy == 1">立即执行</div>
-              <div v-else-if="form.misfirePolicy == 2">执行一次</div>
-              <div v-else-if="form.misfirePolicy == 3">放弃执行</div>
+              <div v-if="form.misfirePolicy == 'DEFAULT'">默认策略</div>
+              <div v-else-if="form.misfirePolicy == 'IGNORE_MISFIRES'">立即执行</div>
+              <div v-else-if="form.misfirePolicy == 'FIRE_AND_PROCEED'">执行一次</div>
+              <div v-else-if="form.misfirePolicy == 'DO_NOTHING'">放弃执行</div>
             </el-form-item>
           </el-col>
         </el-row>
@@ -424,7 +424,7 @@ export default {
       }).then(() => {
         this.$modal.msgSuccess(text + "成功")
       }).catch(function() {
-        row.status = row.status === "OK" ? "DISABLED" : "OK"
+        row.status = row.status === "OK" ? "DISABLE" : "OK"
       })
     },
     /* 立即执行一次 */

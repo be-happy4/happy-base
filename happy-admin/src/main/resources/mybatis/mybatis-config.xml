@@ -19,6 +19,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
     <typeHandlers>
         <typeHandler handler="org.happy.framework.config.mybatis.DataStatusTypeHandler"
-                     javaType="org.happy.common.enums.DataStatus" jdbcType="OTHER" />
+                     javaType="org.happy.common.enums.entity.DataStatus" jdbcType="OTHER" />
     </typeHandlers>
 </configuration>

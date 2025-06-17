@@ -5,17 +5,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.velocity.VelocityContext;
 import org.happy.common.constant.GenConstants;
+import org.happy.common.enums.gen.GenJavaType;
+import org.happy.common.enums.gen.HtmlType;
+import org.happy.common.enums.gen.TplCategory;
+import org.happy.common.enums.gen.TplWebType;
 import org.happy.common.utils.DateUtils;
 import org.happy.common.utils.StringUtils;
 import org.happy.common.utils.spring.SpringUtils;
 import org.happy.generator.domain.GenTable;
 import org.happy.generator.domain.GenTableColumn;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -50,7 +50,7 @@ public class VelocityUtils {
         String moduleName = genTable.getModuleName();
         String businessName = genTable.getBusinessName();
         String packageName = genTable.getPackageName();
-        String tplCategory = genTable.getTplCategory();
+        var tplCategory = genTable.getTplCategory();
         String functionName = genTable.getFunctionName();
 
         VelocityContext velocityContext = new VelocityContext();
@@ -73,10 +73,10 @@ public class VelocityUtils {
         velocityContext.put("table", genTable);
         velocityContext.put("dicts", getDicts(genTable));
         setMenuVelocityContext(velocityContext, genTable);
-        if (GenConstants.TPL_TREE.equals(tplCategory)) {
+        if (TplCategory.TREE.equals(tplCategory)) {
             setTreeVelocityContext(velocityContext, genTable);
         }
-        if (GenConstants.TPL_SUB.equals(tplCategory)) {
+        if (TplCategory.SUB.equals(tplCategory)) {
             setSubVelocityContext(velocityContext, genTable);
         }
         return velocityContext;
@@ -132,12 +132,12 @@ public class VelocityUtils {
      * @param tplWebType  前端类型
      * @return 模板列表
      */
-    public static List<String> getTemplateList(String tplCategory, String tplWebType) {
+    public static List<String> getTemplateList(TplCategory tplCategory, TplWebType tplWebType) {
         String useWebType = "vm/vue";
-        if ("element-plus".equals(tplWebType)) {
+        if (TplWebType.ELEMENT_PLUS.equals(tplWebType)) {
             useWebType = "vm/vue/v3";
         }
-        List<String> templates = new ArrayList<String>();
+        List<String> templates = new ArrayList<>();
         templates.add("vm/java/domain.java.vm");
         templates.add("vm/java/mapper.java.vm");
         templates.add("vm/java/service.java.vm");
@@ -146,11 +146,11 @@ public class VelocityUtils {
         templates.add("vm/xml/mapper.xml.vm");
         templates.add("vm/sql/sql.vm");
         templates.add("vm/js/api.js.vm");
-        if (GenConstants.TPL_CRUD.equals(tplCategory)) {
+        if (TplCategory.CRUD.equals(tplCategory)) {
             templates.add(useWebType + "/index.vue.vm");
-        } else if (GenConstants.TPL_TREE.equals(tplCategory)) {
+        } else if (TplCategory.TREE.equals(tplCategory)) {
             templates.add(useWebType + "/index-tree.vue.vm");
-        } else if (GenConstants.TPL_SUB.equals(tplCategory)) {
+        } else if (TplCategory.SUB.equals(tplCategory)) {
             templates.add(useWebType + "/index.vue.vm");
             templates.add("vm/java/sub-domain.java.vm");
         }
@@ -179,7 +179,7 @@ public class VelocityUtils {
         if (template.contains("domain.java.vm")) {
             fileName = StringUtils.format("{}/domain/{}.java", javaPath, className);
         }
-        if (template.contains("sub-domain.java.vm") && Objects.equals(GenConstants.TPL_SUB, genTable.getTplCategory())) {
+        if (template.contains("sub-domain.java.vm") && Objects.equals(TplCategory.SUB, genTable.getTplCategory())) {
             fileName = StringUtils.format("{}/domain/{}.java", javaPath, genTable.getSubTable().getClassName());
         } else if (template.contains("mapper.java.vm")) {
             fileName = StringUtils.format("{}/mapper/{}Mapper.java", javaPath, className);
@@ -223,15 +223,15 @@ public class VelocityUtils {
     public static HashSet<String> getImportList(GenTable genTable) {
         List<GenTableColumn> columns = genTable.getColumns();
         GenTable subGenTable = genTable.getSubTable();
-        HashSet<String> importList = new HashSet<String>();
+        HashSet<String> importList = new HashSet<>();
         if (null != subGenTable) {
             importList.add("java.util.List");
         }
         for (GenTableColumn column : columns) {
-            if (!column.isSuperColumn() && GenConstants.TYPE_DATE.equals(column.getJavaType())) {
+            if (!column.isSuperColumn() && GenJavaType.DATE.equals(column.getJavaType())) {
                 importList.add("java.util.Date");
                 importList.add("com.fasterxml.jackson.annotation.JsonFormat");
-            } else if (!column.isSuperColumn() && GenConstants.TYPE_BIGDECIMAL.equals(column.getJavaType())) {
+            } else if (!column.isSuperColumn() && GenJavaType.BIGDECIMAL.equals(column.getJavaType())) {
                 importList.add("java.math.BigDecimal");
             }
         }
@@ -246,7 +246,7 @@ public class VelocityUtils {
      */
     public static String getDicts(GenTable genTable) {
         List<GenTableColumn> columns = genTable.getColumns();
-        Set<String> dicts = new HashSet<String>();
+        Set<String> dicts = new HashSet<>();
         addDicts(dicts, columns);
         if (null != genTable.getSubTable()) {
             List<GenTableColumn> subColumns = genTable.getSubTable().getColumns();
@@ -263,9 +263,8 @@ public class VelocityUtils {
      */
     public static void addDicts(Set<String> dicts, List<GenTableColumn> columns) {
         for (GenTableColumn column : columns) {
-            if (!column.isSuperColumn() && StringUtils.isNotEmpty(column.getDictType()) && StringUtils.equalsAny(
-                    column.getHtmlType(),
-                    new String[]{GenConstants.HTML_SELECT, GenConstants.HTML_RADIO, GenConstants.HTML_CHECKBOX})) {
+            if (!column.isSuperColumn() && StringUtils.isNotEmpty(column.getDictType()) &&
+                EnumSet.of(HtmlType.SELECT, HtmlType.RADIO, HtmlType.CHECKBOX).contains(column.getHtmlType())) {
                 dicts.add("'" + column.getDictType() + "'");
             }
         }

@@ -8,9 +8,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.annotation.Excel;
 import org.happy.common.annotation.Excel.ColumnType;
-import org.happy.common.constant.UserConstants;
 import org.happy.common.core.domain.BaseEntity;
-import org.happy.common.enums.DataStatus;
+import org.happy.common.enums.entity.DataStatus;
 
 /**
  * 字典数据表 sys_dict_data
@@ -61,10 +60,10 @@ public class SysDictData extends BaseEntity {
     private String listClass;
 
     /**
-     * 是否默认（Y是 N否）
+     * 是否默认
      */
-    @Excel(name = "是否默认", readConverterExp = "Y=是,N=否")
-    private String isDefault;
+    @Excel(name = "是否默认")
+    private Boolean isDefault;
 
     /**
      * 状态
@@ -96,7 +95,7 @@ public class SysDictData extends BaseEntity {
     }
 
     public boolean getDefault() {
-        return UserConstants.YES.equals(this.isDefault);
+        return this.isDefault;
     }
 
     @Override

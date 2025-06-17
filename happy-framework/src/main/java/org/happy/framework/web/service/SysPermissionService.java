@@ -1,8 +1,8 @@
 package org.happy.framework.web.service;
 
-import org.happy.common.constant.UserConstants;
 import org.happy.common.core.domain.entity.SysRole;
 import org.happy.common.core.domain.entity.SysUser;
+import org.happy.common.enums.entity.DataStatus;
 import org.happy.system.service.ISysMenuService;
 import org.happy.system.service.ISysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +60,7 @@ public class SysPermissionService {
             if (!CollectionUtils.isEmpty(roles)) {
                 // 多角色设置permissions属性，以便数据权限匹配权限
                 for (SysRole role : roles) {
-                    if (Objects.equals(role.getStatus(), UserConstants.ROLE_NORMAL) && !role.isAdmin()) {
+                    if (Objects.equals(role.getStatus(), DataStatus.OK) && !role.isAdmin()) {
                         Set<String> rolePerms = menuService.selectMenuPermsByRoleId(role.getRoleId());
                         role.setPermissions(rolePerms);
                         perms.addAll(rolePerms);

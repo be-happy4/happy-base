@@ -108,7 +108,7 @@
           <el-switch
             v-model="scope.row.status"
             active-value="OK"
-            inactive-value="DISABLED"
+            inactive-value="DISABLE"
             @change="handleStatusChange(scope.row)"
           ></el-switch>
         </template>
@@ -226,7 +226,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="数据权限" v-show="form.dataScope == 2">
+        <el-form-item label="数据权限" v-show="form.dataScope == 'CUSTOM'">
           <el-checkbox v-model="deptExpand" @change="handleCheckedTreeExpand($event, 'dept')">展开/折叠</el-checkbox>
           <el-checkbox v-model="deptNodeAll" @change="handleCheckedTreeNodeAll($event, 'dept')">全选/全不选</el-checkbox>
           <el-checkbox v-model="form.deptCheckStrictly" @change="handleCheckedTreeConnect($event, 'dept')">父子联动</el-checkbox>
@@ -401,7 +401,7 @@ export default {
       }).then(() => {
         this.$modal.msgSuccess(text + "成功")
       }).catch(function() {
-        row.status = row.status === "OK" ? "DISABLED" : "OK"
+        row.status = row.status === "OK" ? "DISABLE" : "OK"
       })
     },
     // 取消按钮

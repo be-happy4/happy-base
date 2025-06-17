@@ -9,8 +9,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.annotation.Excel;
 import org.happy.common.annotation.Excel.ColumnType;
-import org.happy.common.constant.ScheduleConstants;
 import org.happy.common.core.domain.BaseEntity;
+import org.happy.common.enums.JobStatus;
+import org.happy.common.enums.entity.MisfirePolicy;
 import org.happy.common.utils.StringUtils;
 import org.happy.common.utils.TimeUtils;
 import org.happy.quartz.util.CronUtils;
@@ -58,20 +59,20 @@ public class SysJob extends BaseEntity {
     /**
      * cron计划策略
      */
-    @Excel(name = "计划策略 ", readConverterExp = "0=默认,1=立即触发执行,2=触发一次执行,3=不触发立即执行")
-    private String misfirePolicy = ScheduleConstants.MISFIRE_DEFAULT;
+    @Excel(name = "计划策略 ")
+    private MisfirePolicy misfirePolicy = MisfirePolicy.DEFAULT;
 
     /**
-     * 是否并发执行（0允许 1禁止）
+     * 是否并发执行
      */
-    @Excel(name = "并发执行", readConverterExp = "0=允许,1=禁止")
-    private String concurrent;
+    @Excel(name = "并发执行")
+    private Boolean concurrent;
 
     /**
-     * 任务状态（0正常 1暂停）
+     * 任务状态
      */
-    @Excel(name = "任务状态", readConverterExp = "0=正常,1=暂停")
-    private String status;
+    @Excel(name = "任务状态")
+    private JobStatus status;
 
     @NotBlank(message = "任务名称不能为空")
     @Size(min = 0, max = 64, message = "任务名称不能超过64个字符")

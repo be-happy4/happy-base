@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="isEdit != null and isEdit != ''">is_edit,</if>
 			<if test="isList != null and isList != ''">is_list,</if>
 			<if test="isQuery != null and isQuery != ''">is_query,</if>
-			<if test="queryType != null and queryType != ''">query_type,</if>
+        <if test="queryType != null">query_type,</if>
 			<if test="htmlType != null and htmlType != ''">html_type,</if>
 			<if test="dictType != null and dictType != ''">dict_type,</if>
 			<if test="sort != null">sort,</if>
@@ -80,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="isEdit != null and isEdit != ''">#{isEdit},</if>
 			<if test="isList != null and isList != ''">#{isList},</if>
 			<if test="isQuery != null and isQuery != ''">#{isQuery},</if>
-			<if test="queryType != null and queryType != ''">#{queryType},</if>
+        <if test="queryType != null">#{queryType},</if>
 			<if test="htmlType != null and htmlType != ''">#{htmlType},</if>
 			<if test="dictType != null and dictType != ''">#{dictType},</if>
 			<if test="sort != null">#{sort},</if>

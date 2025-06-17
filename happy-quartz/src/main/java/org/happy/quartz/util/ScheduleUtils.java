@@ -2,8 +2,9 @@ package org.happy.quartz.util;
 
 import org.happy.common.constant.Constants;
 import org.happy.common.constant.ScheduleConstants;
+import org.happy.common.enums.JobStatus;
+import org.happy.common.enums.entity.MisfirePolicy;
 import org.happy.common.exception.job.TaskException;
-import org.happy.common.exception.job.TaskException.Code;
 import org.happy.common.utils.StringUtils;
 import org.happy.common.utils.spring.SpringUtils;
 import org.happy.quartz.domain.SysJob;
@@ -31,7 +32,7 @@ public class ScheduleUtils {
      * @return 具体执行任务类
      */
     private static Class<? extends Job> getQuartzJobClass(SysJob sysJob) {
-        boolean isConcurrent = "0".equals(sysJob.getConcurrent());
+        boolean isConcurrent = sysJob.getConcurrent();
         return isConcurrent ? QuartzJobExecution.class : QuartzDisallowConcurrentExecution.class;
     }
 
@@ -83,7 +84,7 @@ public class ScheduleUtils {
         }
 
         // 暂停任务
-        if (job.getStatus().equals(ScheduleConstants.Status.PAUSE.getValue())) {
+        if (job.getStatus().equals(JobStatus.PAUSE)) {
             scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
         }
     }
@@ -93,19 +94,12 @@ public class ScheduleUtils {
      */
     public static CronScheduleBuilder handleCronScheduleMisfirePolicy(SysJob job, CronScheduleBuilder cb)
             throws TaskException {
-        switch (job.getMisfirePolicy()) {
-            case ScheduleConstants.MISFIRE_DEFAULT:
-                return cb;
-            case ScheduleConstants.MISFIRE_IGNORE_MISFIRES:
-                return cb.withMisfireHandlingInstructionIgnoreMisfires();
-            case ScheduleConstants.MISFIRE_FIRE_AND_PROCEED:
-                return cb.withMisfireHandlingInstructionFireAndProceed();
-            case ScheduleConstants.MISFIRE_DO_NOTHING:
-                return cb.withMisfireHandlingInstructionDoNothing();
-            default:
-                throw new TaskException("The task misfire policy '" + job.getMisfirePolicy()
-                                        + "' cannot be used in cron schedule tasks", Code.CONFIG_ERROR);
-        }
+        return switch (job.getMisfirePolicy()) {
+            case MisfirePolicy.DEFAULT -> cb;
+            case MisfirePolicy.IGNORE_MISFIRES -> cb.withMisfireHandlingInstructionIgnoreMisfires();
+            case MisfirePolicy.FIRE_AND_PROCEED -> cb.withMisfireHandlingInstructionFireAndProceed();
+            case MisfirePolicy.DO_NOTHING -> cb.withMisfireHandlingInstructionDoNothing();
+        };
     }
 
     /**

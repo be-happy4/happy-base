@@ -4,12 +4,13 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.happy.common.annotation.DataScope;
-import org.happy.common.constant.UserConstants;
 import org.happy.common.core.domain.BaseEntity;
 import org.happy.common.core.domain.entity.SysRole;
 import org.happy.common.core.domain.entity.SysUser;
 import org.happy.common.core.domain.model.LoginUser;
 import org.happy.common.core.text.Convert;
+import org.happy.common.enums.DataScopeType;
+import org.happy.common.enums.entity.DataStatus;
 import org.happy.common.utils.SecurityUtils;
 import org.happy.common.utils.StringUtils;
 import org.happy.framework.security.context.PermissionContextHolder;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static org.happy.common.enums.DataScopeType.CUSTOM;
 
 /**
  * 数据过滤处理
@@ -74,17 +77,19 @@ public class DataScopeAspect {
      */
     public static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String deptAlias, String userAlias, String permission) {
         StringBuilder sqlString = new StringBuilder();
-        List<String> conditions = new ArrayList<String>();
+        var conditions = new ArrayList<DataScopeType>();
         List<String> scopeCustomIds = new ArrayList<String>();
         user.getRoles().forEach(role -> {
-            if (DATA_SCOPE_CUSTOM.equals(role.getDataScope()) && Objects.equals(role.getStatus(), UserConstants.ROLE_NORMAL) && StringUtils.containsAny(role.getPermissions(), Convert.toStrArray(permission))) {
+            if (CUSTOM.equals(role.getDataScope()) &&
+                Objects.equals(role.getStatus(), DataStatus.OK) &&
+                StringUtils.containsAny(role.getPermissions(), Convert.toStrArray(permission))) {
                 scopeCustomIds.add(Convert.toStr(role.getRoleId()));
             }
         });
 
         for (SysRole role : user.getRoles()) {
-            String dataScope = role.getDataScope();
-            if (conditions.contains(dataScope) || Objects.equals(role.getStatus(), UserConstants.ROLE_DISABLE)) {
+            var dataScope = role.getDataScope();
+            if (conditions.contains(dataScope) || Objects.equals(role.getStatus(), DataStatus.DISABLE)) {
                 continue;
             }
             if (!StringUtils.containsAny(role.getPermissions(), Convert.toStrArray(permission))) {

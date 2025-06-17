@@ -8,7 +8,8 @@ import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.core.domain.BaseEntity;
-import org.happy.common.enums.DataStatus;
+import org.happy.common.enums.entity.DataStatus;
+import org.happy.common.enums.entity.MenuType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,24 +69,26 @@ public class SysMenu extends BaseEntity {
     private String routeName;
 
     /**
-     * 是否为外链（0是 1否）
+     * 是否为外链
      */
-    private String isFrame;
+    @NotNull
+    private Boolean isFrame;
 
     /**
-     * 是否缓存（0缓存 1不缓存）
+     * 是否缓存
      */
-    private String isCache;
+    @NotNull
+    private Boolean isCache;
 
     /**
      * 类型（M目录 C菜单 F按钮）
      */
-    private String menuType;
+    private MenuType menuType;
 
     /**
      * 显示状态（0显示 1隐藏）
      */
-    private String visible;
+    private Boolean hidden;
 
     /**
      * 菜单状态
@@ -129,7 +132,7 @@ public class SysMenu extends BaseEntity {
     }
 
     @NotBlank(message = "菜单类型不能为空")
-    public String getMenuType() {
+    public MenuType getMenuType() {
         return menuType;
     }
 
@@ -152,7 +155,7 @@ public class SysMenu extends BaseEntity {
                 .append("isFrame", getIsFrame())
                 .append("IsCache", getIsCache())
                 .append("menuType", getMenuType())
-                .append("visible", getVisible())
+                .append("hidden", getHidden())
                 .append("status ", getStatus())
                 .append("perms", getPerms())
                 .append("icon", getIcon())

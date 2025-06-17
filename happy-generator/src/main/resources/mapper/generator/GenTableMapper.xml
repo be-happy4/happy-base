@@ -141,13 +141,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="tableComment != null and tableComment != ''">table_comment,</if>
 			<if test="className != null and className != ''">class_name,</if>
 			<if test="tplCategory != null and tplCategory != ''">tpl_category,</if>
-			<if test="tplWebType != null and tplWebType != ''">tpl_web_type,</if>
+		<if test="tplWebType != null">tpl_web_type,</if>
 			<if test="packageName != null and packageName != ''">package_name,</if>
 			<if test="moduleName != null and moduleName != ''">module_name,</if>
 			<if test="businessName != null and businessName != ''">business_name,</if>
 			<if test="functionName != null and functionName != ''">function_name,</if>
 			<if test="functionAuthor != null and functionAuthor != ''">function_author,</if>
-			<if test="genType != null and genType != ''">gen_type,</if>
+		<if test="genType != null">gen_type,</if>
 			<if test="genPath != null and genPath != ''">gen_path,</if>
 			<if test="remark != null and remark != ''">remark,</if>
  			<if test="createBy != null and createBy != ''">create_by,</if>
@@ -157,13 +157,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="tableComment != null and tableComment != ''">#{tableComment},</if>
 			<if test="className != null and className != ''">#{className},</if>
 			<if test="tplCategory != null and tplCategory != ''">#{tplCategory},</if>
-			<if test="tplWebType != null and tplWebType != ''">#{tplWebType},</if>
+		<if test="tplWebType != null">#{tplWebType},</if>
 			<if test="packageName != null and packageName != ''">#{packageName},</if>
 			<if test="moduleName != null and moduleName != ''">#{moduleName},</if>
 			<if test="businessName != null and businessName != ''">#{businessName},</if>
 			<if test="functionName != null and functionName != ''">#{functionName},</if>
 			<if test="functionAuthor != null and functionAuthor != ''">#{functionAuthor},</if>
-			<if test="genType != null and genType != ''">#{genType},</if>
+		<if test="genType != null">#{genType},</if>
 			<if test="genPath != null and genPath != ''">#{genPath},</if>
 			<if test="remark != null and remark != ''">#{remark},</if>
  			<if test="createBy != null and createBy != ''">#{createBy},</if>
@@ -184,10 +184,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="subTableFkName != null">sub_table_fk_name = #{subTableFkName},</if>
             <if test="className != null and className != ''">class_name = #{className},</if>
             <if test="functionAuthor != null and functionAuthor != ''">function_author = #{functionAuthor},</if>
-            <if test="genType != null and genType != ''">gen_type = #{genType},</if>
+			<if test="genType != null">gen_type = #{genType},</if>
             <if test="genPath != null and genPath != ''">gen_path = #{genPath},</if>
             <if test="tplCategory != null and tplCategory != ''">tpl_category = #{tplCategory},</if>
-            <if test="tplWebType != null and tplWebType != ''">tpl_web_type = #{tplWebType},</if>
+			<if test="tplWebType != null">tpl_web_type = #{tplWebType},</if>
             <if test="packageName != null and packageName != ''">package_name = #{packageName},</if>
             <if test="moduleName != null and moduleName != ''">module_name = #{moduleName},</if>
             <if test="businessName != null and businessName != ''">business_name = #{businessName},</if>

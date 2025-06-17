@@ -12,7 +12,7 @@ import org.happy.common.core.controller.BaseController;
 import org.happy.common.core.domain.AjaxResult;
 import org.happy.common.core.page.TableDataInfo;
 import org.happy.common.core.text.Convert;
-import org.happy.common.enums.BusinessType;
+import org.happy.common.enums.entity.BusinessType;
 import org.happy.common.utils.SecurityUtils;
 import org.happy.common.utils.sql.SqlUtil;
 import org.happy.generator.config.GenConfig;

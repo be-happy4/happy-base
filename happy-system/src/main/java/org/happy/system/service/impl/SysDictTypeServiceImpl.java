@@ -4,7 +4,7 @@ import jakarta.annotation.PostConstruct;
 import org.happy.common.constant.UserConstants;
 import org.happy.common.core.domain.entity.SysDictData;
 import org.happy.common.core.domain.entity.SysDictType;
-import org.happy.common.enums.DataStatus;
+import org.happy.common.enums.entity.DataStatus;
 import org.happy.common.exception.ServiceException;
 import org.happy.common.utils.DictUtils;
 import org.happy.common.utils.StringUtils;
@@ -193,9 +193,9 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      */
     @Override
     public boolean checkDictTypeUnique(SysDictType dict) {
-        Long dictId = null == dict.getDictId() ? -1L : dict.getDictId();
-        SysDictType dictType = dictTypeMapper.checkDictTypeUnique(dict.getDictType());
-        if (null != dictType && dictType.getDictId().longValue() != dictId.longValue()) {
+        long dictId = null == dict.getDictId() ? -1L : dict.getDictId();
+        var dictType = dictTypeMapper.checkDictTypeUnique(dict.getDictType());
+        if (null != dictType && dictType.getDictId() != dictId) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;

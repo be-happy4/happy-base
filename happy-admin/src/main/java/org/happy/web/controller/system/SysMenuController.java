@@ -1,11 +1,10 @@
 package org.happy.web.controller.system;
 
 import org.happy.common.annotation.Log;
-import org.happy.common.constant.UserConstants;
 import org.happy.common.core.controller.BaseController;
 import org.happy.common.core.domain.AjaxResult;
 import org.happy.common.core.domain.entity.SysMenu;
-import org.happy.common.enums.BusinessType;
+import org.happy.common.enums.entity.BusinessType;
 import org.happy.common.utils.StringUtils;
 import org.happy.system.service.ISysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +81,7 @@ public class SysMenuController extends BaseController {
     public AjaxResult add(@Validated @RequestBody SysMenu menu) {
         if (!menuService.checkMenuNameUnique(menu)) {
             return error("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
-        } else if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringUtils.ishttp(menu.getPath())) {
+        } else if (menu.getIsFrame() && !StringUtils.ishttp(menu.getPath())) {
             return error("新增菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
         }
         menu.setCreateBy(getUsername());
@@ -98,7 +97,7 @@ public class SysMenuController extends BaseController {
     public AjaxResult edit(@Validated @RequestBody SysMenu menu) {
         if (!menuService.checkMenuNameUnique(menu)) {
             return error("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
-        } else if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringUtils.ishttp(menu.getPath())) {
+        } else if (menu.getIsFrame() && !StringUtils.ishttp(menu.getPath())) {
             return error("修改菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
         } else if (menu.getMenuId().equals(menu.getParentId())) {
             return error("修改菜单'" + menu.getMenuName() + "'失败，上级菜单不能选择自己");
