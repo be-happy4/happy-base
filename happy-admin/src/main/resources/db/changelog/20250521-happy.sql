@@ -40,7 +40,6 @@ comment on column sys_dept.create_by is '创建者';
 comment on column sys_dept.create_time is '创建时间';
 comment on column sys_dept.update_by is '更新者';
 comment on column sys_dept.update_time is '更新时间';
-select setval(pg_get_serial_sequence('sys_dept', 'dept_id'), 200) from sys_dept;
 
 -- ----------------------------
 -- 初始化-部门表数据
@@ -56,6 +55,7 @@ insert into sys_dept overriding system value values(107,  101, '0,100,101',  '�
 insert into sys_dept overriding system value values(108,  102, '0,100,102',  '市场部门',   1, '开心', '15888888888', 'happy@qq.com', 'OK', default, 'admin', now(), '', null);
 insert into sys_dept overriding system value values(109,  102, '0,100,102',  '财务部门',   2, '开心', '15888888888', 'happy@qq.com', 'OK', default, 'admin', now(), '', null);
 
+select setval(pg_get_serial_sequence('sys_dept', 'dept_id'), 200) from sys_dept;
 
 -- ----------------------------
 -- 2、用户信息表
@@ -108,7 +108,6 @@ comment on column sys_user.create_time is '创建时间';
 comment on column sys_user.update_by is '更新者';
 comment on column sys_user.update_time is '更新时间';
 comment on column sys_user.remark is '备注';
-select setval(pg_get_serial_sequence('sys_user', 'user_id'), 106) from sys_user;
 
 -- ----------------------------
 -- 初始化-用户信息表数据
@@ -116,6 +115,7 @@ select setval(pg_get_serial_sequence('sys_user', 'user_id'), 106) from sys_user;
 insert into sys_user overriding system value values(1,  103, 'admin', '开心', '00', 'happy@163.com', '15888888888', 'MALE', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', 'OK', default, '127.0.0.1', now(), now(), 'admin', now(), '', null, '管理员');
 insert into sys_user overriding system value values(2,  105, 'happy',    '开心', '00', 'happy@qq.com',  '15666666666', 'MALE', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', 'OK', default, '127.0.0.1', now(), now(), 'admin', now(), '', null, '测试员');
 
+select setval(pg_get_serial_sequence('sys_user', 'user_id'), 106) from sys_user;
 
 -- ----------------------------
 -- 3、岗位信息表
@@ -146,7 +146,6 @@ comment on column sys_post.create_time is '创建时间';
 comment on column sys_post.update_by is '更新者';
 comment on column sys_post.update_time is '更新时间';
 comment on column sys_post.remark is '备注';
-select setval(pg_get_serial_sequence('sys_post', 'post_id'), 5) from sys_post;
 
 -- ----------------------------
 -- 初始化-岗位信息表数据
@@ -156,6 +155,7 @@ insert into sys_post overriding system value values(2, 'se',   '项目经理',  
 insert into sys_post overriding system value values(3, 'hr',   '人力资源',  3, 'OK', 'admin', now(), '', null, '');
 insert into sys_post overriding system value values(4, 'user', '普通员工',  4, 'OK', 'admin', now(), '', null, '');
 
+select setval(pg_get_serial_sequence('sys_post', 'post_id'), 5) from sys_post;
 
 -- ----------------------------
 -- 4、角色信息表
@@ -253,7 +253,6 @@ comment on column sys_menu.create_time is '创建时间';
 comment on column sys_menu.update_by is '更新者';
 comment on column sys_menu.update_time is '更新时间';
 comment on column sys_menu.remark is '备注';
-select setval(pg_get_serial_sequence('sys_menu', 'menu_id'), 2000) from sys_menu;
 
 -- ----------------------------
 -- 初始化-菜单信息表数据
@@ -360,6 +359,7 @@ insert into sys_menu overriding system value values('1058', '导入代码', '116
 insert into sys_menu overriding system value values('1059', '预览代码', '116', '5', '#', '', '', '', false, false, 'F', false, 'OK', 'tool:gen:preview',           '#', 'admin', now(), '', null, '');
 insert into sys_menu overriding system value values('1060', '生成代码', '116', '6', '#', '', '', '', false, false, 'F', false, 'OK', 'tool:gen:code',              '#', 'admin', now(), '', null, '');
 
+select setval(pg_get_serial_sequence('sys_menu', 'menu_id'), 2000) from sys_menu;
 
 -- ----------------------------
 -- 6、用户和角色关联表  用户N-1角色
@@ -659,7 +659,6 @@ comment on column sys_dict_data.create_time is '创建时间';
 comment on column sys_dict_data.update_by is '更新者';
 comment on column sys_dict_data.update_time is '更新时间';
 comment on column sys_dict_data.remark is '备注';
-select setval(pg_get_serial_sequence('sys_dict_data', 'dict_code'), 100) from sys_dict_data;
 
 insert into sys_dict_data overriding system value values(1,  1,  '男',       'MALE',    'sys_user_sex',        '',   '',        true, 'OK', 'admin', now(), '', null, '性别男');
 insert into sys_dict_data overriding system value values(2,  2,  '女',       'FEMALE',  'sys_user_sex',        '',   '',        false, 'OK', 'admin', now(), '', null, '性别女');
@@ -694,6 +693,7 @@ insert into sys_dict_data overriding system value values(30, 1,  '正常',     '
 insert into sys_dict_data overriding system value values(31, 2,  '停用',     'DISABLE',    'sys_data_status',   '',   'warning',  false, 'OK', 'admin', now(), '', null, '停用状态');
 insert into sys_dict_data overriding system value values(32, 3,  '删除',     'DELETED',    'sys_data_status',   '',   'danger',  false, 'OK', 'admin', now(), '', null, '删除状态');
 
+select setval(pg_get_serial_sequence('sys_dict_data', 'dict_code'), 100) from sys_dict_data;
 
 -- ----------------------------
 -- 13、参数配置表
@@ -723,7 +723,6 @@ comment on column sys_config.create_time is '创建时间';
 comment on column sys_config.update_by is '更新者';
 comment on column sys_config.update_time is '更新时间';
 comment on column sys_config.remark is '备注';
-select setval(pg_get_serial_sequence('sys_config', 'config_id'), 100) from sys_config;
 
 insert into sys_config overriding system value values(1, '主框架页-默认皮肤样式名称',     'sys.index.skinName',            'skin-blue',     true, 'admin', now(), '', null, '蓝色 skin-blue、绿色 skin-green、紫色 skin-purple、红色 skin-red、黄色 skin-yellow' );
 insert into sys_config overriding system value values(2, '用户管理-账号初始密码',         'sys.user.initPassword',         '123456',        true, 'admin', now(), '', null, '初始化密码 123456' );
@@ -734,6 +733,7 @@ insert into sys_config overriding system value values(6, '用户登录-黑名单
 insert into sys_config overriding system value values(7, '用户管理-初始密码修改策略',     'sys.account.initPasswordModify',   '1',             true, 'admin', now(), '', null, '0：初始密码修改策略关闭，没有任何提示，1：提醒用户，如果未修改初始密码，则在登录时就会提醒修改密码对话框');
 insert into sys_config overriding system value values(8, '用户管理-账号密码更新周期',     'sys.account.passwordValidateDays', '0',             true, 'admin', now(), '', null, '密码更新周期（填写数字，数据初始化值为0不限制，若修改必须为大于0小于365的正整数），如果超过这个周期登录系统时，则在登录时就会提醒修改密码对话框');
 
+select setval(pg_get_serial_sequence('sys_config', 'config_id'), 100) from sys_config;
 
 -- ----------------------------
 -- 14、系统访问记录
@@ -804,12 +804,12 @@ comment on column sys_job.create_time is '创建时间';
 comment on column sys_job.update_by is '更新者';
 comment on column sys_job.update_time is '更新时间';
 comment on column sys_job.remark is '备注信息';
-select setval(pg_get_serial_sequence('sys_job', 'job_id'), 100) from sys_job;
 
 insert into sys_job overriding system value values(1, '系统默认（无参）', 'DEFAULT', 'happyTask.ryNoParams',        '0/10 * * * * ?', 'DO_NOTHING', false, 'PAUSE', 'admin', now(), '', null, '');
 insert into sys_job overriding system value values(2, '系统默认（有参）', 'DEFAULT', 'happyTask.ryParams(''happy'')',  '0/15 * * * * ?', 'DO_NOTHING', false, 'PAUSE', 'admin', now(), '', null, '');
 insert into sys_job overriding system value values(3, '系统默认（多参）', 'DEFAULT', 'happyTask.ryMultipleParams(''happy'', true, 2000L, 316.50D, 100)',  '0/20 * * * * ?', 'DO_NOTHING', false, 'PAUSE', 'admin', now(), '', null, '');
 
+select setval(pg_get_serial_sequence('sys_job', 'job_id'), 100) from sys_job;
 
 -- ----------------------------
 -- 16、定时任务调度日志表
@@ -870,7 +870,6 @@ comment on column sys_notice.create_time is '创建时间';
 comment on column sys_notice.update_by is '更新者';
 comment on column sys_notice.update_time is '更新时间';
 comment on column sys_notice.remark is '备注';
-select setval(pg_get_serial_sequence('sys_notice', 'notice_id'), 10) from sys_notice;
 
 -- ----------------------------
 -- 初始化-公告信息表数据
@@ -878,6 +877,7 @@ select setval(pg_get_serial_sequence('sys_notice', 'notice_id'), 10) from sys_no
 insert into sys_notice overriding system value values('1', '温馨提醒：2018-07-01 开心新版本发布啦', 'ANNOUNCEMENT', '新版本内容', 'NORMAL', 'admin', now(), '', null, '管理员');
 insert into sys_notice overriding system value values('2', '维护通知：2018-07-01 开心系统凌晨维护', 'NOTICE', '维护内容',   'NORMAL', 'admin', now(), '', null, '管理员');
 
+select setval(pg_get_serial_sequence('sys_notice', 'notice_id'), 10) from sys_notice;
 
 -- ----------------------------
 -- 18、代码生成业务表

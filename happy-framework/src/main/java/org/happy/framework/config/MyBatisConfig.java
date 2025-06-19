@@ -135,7 +135,7 @@ public class MyBatisConfig {
         Set<Class<? extends Enum>> enums = reflections.getSubTypesOf(Enum.class);
         for (Class<? extends Enum> enumClass : enums) {
             try {
-                log.info("Registering EnumTypeHandler for {}", enumClass.getName());
+                log.debug("Registering EnumTypeHandler for {}", enumClass.getName());
                 registry.register(enumClass, new EnumTypeHandler(enumClass));
             } catch (Exception e) {
                 log.warn("Failed to register EnumTypeHandler for {}: {}", enumClass.getName(), e.getMessage());

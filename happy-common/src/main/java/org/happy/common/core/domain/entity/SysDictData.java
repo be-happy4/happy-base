@@ -30,24 +30,28 @@ public class SysDictData extends BaseEntity {
      * 字典排序
      */
     @Excel(name = "字典排序", cellType = ColumnType.NUMERIC)
+    @NotNull
     private Long dictSort;
 
     /**
      * 字典标签
      */
     @Excel(name = "字典标签")
+    @NotNull
     private String dictLabel;
 
     /**
      * 字典键值
      */
     @Excel(name = "字典键值")
+    @NotNull
     private String dictValue;
 
     /**
      * 字典类型
      */
     @Excel(name = "字典类型")
+    @NotNull
     private String dictType;
 
     /**
@@ -65,12 +69,13 @@ public class SysDictData extends BaseEntity {
      */
     @Excel(name = "是否默认")
     @NotNull
-    private Boolean isDefault;
+    private Boolean isDefault = false;
 
     /**
      * 状态
      */
     @Excel(name = "状态")
+    @NotNull
     private DataStatus status;
 
     @NotBlank(message = "字典标签不能为空")

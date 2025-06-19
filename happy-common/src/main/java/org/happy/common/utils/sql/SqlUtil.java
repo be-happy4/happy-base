@@ -14,6 +14,7 @@ public class SqlUtil {
      */
     public static String SQL_REGEX = "\u000B|and |extractvalue|updatexml|sleep|exec |insert |select |delete |update |drop |count |chr |mid |master |truncate |char |declare |or |union |like |+|/*|user()";
 
+    static String[] sqlKeywords = StringUtils.split(SQL_REGEX, "\\|");
     /**
      * 仅支持字母、数字、下划线、空格、逗号、小数点（支持多个字段排序）
      */
@@ -31,7 +32,7 @@ public class SqlUtil {
         if (StringUtils.isNotEmpty(value) && !isValidOrderBySql(value)) {
             throw new UtilException("参数不符合规范，不能进行查询");
         }
-        if (StringUtils.length(value) > ORDER_BY_MAX_LENGTH) {
+        if (value.length() > ORDER_BY_MAX_LENGTH) {
             throw new UtilException("参数已超过最大限制，不能进行查询");
         }
         return value;
@@ -51,9 +52,9 @@ public class SqlUtil {
         if (StringUtils.isEmpty(value)) {
             return;
         }
-        String[] sqlKeywords = StringUtils.split(SQL_REGEX, "\\|");
+        String lv = value.toLowerCase();
         for (String sqlKeyword : sqlKeywords) {
-            if (StringUtils.indexOfIgnoreCase(value, sqlKeyword) > -1) {
+            if (lv.contains(sqlKeyword)) {
                 throw new UtilException("参数存在SQL注入风险");
             }
         }

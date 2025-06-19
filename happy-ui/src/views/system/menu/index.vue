@@ -397,9 +397,9 @@ export default {
         icon: undefined,
         menuType: "M",
         orderNum: undefined,
-        isFrame: true,
-        isCache: false,
-        hidden: false,
+        isFrame: "true",
+        isCache: "false",
+        hidden: "false",
         status: "OK"
       }
       this.resetForm("form")
