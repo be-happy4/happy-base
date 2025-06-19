@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="jobGroup != null and jobGroup != ''">
 				AND job_group = #{jobGroup}
 			</if>
-			<if test="status != null and status != ''">
+            <if test="status != null">
 				AND status = #{status}
 			</if>
 			<if test="invokeTarget != null and invokeTarget != ''">
@@ -89,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="cronExpression != null and cronExpression != ''">cron_expression,</if>
  			<if test="misfirePolicy != null">misfire_policy,</if>
  			<if test="concurrent != null and concurrent != ''">concurrent,</if>
- 			<if test="status != null and status != ''">status,</if>
+        <if test="status != null">status,</if>
  			<if test="remark != null and remark != ''">remark,</if>
  			<if test="createBy != null and createBy != ''">create_by,</if>
  			create_time
@@ -101,7 +101,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="cronExpression != null and cronExpression != ''">#{cronExpression},</if>
  			<if test="misfirePolicy != null">#{misfirePolicy},</if>
  			<if test="concurrent != null and concurrent != ''">#{concurrent},</if>
- 			<if test="status != null and status != ''">#{status},</if>
+        <if test="status != null">#{status},</if>
  			<if test="remark != null and remark != ''">#{remark},</if>
  			<if test="createBy != null and createBy != ''">#{createBy},</if>
  			now()

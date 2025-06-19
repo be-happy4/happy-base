@@ -2,7 +2,7 @@ package org.happy.framework.manager.factory;
 
 import eu.bitwalker.useragentutils.UserAgent;
 import org.happy.common.constant.Constants;
-import org.happy.common.enums.entity.AccessStatus;
+import org.happy.common.enums.entity.BinaryStatus;
 import org.happy.common.utils.LogUtils;
 import org.happy.common.utils.ServletUtils;
 import org.happy.common.utils.StringUtils;
@@ -64,9 +64,9 @@ public class AsyncFactory {
                 logininfor.setMsg(message);
                 // 日志状态
                 if (StringUtils.equalsAny(status, Constants.LOGIN_SUCCESS, Constants.LOGOUT, Constants.REGISTER)) {
-                    logininfor.setStatus(AccessStatus.SUCCESS);
+                    logininfor.setStatus(BinaryStatus.SUCCESS);
                 } else if (Constants.LOGIN_FAIL.equals(status)) {
-                    logininfor.setStatus(AccessStatus.FAILED);
+                    logininfor.setStatus(BinaryStatus.FAIL);
                 }
                 // 插入数据
                 SpringUtils.getBean(ISysLogininforService.class).insertLogininfor(logininfor);

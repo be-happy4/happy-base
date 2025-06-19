@@ -1,5 +1,7 @@
 package org.happy.common.core.domain.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -7,6 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.happy.common.config.serializer.TextualBooleanDeserializer;
+import org.happy.common.config.serializer.TextualBooleanSerializer;
 import org.happy.common.core.domain.BaseEntity;
 import org.happy.common.enums.entity.DataStatus;
 import org.happy.common.enums.entity.MenuType;
@@ -72,22 +76,28 @@ public class SysMenu extends BaseEntity {
      * 是否为外链
      */
     @NotNull
+    @JsonSerialize(using = TextualBooleanSerializer.class)
+    @JsonDeserialize(using = TextualBooleanDeserializer.class)
     private Boolean isFrame;
 
     /**
      * 是否缓存
      */
     @NotNull
+    @JsonSerialize(using = TextualBooleanSerializer.class)
+    @JsonDeserialize(using = TextualBooleanDeserializer.class)
     private Boolean isCache;
 
     /**
-     * 类型（M目录 C菜单 F按钮）
+     * 类型
      */
     private MenuType menuType;
 
     /**
-     * 显示状态（0显示 1隐藏）
+     * 显示状态
      */
+    @JsonSerialize(using = TextualBooleanSerializer.class)
+    @JsonDeserialize(using = TextualBooleanDeserializer.class)
     private Boolean hidden;
 
     /**
@@ -108,7 +118,7 @@ public class SysMenu extends BaseEntity {
     /**
      * 子菜单
      */
-    private List<SysMenu> children = new ArrayList<SysMenu>();
+    private List<SysMenu> children = new ArrayList<>();
 
     @NotBlank(message = "菜单名称不能为空")
     @Size(min = 0, max = 50, message = "菜单名称长度不能超过50个字符")
@@ -131,7 +141,7 @@ public class SysMenu extends BaseEntity {
         return component;
     }
 
-    @NotBlank(message = "菜单类型不能为空")
+    @NotNull(message = "菜单类型不能为空")
     public MenuType getMenuType() {
         return menuType;
     }

@@ -378,9 +378,9 @@ export default {
         jobGroup: undefined,
         invokeTarget: undefined,
         cronExpression: undefined,
-        misfirePolicy: 1,
-        concurrent: 1,
-        status: "0"
+        misfirePolicy: "IGNORE_MISFIRES",
+        concurrent: true,
+        status: "NORMAL"
       }
       this.resetForm("form")
     },

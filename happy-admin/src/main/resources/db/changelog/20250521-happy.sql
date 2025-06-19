@@ -1,6 +1,8 @@
 
 drop type if exists data_status cascade;
 create type data_status as enum ('OK', 'DISABLE', 'DELETED');
+drop type if exists binary_status cascade;
+create type binary_status as enum ('SUCCESS', 'FAIL');
 
 -- ----------------------------
 -- 1、部门表
@@ -616,6 +618,7 @@ insert into sys_dict_type overriding system value values(7,  '通知类型', 'sy
 insert into sys_dict_type overriding system value values(8,  '通知状态', 'sys_notice_status',   'OK', 'admin', now(), '', null, '通知状态列表');
 insert into sys_dict_type overriding system value values(9,  '操作类型', 'sys_oper_type',       'OK', 'admin', now(), '', null, '操作类型列表');
 insert into sys_dict_type overriding system value values(10, '系统状态', 'sys_common_status',   'OK', 'admin', now(), '', null, '登录状态列表');
+insert into sys_dict_type overriding system value values(11, '数据状态', 'sys_data_status',     'OK', 'admin', now(), '', null, '数据状态列表');
 
 select setval(pg_get_serial_sequence('sys_dict_type', 'dict_id'), 100) from sys_dict_type;
 
@@ -665,8 +668,8 @@ insert into sys_dict_data overriding system value values(4,  1,  '显示',     '
 insert into sys_dict_data overriding system value values(5,  2,  '隐藏',     'true',    'sys_show_hide',       '',   'danger',  false, 'OK', 'admin', now(), '', null, '隐藏菜单');
 insert into sys_dict_data overriding system value values(6,  1,  '正常',     'OK',      'sys_normal_disable',  '',   'primary', true, 'OK', 'admin', now(), '', null, '正常状态');
 insert into sys_dict_data overriding system value values(7,  2,  '停用',     'DISABLE', 'sys_normal_disable',  '',   'danger',  false, 'OK', 'admin', now(), '', null, '停用状态');
-insert into sys_dict_data overriding system value values(8,  1,  '正常',     'false',   'sys_job_status',      '',   'primary', true, 'OK', 'admin', now(), '', null, '正常状态');
-insert into sys_dict_data overriding system value values(9,  2,  '暂停',     'true',    'sys_job_status',      '',   'danger',  false, 'OK', 'admin', now(), '', null, '停用状态');
+insert into sys_dict_data overriding system value values(8,  1,  '正常',     'NORMAL',   'sys_job_status',      '',   'primary', true, 'OK', 'admin', now(), '', null, '正常状态');
+insert into sys_dict_data overriding system value values(9,  2,  '暂停',     'PAUSE ',    'sys_job_status',      '',   'danger',  false, 'OK', 'admin', now(), '', null, '停用状态');
 insert into sys_dict_data overriding system value values(10, 1,  '默认',     'DEFAULT', 'sys_job_group',       '',   '',        true, 'OK', 'admin', now(), '', null, '默认分组');
 insert into sys_dict_data overriding system value values(11, 2,  '系统',     'SYSTEM',  'sys_job_group',       '',   '',        false, 'OK', 'admin', now(), '', null, '系统分组');
 insert into sys_dict_data overriding system value values(12, 1,  '是',       'true',    'sys_yes_no',          '',   'primary', true, 'OK', 'admin', now(), '', null, '系统默认是');
@@ -687,6 +690,9 @@ insert into sys_dict_data overriding system value values(26, 8,  '生成代码',
 insert into sys_dict_data overriding system value values(27, 9,  '清空数据', 'CLEAN',       'sys_oper_type',       '',   'danger',  false, 'OK', 'admin', now(), '', null, '清空操作');
 insert into sys_dict_data overriding system value values(28, 1,  '成功',     'false',   'sys_common_status',   '',   'primary', false, 'OK', 'admin', now(), '', null, '正常状态');
 insert into sys_dict_data overriding system value values(29, 2,  '失败',     'true',    'sys_common_status',   '',   'danger',  false, 'OK', 'admin', now(), '', null, '停用状态');
+insert into sys_dict_data overriding system value values(30, 1,  '正常',     'OK',         'sys_data_status',   '',   'primary',  false, 'OK', 'admin', now(), '', null, '正常状态');
+insert into sys_dict_data overriding system value values(31, 2,  '停用',     'DISABLE',    'sys_data_status',   '',   'warning',  false, 'OK', 'admin', now(), '', null, '停用状态');
+insert into sys_dict_data overriding system value values(32, 3,  '删除',     'DELETED',    'sys_data_status',   '',   'danger',  false, 'OK', 'admin', now(), '', null, '删除状态');
 
 
 -- ----------------------------
@@ -732,9 +738,6 @@ insert into sys_config overriding system value values(8, '用户管理-账号密
 -- ----------------------------
 -- 14、系统访问记录
 -- ----------------------------
-drop type if exists access_status cascade;
-create type access_status as enum ('SUCCESS', 'FAIL');
-
 drop table if exists sys_logininfor;
 create table sys_logininfor (
   info_id        bigint         generated always as identity,
@@ -743,7 +746,7 @@ create table sys_logininfor (
   login_location varchar(255)   default '',
   browser        varchar(50)    default '',
   os             varchar(50)    default '',
-  status         access_status  default 'SUCCESS',
+  status         binary_status  default 'SUCCESS',
   msg            varchar(255)   default '',
   login_time     timestamp(0),
   primary key (info_id)
@@ -818,7 +821,7 @@ create table sys_job_log (
   job_group           varchar(64)    not null,
   invoke_target       varchar(500)   not null,
   job_message         varchar(500),
-  status              job_status     default 'NORMAL',
+  status              binary_status  default 'SUCCESS',
   exception_info      varchar(2000)  default '',
   create_time         timestamp(0),
   primary key (job_log_id)

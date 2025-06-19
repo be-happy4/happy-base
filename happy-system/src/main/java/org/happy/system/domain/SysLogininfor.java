@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.happy.common.annotation.Excel;
 import org.happy.common.annotation.Excel.ColumnType;
 import org.happy.common.core.domain.BaseEntity;
-import org.happy.common.enums.entity.AccessStatus;
+import org.happy.common.enums.entity.BinaryStatus;
 import org.happy.common.utils.TimeUtils;
 
 import java.util.Date;
@@ -36,7 +36,7 @@ public class SysLogininfor extends BaseEntity {
      * 登录状态
      */
     @Excel(name = "登录状态")
-    private AccessStatus status;
+    private BinaryStatus status;
 
     /**
      * 登录IP地址

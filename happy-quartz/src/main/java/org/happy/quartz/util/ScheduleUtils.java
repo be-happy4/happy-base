@@ -2,7 +2,7 @@ package org.happy.quartz.util;
 
 import org.happy.common.constant.Constants;
 import org.happy.common.constant.ScheduleConstants;
-import org.happy.common.enums.JobStatus;
+import org.happy.common.enums.entity.JobStatus;
 import org.happy.common.enums.entity.MisfirePolicy;
 import org.happy.common.exception.job.TaskException;
 import org.happy.common.utils.StringUtils;

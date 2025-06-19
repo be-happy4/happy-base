@@ -1,6 +1,7 @@
 package org.happy.common.core.domain.entity;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -63,6 +64,7 @@ public class SysDictData extends BaseEntity {
      * 是否默认
      */
     @Excel(name = "是否默认")
+    @NotNull
     private Boolean isDefault;
 
     /**
@@ -92,10 +94,6 @@ public class SysDictData extends BaseEntity {
     @Size(min = 0, max = 100, message = "样式属性长度不能超过100个字符")
     public String getCssClass() {
         return cssClass;
-    }
-
-    public boolean getDefault() {
-        return this.isDefault;
     }
 
     @Override

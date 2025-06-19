@@ -5,13 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.happy.common.core.domain.BaseEntity;
-import org.happy.common.enums.gen.GenType;
-import org.happy.common.enums.gen.TplCategory;
-import org.happy.common.enums.gen.TplWebType;
+import org.happy.common.enums.entity.gen.GenType;
+import org.happy.common.enums.entity.gen.TplCategory;
+import org.happy.common.enums.entity.gen.TplWebType;
 
 import java.util.List;
-
-import static org.happy.common.enums.gen.TplCategory.*;
 
 /**
  * 业务表 gen_table
@@ -151,14 +149,14 @@ public class GenTable extends BaseEntity {
     private String parentMenuName;
 
     public boolean isSub() {
-        return SUB == tplCategory;
+        return TplCategory.SUB == tplCategory;
     }
 
     public boolean isTree() {
-        return TREE == tplCategory;
+        return TplCategory.TREE == tplCategory;
     }
 
     public boolean isCrud() {
-        return CRUD == tplCategory;
+        return TplCategory.CRUD == tplCategory;
     }
 }

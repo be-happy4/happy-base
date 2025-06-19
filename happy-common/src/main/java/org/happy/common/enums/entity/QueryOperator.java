@@ -1,4 +1,4 @@
-package org.happy.common.enums;
+package org.happy.common.enums.entity;
 
 import org.happy.common.core.domain.code.I18nCode;
 

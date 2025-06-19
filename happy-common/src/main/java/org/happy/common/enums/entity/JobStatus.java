@@ -2,14 +2,9 @@ package org.happy.common.enums.entity;
 
 import org.happy.common.core.domain.code.I18nCode;
 
-/**
- * Access status enumeration.
- *
- * @author happy
- */
-public enum AccessStatus implements I18nCode<String> {
-    SUCCESS,
-    FAILED,
+public enum JobStatus implements I18nCode<String> {
+    NORMAL,
+    PAUSE,
     ;
 
     @Override

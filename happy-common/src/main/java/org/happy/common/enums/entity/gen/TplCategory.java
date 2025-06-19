@@ -1,10 +1,11 @@
-package org.happy.common.enums;
+package org.happy.common.enums.entity.gen;
 
 import org.happy.common.core.domain.code.I18nCode;
 
-public enum JobStatus implements I18nCode<String> {
-    NORMAL,
-    PAUSE,
+public enum TplCategory implements I18nCode<String> {
+    CRUD,
+    TREE,
+    SUB,
     ;
 
     @Override

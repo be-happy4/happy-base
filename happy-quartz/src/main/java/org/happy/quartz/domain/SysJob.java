@@ -10,7 +10,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.annotation.Excel;
 import org.happy.common.annotation.Excel.ColumnType;
 import org.happy.common.core.domain.BaseEntity;
-import org.happy.common.enums.JobStatus;
+import org.happy.common.enums.entity.JobStatus;
 import org.happy.common.enums.entity.MisfirePolicy;
 import org.happy.common.utils.StringUtils;
 import org.happy.common.utils.TimeUtils;

@@ -1,7 +1,7 @@
 package org.happy.quartz.util;
 
-import org.happy.common.constant.Constants;
 import org.happy.common.constant.ScheduleConstants;
+import org.happy.common.enums.entity.BinaryStatus;
 import org.happy.common.utils.ExceptionUtil;
 import org.happy.common.utils.StringUtils;
 import org.happy.common.utils.bean.BeanUtils;
@@ -74,11 +74,11 @@ public abstract class AbstractQuartzJob implements Job {
         long runMs = sysJobLog.getStopTime().getTime() - sysJobLog.getStartTime().getTime();
         sysJobLog.setJobMessage(sysJobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
         if (e != null) {
-            sysJobLog.setStatus(Constants.FAIL);
+            sysJobLog.setStatus(BinaryStatus.FAIL);
             String errorMsg = StringUtils.substring(ExceptionUtil.getExceptionMessage(e), 0, 2000);
             sysJobLog.setExceptionInfo(errorMsg);
         } else {
-            sysJobLog.setStatus(Constants.SUCCESS);
+            sysJobLog.setStatus(BinaryStatus.SUCCESS);
         }
 
         // 写入数据库当中

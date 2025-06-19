@@ -2,9 +2,9 @@ package org.happy.generator.util;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.happy.common.constant.GenConstants;
-import org.happy.common.enums.QueryOperator;
-import org.happy.common.enums.gen.GenJavaType;
-import org.happy.common.enums.gen.HtmlType;
+import org.happy.common.enums.entity.QueryOperator;
+import org.happy.common.enums.entity.gen.GenJavaType;
+import org.happy.common.enums.entity.gen.HtmlType;
 import org.happy.common.utils.StringUtils;
 import org.happy.generator.config.GenConfig;
 import org.happy.generator.domain.GenTable;

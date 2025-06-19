@@ -2,7 +2,7 @@ package org.happy.quartz.service.impl;
 
 import jakarta.annotation.PostConstruct;
 import org.happy.common.constant.ScheduleConstants;
-import org.happy.common.enums.JobStatus;
+import org.happy.common.enums.entity.JobStatus;
 import org.happy.common.exception.job.TaskException;
 import org.happy.quartz.domain.SysJob;
 import org.happy.quartz.mapper.SysJobMapper;

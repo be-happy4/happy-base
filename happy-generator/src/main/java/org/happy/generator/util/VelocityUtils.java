@@ -5,17 +5,22 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.velocity.VelocityContext;
 import org.happy.common.constant.GenConstants;
-import org.happy.common.enums.gen.GenJavaType;
-import org.happy.common.enums.gen.HtmlType;
-import org.happy.common.enums.gen.TplCategory;
-import org.happy.common.enums.gen.TplWebType;
+import org.happy.common.enums.entity.gen.GenJavaType;
+import org.happy.common.enums.entity.gen.HtmlType;
+import org.happy.common.enums.entity.gen.TplCategory;
+import org.happy.common.enums.entity.gen.TplWebType;
 import org.happy.common.utils.DateUtils;
 import org.happy.common.utils.StringUtils;
 import org.happy.common.utils.spring.SpringUtils;
 import org.happy.generator.domain.GenTable;
 import org.happy.generator.domain.GenTableColumn;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 
 /**

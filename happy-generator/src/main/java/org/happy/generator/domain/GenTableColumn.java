@@ -4,9 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.happy.common.core.domain.BaseEntity;
-import org.happy.common.enums.QueryOperator;
-import org.happy.common.enums.gen.GenJavaType;
-import org.happy.common.enums.gen.HtmlType;
+import org.happy.common.enums.entity.QueryOperator;
+import org.happy.common.enums.entity.gen.GenJavaType;
+import org.happy.common.enums.entity.gen.HtmlType;
 import org.happy.common.utils.StringUtils;
 
 

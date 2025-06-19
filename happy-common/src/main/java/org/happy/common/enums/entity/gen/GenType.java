@@ -1,11 +1,10 @@
-package org.happy.common.enums.gen;
+package org.happy.common.enums.entity.gen;
 
 import org.happy.common.core.domain.code.I18nCode;
 
-public enum TplCategory implements I18nCode<String> {
-    CRUD,
-    TREE,
-    SUB,
+public enum GenType implements I18nCode<String> {
+    ZIP,
+    CUSTOM,
     ;
 
     @Override

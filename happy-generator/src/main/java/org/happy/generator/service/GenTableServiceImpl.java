@@ -10,7 +10,7 @@ import org.apache.velocity.app.Velocity;
 import org.happy.common.constant.Constants;
 import org.happy.common.constant.GenConstants;
 import org.happy.common.core.text.CharsetKit;
-import org.happy.common.enums.gen.TplCategory;
+import org.happy.common.enums.entity.gen.TplCategory;
 import org.happy.common.exception.ServiceException;
 import org.happy.common.utils.StringUtils;
 import org.happy.generator.domain.GenTable;

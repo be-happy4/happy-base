@@ -1,5 +1,7 @@
 package org.happy.system.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -8,6 +10,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.happy.common.annotation.Excel;
 import org.happy.common.annotation.Excel.ColumnType;
+import org.happy.common.config.serializer.TextualBooleanDeserializer;
+import org.happy.common.config.serializer.TextualBooleanSerializer;
 import org.happy.common.core.domain.BaseEntity;
 
 /**
@@ -47,6 +51,8 @@ public class SysConfig extends BaseEntity {
      * 系统内置
      */
     @Excel(name = "系统内置")
+    @JsonSerialize(using = TextualBooleanSerializer.class)
+    @JsonDeserialize(using = TextualBooleanDeserializer.class)
     private boolean configType;
 
     @NotBlank(message = "参数名称不能为空")
